@@ -47,7 +47,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/Connexion", name="login")
+     * @Route("/Connexion", name="Connexion")
      */
     public function login(){
         return $this->render('user/login.html.twig');
@@ -61,7 +61,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/Deconnexion", name="logout")
+     * @Route("/Deconnexion", name="Deconnexion")
      */
     public function logout(){}
 

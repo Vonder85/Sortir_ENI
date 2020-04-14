@@ -16,18 +16,18 @@ class RegisterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username')
-            ->add('lastname')
-            ->add('firstname')
-            ->add('email', EmailType::class)
+            ->add('username', null,['label'=> 'Pseudo : '])
+            ->add('lastname', null,['label'=> 'Nom : '])
+            ->add('firstname', null,['label'=> 'Prénom : '])
+            ->add('email', EmailType::class, ['label'=> 'Email : '])
             ->add('password', RepeatedType::class,[
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe ne sont pas identiques',
                 'required' => true,
                 'first_options' => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Répéter Mot de passe']
+                'second_options' => ['label' => 'Confirmation']
             ])
-            ->add('telephone')
+            ->add('telephone', null,['label'=> 'téléphone : '])
             ->add('photo', FileType::class, [
                 'label' => 'Photo : ',
                 'mapped' => false,

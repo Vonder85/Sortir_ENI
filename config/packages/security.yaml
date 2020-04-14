@@ -12,10 +12,10 @@ security:
             provider: our_db_provider
             anonymous: ~
             form_login:
-                login_path: login
-                check_path: login
+                login_path: Connexion
+                check_path: Connexion
             logout:
-                path: logout
+                path: Deconnexion
                 target: main_home
             remember_me:
                 secret: '%kernel.secret%'
