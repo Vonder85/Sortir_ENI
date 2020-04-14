@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * @ORM\Table(name ="users")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User implements UserInterface
@@ -55,10 +56,15 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="datetime")
      */
+    private $createdAt;
 
     private $roles;
 
-    private $createdAt;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $telephone;
 
     public function getId(): ?int
     {
@@ -161,6 +167,19 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(string $telephone): self
+    {
+        $this->telephone = $telephone;
+
+        return $this;
+    }
+
+
     /**
      * @return mixed
      */
@@ -178,6 +197,7 @@ class User implements UserInterface
     {
         // TODO: Implement eraseCredentials() method.
     }
+
 
 
 }
