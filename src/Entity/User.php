@@ -23,12 +23,12 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=100)
      */
-    private $pseudo;
+    private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $username;
+    private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -73,18 +73,6 @@ class User implements UserInterface
         return $this->id;
     }
 
-    public function getPseudo(): ?string
-    {
-        return $this->pseudo;
-    }
-
-    public function setPseudo(string $pseudo): self
-    {
-        $this->pseudo = $pseudo;
-
-        return $this;
-    }
-
     public function getUsername(): ?string
     {
         return $this->username;
@@ -93,6 +81,18 @@ class User implements UserInterface
     public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(string $lastname): self
+    {
+        $this->lastname = $lastname;
 
         return $this;
     }
