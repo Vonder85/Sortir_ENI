@@ -12,7 +12,7 @@ class MainController extends AbstractController
      */
     public function homePage()
     {
-        dump("oui");
+        dump("123");
         return $this->render("main/homePage.html.twig");
     }
 }
