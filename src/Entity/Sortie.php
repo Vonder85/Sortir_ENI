@@ -49,19 +49,20 @@ class Sortie
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="sorties")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="sortiesOrganisees")
      */
-    private $sortiesOrganisees;
+    private $organisateur;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="sorties")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="sorties")
      */
-    private $sorties;
+    private $participants;
+
 
     public function __construct()
     {
-        $this->sorties = new ArrayCollection();
+        $this->organisateur = new ArrayCollection();
+        $this->participants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,50 +142,49 @@ class Sortie
         return $this;
     }
 
-    public function getManyToOne(): ?User
+    /**
+     * @return ArrayCollection
+     */
+    public function getOrganisateur(): ArrayCollection
     {
-        return $this-> $sortiesOrganisées;
+        return $this->organisateur;
     }
 
     /**
-     * @return mixed
+     * @param ArrayCollection $organisateur
      */
-    public function getSortiesOrganisees()
+    public function setOrganisateur(ArrayCollection $organisateur): void
     {
-        return $this->sortiesOrganisees;
-    }
-
-    /**
-     * @param mixed $sortiesOrganisees
-     */
-    public function setSortiesOrganisees($sortiesOrganisees): void
-    {
-        $this->sortiesOrganisees = $sortiesOrganisees;
+        $this->organisateur = $organisateur;
     }
 
     /**
      * @return Collection|User[]
      */
-    public function getSorties(): Collection
+    public function getParticipants(): Collection
     {
-        return $this->sorties;
+        return $this->participants;
     }
 
-    public function addSorty(User $sorty): self
+    public function addParticipant(User $participant): self
     {
-        if (!$this->sorties->contains($sorty)) {
-            $this->sorties[] = $sorty;
+        if (!$this->participants->contains($participant)) {
+            $this->participants[] = $participant;
+            $participant->addSorty($this);
         }
 
         return $this;
     }
 
-    public function removeSorty(User $sorty): self
+    public function removeParticipant(User $participant): self
     {
-        if ($this->sorties->contains($sorty)) {
-            $this->sorties->removeElement($sorty);
+        if ($this->participants->contains($participant)) {
+            $this->participants->removeElement($participant);
+            $participant->removeSorty($this);
         }
 
         return $this;
     }
+
+
 }
