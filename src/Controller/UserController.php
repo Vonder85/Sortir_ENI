@@ -12,7 +12,7 @@ class UserController extends AbstractController
      */
     public function register()
     {
-        return $this->render();
+        return $this->render("user/register.html.twig");
     }
 
     /**
@@ -20,6 +20,13 @@ class UserController extends AbstractController
      */
     public function login(){
         return $this->render('user/login.html.twig');
+    }
+
+    /**
+     * @Route("/Profil", name="user_profile")
+     */
+    public function userProfile(){
+        return $this->render('user/profile.html.twig');
     }
 
     /**
