@@ -27,9 +27,9 @@ security:
                 #always_remember_me: true
 
 
-        encoders:
-            App\Entity\User:
-                algorithm: bcrypt
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
