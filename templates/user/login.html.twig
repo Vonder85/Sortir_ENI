@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Se connecter | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="text-center">
+        <form method="post">
+            <label for="username">Pseudo : </label>
+            <input type="text" name="_username">
+            <label for="password">Mot de passe : </label>
+            <input type="password" name="_password">
+            <button type="submit">Se connecter</button>
+        </form>
+    </div>
+{% endblock %}
