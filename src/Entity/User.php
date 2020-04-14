@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -62,11 +64,20 @@ class User implements UserInterface
 
     private $roles;
 
-
     /**
      * @ORM\Column(type="string", length=50)
      */
     private $telephone;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Sortie", mappedBy="ManyToOne")
+     */
+    private $sorties;
+
+    public function __construct()
+    {
+        $this->sorties = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -198,6 +209,37 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return Collection|Sortie[]
+     */
+    public function getSorties(): Collection
+    {
+        return $this->sorties;
+    }
+
+    public function addSortiesOrganisees(Sortie $sortiesOrganisees): self
+    {
+        if (!$this->sorties->contains($sortiesOrganisees)) {
+            $this->sorties[] = $sortiesOrganisees;
+            $sortiesOrganisees->setManyToOne($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSortiesOrganisees(Sortie $sortiesOrganisees): self
+    {
+        if ($this->sorties->contains($sortiesOrganisees)) {
+            $this->sorties->removeElement($sortiesOrganisees);
+            // set the owning side to null (unless already changed)
+            if ($sortiesOrganisees->getManyToOne() === $this) {
+                $sortiesOrganisees->setManyToOne(null);
+            }
+        }
+
+        return $this;
     }
 
 
