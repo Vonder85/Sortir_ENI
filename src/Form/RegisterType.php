@@ -24,7 +24,7 @@ class RegisterType extends AbstractType
                 'invalid_message' => 'Les mots de passe ne sont pas identiques',
                 'required' => true,
                 'first_options' => ['label' => 'Mot de passe'],
-                'second_options' => ['laebl' => 'Répéter Mot de passe']
+                'second_options' => ['label' => 'Répéter Mot de passe']
             ])
             ->add('telephone')
             ->add('photo')

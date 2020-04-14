@@ -3,5 +3,13 @@
 {% block title %}Inscription | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h3>Ceci est la page d'inscription</h3>
+    <h3 class="text-center">Ceci est la page d'inscription</h3>
+    <div class="card mt-4 text-center card-form "style="width: 25rem;">
+        <div class="card-body">
+            <p class="card-text">{{ form_start(registerForm) }}
+                {{ form_widget(registerForm) }}</p>
+            <button class="btn btn-primary" type="submit">S'inscrire </button>
+            <p class="card-text">{{ form_end(registerForm) }}</p>
+        </div>
+    </div>
 {% endblock %}
