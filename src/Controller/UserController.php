@@ -8,22 +8,29 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/register", name="user_register")
+     * @Route("/Inscription", name="user_register")
      */
     public function register()
     {
-        return $this->render();
+        return $this->render("user/register.html.twig");
     }
 
     /**
-     * @Route("/login", name="login")
+     * @Route("/Connexion", name="login")
      */
     public function login(){
         return $this->render('user/login.html.twig');
     }
 
     /**
-     * @Route("/logout", name="logout")
+     * @Route("/Profil", name="user_profile")
+     */
+    public function userProfile(){
+        return $this->render('user/profile.html.twig');
+    }
+
+    /**
+     * @Route("/Deconnexion", name="logout")
      */
     public function logout(){}
 

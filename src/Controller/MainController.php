@@ -12,7 +12,6 @@ class MainController extends AbstractController
      */
     public function homePage()
     {
-        dump("oui");
         return $this->render("main/homePage.html.twig");
     }
 }
