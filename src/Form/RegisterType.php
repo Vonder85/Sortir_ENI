@@ -28,6 +28,7 @@ class RegisterType extends AbstractType
                 'second_options' => ['label' => 'Confirmation']
             ])
             ->add('telephone', null,['label'=> 'téléphone : '])
+            ->add('site', null, ['label' => 'Site de rattachement :', 'choice_label' => 'name'])
             ->add('photo', FileType::class, [
                 'label' => 'Photo : ',
                 'mapped' => false,
