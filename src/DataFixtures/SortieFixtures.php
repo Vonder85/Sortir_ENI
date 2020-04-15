@@ -20,6 +20,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
             $sortie->setMaxNumberRegistration(rand(10,10000));
             $sortie->setDescription($this->getRandomDescription());
             $sortie->setOrganisateur($this->getReference("user".rand(0,4)));
+            $sortie->setEtat($this->getRandomEtat());
             $manager->persist($sortie);
         }
 
@@ -33,7 +34,9 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
      */
     public function getDependencies() {
         return array(
-            UserFixtures::class
+            UserFixtures::class,
+            EtatFixtures::class,
+            LieuFixtures::class
         );
     }
 
@@ -57,4 +60,37 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
                 break;
         }
     }
+
+    private function getRandomEtat(){
+        $etat=null;
+        $rand=rand(0,5);
+        switch ($rand){
+            case 0 :
+                $etat=$this->getReference("etat_cree");
+                break;
+            case 1 :
+                $etat=$this->getReference("etat_ouvert");
+                break;
+            case 2 :
+                $etat=$this->getReference("etat_cloture");
+                break;
+            case 3 :
+                $etat=$this->getReference("etat_activite_en_cours");
+                break;
+            case 4 :
+                $etat=$this->getReference("etat_passe");
+                break;
+            case 5 :
+                $etat=$this->getReference("etat_annule");
+                break;
+            default:
+                return "pas d'état";
+                break;
+        }
+
+        return $etat;
+
+    }
+
+
 }

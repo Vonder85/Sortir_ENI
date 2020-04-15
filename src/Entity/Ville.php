@@ -75,23 +75,23 @@ class Ville
         return $this->lieu;
     }
 
-    public function addOneToMany(Lieu $oneToMany): self
+    public function addLieu(Lieu $lieu): self
     {
-        if (!$this->lieu->contains($oneToMany)) {
-            $this->lieu[] = $oneToMany;
-            $oneToMany->setVille($this);
+        if (!$this->lieu->contains($lieu)) {
+            $this->lieu[] = $lieu;
+            $lieu->setVille($this);
         }
 
         return $this;
     }
 
-    public function removeOneToMany(Lieu $oneToMany): self
+    public function removeLieu(Lieu $lieu): self
     {
-        if ($this->lieu->contains($oneToMany)) {
-            $this->lieu->removeElement($oneToMany);
+        if ($this->lieu->contains($lieu)) {
+            $this->lieu->removeElement($lieu);
             // set the owning side to null (unless already changed)
-            if ($oneToMany->getVille() === $this) {
-                $oneToMany->setVille(null);
+            if ($lieu->getVille() === $this) {
+                $lieu->setVille(null);
             }
         }
 
