@@ -69,8 +69,6 @@ class User implements UserInterface
 
     private $roles;
 
-
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Sortie", mappedBy="organisateur",cascade={"remove"})
      */

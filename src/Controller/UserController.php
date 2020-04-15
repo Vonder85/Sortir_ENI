@@ -29,12 +29,14 @@ class UserController extends AbstractController
             $user->setPassword($hashed);
 
             $photo = $registerForm['photo']->getData();
-            $photoName = $this->generateUniqueFileName().'.'.$photo->guessExtension();
-            $photo->move(
-                $this->getParameter('upload_photos'),
-                $photoName
-            );
-            $user->setPhoto($photoName);
+            if($photo){
+                $photoName = $this->generateUniqueFileName().'.'.$photo->guessExtension();
+                $photo->move(
+                    $this->getParameter('upload_photos'),
+                    $photoName
+                );
+                $user->setPhoto($photoName);
+            }
 
             $em->persist($user);
             $em->flush();

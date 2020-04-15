@@ -66,7 +66,6 @@ class Sortie
 
     public function __construct()
     {
-        $this->organisateur = new ArrayCollection();
         $this->participants = new ArrayCollection();
     }
 
@@ -148,20 +147,20 @@ class Sortie
     }
 
     /**
-     * @return ArrayCollection
+     * @return mixed
      */
-    public function getOrganisateur(): ArrayCollection
-    {
+    public function getOrganisateur() {
         return $this->organisateur;
     }
 
     /**
-     * @param ArrayCollection $organisateur
+     * @param mixed $organisateur
      */
-    public function setOrganisateur(ArrayCollection $organisateur): void
-    {
+    public function setOrganisateur($organisateur): void {
         $this->organisateur = $organisateur;
     }
+
+
 
     /**
      * @return Collection|User[]
