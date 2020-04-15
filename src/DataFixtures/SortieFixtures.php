@@ -7,8 +7,11 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
+
 class SortieFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const SORTIE_REFERENCE = 'sortie-reference';
+
     public function load(ObjectManager $manager)
     {
         for($i=0;$i<100;$i++){
@@ -20,6 +23,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
             $sortie->setMaxNumberRegistration(rand(10,10000));
             $sortie->setDescription($this->getRandomDescription());
             $sortie->setOrganisateur($this->getReference("user".rand(0,4)));
+            $this->addReference(self::SORTIE_REFERENCE, $sortie);
             $manager->persist($sortie);
         }
 
@@ -33,6 +37,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
      */
     public function getDependencies() {
         return array(
+            SiteFixtures::class,
             UserFixtures::class
         );
     }

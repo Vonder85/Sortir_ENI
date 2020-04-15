@@ -79,6 +79,12 @@ class User implements UserInterface
      */
     private $sorties;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="participants")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $site;
+
     public function __construct()
     {
         $this->sortiesOrganisees = new ArrayCollection();
@@ -255,6 +261,18 @@ class User implements UserInterface
         if ($this->sorties->contains($sorty)) {
             $this->sorties->removeElement($sorty);
         }
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
 
         return $this;
     }
