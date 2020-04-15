@@ -62,20 +62,28 @@ class User implements UserInterface
      */
     private $createdAt;
 
-    private $roles;
-
     /**
      * @ORM\Column(type="string", length=50)
      */
     private $telephone;
 
+    private $roles;
+
+
+
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Sortie", mappedBy="ManyToOne")
+     * @ORM\OneToMany(targetEntity="App\Entity\Sortie", mappedBy="organisateur",cascade={"remove"})
+     */
+    private $sortiesOrganisees;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Sortie", inversedBy="participants")
      */
     private $sorties;
 
     public function __construct()
     {
+        $this->sortiesOrganisees = new ArrayCollection();
         $this->sorties = new ArrayCollection();
     }
 
@@ -212,6 +220,22 @@ class User implements UserInterface
     }
 
     /**
+     * @return ArrayCollection
+     */
+    public function getSortiesOrganisees(): ArrayCollection
+    {
+        return $this->sortiesOrganisees;
+    }
+
+    /**
+     * @param ArrayCollection $sortiesOrganisees
+     */
+    public function setSortiesOrganisees(ArrayCollection $sortiesOrganisees): void
+    {
+        $this->sortiesOrganisees = $sortiesOrganisees;
+    }
+
+    /**
      * @return Collection|Sortie[]
      */
     public function getSorties(): Collection
@@ -219,28 +243,27 @@ class User implements UserInterface
         return $this->sorties;
     }
 
-    public function addSortiesOrganisees(Sortie $sortiesOrganisees): self
+    public function addSorty(Sortie $sorty): self
     {
-        if (!$this->sorties->contains($sortiesOrganisees)) {
-            $this->sorties[] = $sortiesOrganisees;
-            $sortiesOrganisees->setManyToOne($this);
+        if (!$this->sorties->contains($sorty)) {
+            $this->sorties[] = $sorty;
         }
 
         return $this;
     }
 
-    public function removeSortiesOrganisees(Sortie $sortiesOrganisees): self
+    public function removeSorty(Sortie $sorty): self
     {
-        if ($this->sorties->contains($sortiesOrganisees)) {
-            $this->sorties->removeElement($sortiesOrganisees);
-            // set the owning side to null (unless already changed)
-            if ($sortiesOrganisees->getManyToOne() === $this) {
-                $sortiesOrganisees->setManyToOne(null);
-            }
+        if ($this->sorties->contains($sorty)) {
+            $this->sorties->removeElement($sorty);
         }
 
         return $this;
     }
+
+
+
+
 
 
 
