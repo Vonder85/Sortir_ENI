@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegisterType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends AbstractController
 {
@@ -29,12 +31,16 @@ class UserController extends AbstractController
             $user->setPassword($hashed);
 
             $photo = $registerForm->get('photo')->getData();
-            $photoName = $this->generateUniqueFileName().'.'.strtolower($photo->getClientOriginalExtension());
-            $photo->move(
-                $this->getParameter('upload_photos'),
-                $photoName
-            );
-            $user->setPhoto($photoName);
+            if($photo){
+                $photoName = $this->generateUniqueFileName().'.'.strtolower($photo->getClientOriginalExtension());
+                $photo->move(
+                    $this->getParameter('upload_photos'),
+                    $photoName
+                );
+                $user->setPhoto($photoName);
+            }
+
+
 
             $em->persist($user);
             $em->flush();
@@ -49,15 +55,44 @@ class UserController extends AbstractController
     /**
      * @Route("/Connexion", name="Connexion")
      */
-    public function login(){
-        return $this->render('user/login.html.twig');
+    public function login(Request $request, AuthenticationUtils $au){
+
+            $error = $au->getLastAuthenticationError();
+            return $this->render('user/login.html.twig', [
+                "error" => $error,
+            ]);
     }
 
     /**
-     * @Route("/Profil", name="user_profile")
+     * @Route("/Profil/{id}", name="user_profile", requirements={"id": "\d+"})
      */
-    public function userProfile(){
-        return $this->render('user/profile.html.twig');
+    public function userProfile($id, EntityManagerInterface $em, UserRepository $ur, Request $request, UserPasswordEncoderInterface $encoder){
+        $user = $ur->find($id);
+        $profileForm = $this->createForm(RegisterType::class, $user);
+        $photoIn = $user->getPhoto();
+
+        $profileForm->handleRequest($request);
+        if($profileForm->isSubmitted() && $profileForm->isValid()){
+            //Hash password
+            $hashed = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($hashed);
+
+            $photo = $profileForm->get('photo')->getData();
+            if($photo){
+                $photoName = $this->generateUniqueFileName().'.'.strtolower($photo->getClientOriginalExtension());
+                $photo->move(
+                    $this->getParameter('upload_photos'),
+                    $photoName
+                );
+                $user->setPhoto($photoName);
+            }else{
+                $user->setPhoto($photoIn);
+            }
+            $em->flush();
+        }
+        return $this->render('user/profile.html.twig', [
+            "profileForm" => $profileForm->createView(),
+        ]);
     }
 
     /**

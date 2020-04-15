@@ -21,5 +21,8 @@
                 {# ... #}
             </form>
         </form>
+        {% if error %}
+            <div style="color:red">Pseudo ou mot de passe incorrect</div>
+        {% endif %}
     </div>
 {% endblock %}
