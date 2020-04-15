@@ -63,6 +63,10 @@ class Sortie
      */
     private $etat;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Lieu", inversedBy="sorties")
+     */
+    private $lieu;
 
     public function __construct()
     {
@@ -170,6 +174,7 @@ class Sortie
         return $this->participants;
     }
 
+
     public function addParticipant(User $participant): self
     {
         if (!$this->participants->contains($participant)) {
@@ -200,6 +205,22 @@ class Sortie
         $this->etat = $etat;
 
         return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getLieu(): ArrayCollection
+    {
+        return $this->lieu;
+    }
+
+    /**
+     * @param ArrayCollection $lieu
+     */
+    public function setLieu(ArrayCollection $lieu): void
+    {
+        $this->lieu = $lieu;
     }
 
 
