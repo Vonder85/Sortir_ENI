@@ -10,13 +10,12 @@ class SiteFixtures extends Fixture
 {
       public function load(ObjectManager $manager)
     {
-        for ($i = 0; $i<50; $i++){
+        for ($i = 0; $i<5; $i++){
             $site = new Site();
             $site->setName("Nom Site".$i);
             $this->addReference("site".$i, $site);
             $manager->persist($site);
         }
-
 
         $manager->flush();
     }
