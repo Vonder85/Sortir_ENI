@@ -32,8 +32,8 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $lastname;
 
+    private $lastname;
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -70,11 +70,11 @@ class User implements UserInterface
     private $telephone;
 
     private $roles;
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Sortie", mappedBy="organisateur",cascade={"remove"})
      */
     private $sortiesOrganisees;
+
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Sortie", inversedBy="participants")
