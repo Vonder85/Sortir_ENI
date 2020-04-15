@@ -58,6 +58,11 @@ class Sortie
      */
     private $participants;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Etat", inversedBy="sortiesPrevues")
+     */
+    private $etat;
+
 
     public function __construct()
     {
@@ -182,6 +187,18 @@ class Sortie
             $this->participants->removeElement($participant);
             $participant->removeSorty($this);
         }
+
+        return $this;
+    }
+
+    public function getEtat(): ?Etat
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?Etat $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }
