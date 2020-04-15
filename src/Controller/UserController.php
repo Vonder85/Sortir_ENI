@@ -28,8 +28,8 @@ class UserController extends AbstractController
             $hashed = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hashed);
 
-            $photo = $registerForm->get('photo')->getData();
-            $photoName = $this->generateUniqueFileName().'.'.strtolower($photo->getClientOriginalExtension());
+            $photo = $registerForm['photo']->getData();
+            $photoName = $this->generateUniqueFileName().'.'.$photo->guessExtension();
             $photo->move(
                 $this->getParameter('upload_photos'),
                 $photoName
