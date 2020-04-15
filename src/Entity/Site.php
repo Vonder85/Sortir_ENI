@@ -117,4 +117,20 @@ class Site
 
         return $this;
     }
+
+    /**
+     * @param mixed $participant
+     */
+    public function setParticipant($participant): void
+    {
+        $this->participant = $participant;
+    }
+
+    /**
+     * @param mixed $sorties
+     */
+    public function setSortie($sorties): void
+    {
+        $this->sorties = $sorties;
+    }
 }

@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserFixtures extends Fixture
 {
     private $encoder;
+    public const USER_REFERENCE = 'user-reference';
 
     public function __construct(UserPasswordEncoderInterface $encoder){
         $this->encoder = $encoder;
@@ -34,8 +35,15 @@ class UserFixtures extends Fixture
             }
             $user->setPhoto("default_profile_pic_fixtures.png");
             $this->addReference("user".$i, $user);
+            $this->addReference(self::USER_REFERENCE,$user);
             $manager->persist($user);
         }
         $manager->flush();
+    }
+
+    public function getDependencies() {
+        return array(
+            SiteFixtures::class,
+        );
     }
 }
