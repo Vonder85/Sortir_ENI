@@ -19,7 +19,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
             $sortie->setDeadlineRegistration(new \DateTime()); //strtotime(new \DateTime()."+ ".rand(1,15)." days")
             $sortie->setMaxNumberRegistration(rand(10,10000));
             $sortie->setDescription($this->getRandomDescription());
-            $sortie->setOrganisateur($this->getReference("user".rand(0,5)));
+            $sortie->setOrganisateur($this->getReference("user".rand(0,4)));
             $manager->persist($sortie);
         }
 
