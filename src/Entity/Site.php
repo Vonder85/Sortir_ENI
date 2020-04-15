@@ -119,11 +119,11 @@ class Site
     }
 
     /**
-     * @param mixed $participant
+     * @param mixed $participants
      */
-    public function setParticipant($participant): void
+    public function setParticipants($participants): void
     {
-        $this->participant = $participant;
+        $this->participants = $participants;
     }
 
     /**

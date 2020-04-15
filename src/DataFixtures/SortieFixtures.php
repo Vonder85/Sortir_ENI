@@ -23,24 +23,19 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
             $sortie->setMaxNumberRegistration(rand(10,10000));
             $sortie->setDescription($this->getRandomDescription());
             $sortie->setOrganisateur($this->getReference("user".rand(0,4)));
-            $this->addReference(self::SORTIE_REFERENCE, $sortie);
             $manager->persist($sortie);
         }
 
         $manager->flush();
     }
 
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getDependencies() {
-        return array(
-            SiteFixtures::class,
-            UserFixtures::class
-        );
+    public function getDependencies()
+    {
+        return [
+          UserFixtures::class,
+        ];
     }
+
 
     private function getRandomDescription(){
         $rand=rand(0,5);
@@ -62,4 +57,6 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
                 break;
         }
     }
+
+
 }
