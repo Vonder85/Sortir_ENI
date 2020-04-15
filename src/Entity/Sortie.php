@@ -58,6 +58,15 @@ class Sortie
      */
     private $participants;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Etat", inversedBy="sortiesPrevues")
+     */
+    private $etat;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Lieu", inversedBy="sorties")
+     */
+    private $lieu;
 
     public function __construct()
     {
@@ -166,6 +175,7 @@ class Sortie
         return $this->participants;
     }
 
+
     public function addParticipant(User $participant): self
     {
         if (!$this->participants->contains($participant)) {
@@ -184,6 +194,34 @@ class Sortie
         }
 
         return $this;
+    }
+
+    public function getEtat(): ?Etat
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?Etat $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getLieu(): ArrayCollection
+    {
+        return $this->lieu;
+    }
+
+    /**
+     * @param ArrayCollection $lieu
+     */
+    public function setLieu(ArrayCollection $lieu): void
+    {
+        $this->lieu = $lieu;
     }
 
 
