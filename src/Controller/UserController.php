@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegisterType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +29,7 @@ class UserController extends AbstractController
             $hashed = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hashed);
 
-            $photo = $registerForm['photo']->getData();
+            $photo = $registerForm->get('photo')->getData();
             $photoName = $this->generateUniqueFileName().'.'.$photo->guessExtension();
             $photo->move(
                 $this->getParameter('upload_photos'),
@@ -54,10 +55,34 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/Profil", name="user_profile")
+     * @Route("/Profil/{id}", name="user_profile", requirements={"id": "\d+"})
      */
-    public function userProfile(){
-        return $this->render('user/profile.html.twig');
+    public function userProfile($id, EntityManagerInterface $em,UserRepository $ur, Request $request, UserPasswordEncoderInterface $encoder){
+        $user = $ur->find($id);
+        $profileForm = $this->createForm(RegisterType::class, $user);
+        $profileForm->handleRequest($request);
+        if($profileForm->isSubmitted() && $profileForm->isValid()){
+            //Hash password
+            $hashed = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($hashed);
+
+
+            $photo = $profileForm->get('photo')->getData();
+            $photoName = $this->generateUniqueFileName().'.'.$photo->guessExtension();
+            $photo->move(
+                $this->getParameter('upload_photos'),
+                $photoName
+            );
+            $user->setPhoto($photoName);
+
+            $em->flush();
+            return $this->redirectToRoute('main_home');
+        }
+
+
+        return $this->render('user/profile.html.twig', [
+            "profileForm" => $profileForm->createView(),
+        ]);
     }
 
     /**
