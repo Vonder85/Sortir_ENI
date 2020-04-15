@@ -50,6 +50,7 @@ class Sortie
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="sortiesOrganisees")
+     * @ORM\JoinColumn(name="organisateur_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $organisateur;
 
