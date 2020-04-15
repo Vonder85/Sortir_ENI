@@ -44,14 +44,14 @@ class Sortie
     private $maxNumberRegistration;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="sortiesOrganisees")
-     * @ORM\JoinColumn(name="organisateur_id", referencedColumnName="id", onDelete="SET NULL")
-     */
+ * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="sortiesOrganisees")
+ * @ORM\JoinColumn(name="organisateur_id", referencedColumnName="id", onDelete="SET NULL")
+ */
     private $organisateur;
 
     /**
@@ -71,7 +71,6 @@ class Sortie
 
     public function __construct()
     {
-        $this->organisateur = new ArrayCollection();
         $this->participants = new ArrayCollection();
     }
 
@@ -153,17 +152,17 @@ class Sortie
     }
 
     /**
-     * @return ArrayCollection
+     * @return mixed
      */
-    public function getOrganisateur(): ArrayCollection
+    public function getOrganisateur()
     {
         return $this->organisateur;
     }
 
     /**
- * @param ArrayCollection $organisateur
- */
-    public function setOrganisateur(ArrayCollection $organisateur): void
+     * @param mixed $organisateur
+     */
+    public function setOrganisateur($organisateur): void
     {
         $this->organisateur = $organisateur;
     }
@@ -175,6 +174,7 @@ class Sortie
     {
         return $this->participants;
     }
+
 
 
     public function addParticipant(User $participant): self
