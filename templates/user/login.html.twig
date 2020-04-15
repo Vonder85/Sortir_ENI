@@ -11,6 +11,15 @@
             <label for="password">Mot de passe : </label>
             <input type="password" name="_password">
             <button type="submit">Se connecter</button>
+            {# templates/security/login.html.twig #}
+            <form method="post">
+                {# ... your form fields #}
+
+                <input type="checkbox" id="remember_me" name="_remember_me" checked/>
+                <label for="remember_me">Se souvenir de moi</label>
+
+                {# ... #}
+            </form>
         </form>
     </div>
 {% endblock %}
