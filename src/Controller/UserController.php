@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends AbstractController
 {
@@ -54,9 +55,12 @@ class UserController extends AbstractController
     /**
      * @Route("/Connexion", name="Connexion")
      */
-    public function login(){
+    public function login(Request $request, AuthenticationUtils $au){
 
-        return $this->render('user/login.html.twig');
+            $error = $au->getLastAuthenticationError();
+            return $this->render('user/login.html.twig', [
+                "error" => $error,
+            ]);
     }
 
     /**
