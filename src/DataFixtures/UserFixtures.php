@@ -4,12 +4,14 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserFixtures extends Fixture
+class UserFixtures extends Fixture implements DependentFixtureInterface
 {
     private $encoder;
+
 
     public function __construct(UserPasswordEncoderInterface $encoder){
         $this->encoder = $encoder;
@@ -32,10 +34,17 @@ class UserFixtures extends Fixture
             }else{
                 $user->setTelephone("0011223344");
             }
+            $user->setSite($this->getReference("site1"));
             $user->setPhoto("default_profile_pic_fixtures.png");
             $this->addReference("user".$i, $user);
             $manager->persist($user);
         }
         $manager->flush();
+    }
+
+    public function getDependencies() {
+        return array(
+            SiteFixtures::class,
+        );
     }
 }

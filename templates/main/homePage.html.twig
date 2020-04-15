@@ -3,5 +3,39 @@
 {% block title %}Accueil | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h3>Ceci est la page d'accueil</h3>
+    <div id="sortiesFilters" class="card">
+        <p>Ici les filtres</p>
+    </div>
+    <div class="tableFixHead">
+    <table>
+        <thead>
+        <tr>
+            <th class="th-sm">Nom de la sortie</th>
+            <th class="th-sm">Date de la sortie</th>
+            <th class="th-sm">Clôture</th>
+            <th class="th-sm">Inscrits/places</th>
+            <th class="th-sm">État</th>
+            <th class="th-sm">Inscrit</th>
+            <th class="th-sm">Organisateur</th>
+            <th class="th-sm">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sortie in sorties %}
+        <tr>
+            <td>{{sortie.name}}</td>
+            <td>{{sortie.dateTimeStart | date}}</td>
+            <td>{{sortie.deadlineRegistration | date}}</td>
+            <td>Mettre nb d'inscrits /{{sortie.maxNumberRegistration}}</td>
+            <td>Mettre etat</td>
+            <td>Mettre inscrit o/n</td>
+            <td>{{sortie.organisateur.firstname}} {{ sortie.organisateur.lastname | first}}.</td>
+            <td>Mettre liens</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endblock %}
+{% block javascript %}
 {% endblock %}
