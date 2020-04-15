@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,6 +21,27 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function findOneByEmail($email){
+        $qb = $this->createQueryBuilder('u');
+        $qb->andWhere('u.email = :email')->setParameter('email', $email);
+        $query = $qb->getQuery();
+        try {
+            return $query->getSingleResult();
+        } catch (NoResultException $e) {
+        } catch (NonUniqueResultException $e) {
+        }
+    }
+
+    public function findOneByToken($token){
+        $qb = $this->createQueryBuilder('u');
+        $qb->andWhere('u.resetToken = :token')->setParameter('token', $token);
+        $query = $qb->getQuery();
+        try {
+            return $query->getSingleResult();
+        } catch (NoResultException $e) {
+        } catch (NonUniqueResultException $e) {
+        }
+    }
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
