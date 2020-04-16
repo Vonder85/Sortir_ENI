@@ -19,11 +19,12 @@ class MainController extends AbstractController
     public function homePage(EntityManagerInterface $em, Request $req)
     {
         $sortiesCriteria = $this->buildCriteria($req);
-        //$sorties = $em->getRepository(Sortie::class)->findSortiesFiltered($sortiesCriteria);
+        $sorties = $em->getRepository(Sortie::class)->findSortiesFiltered($sortiesCriteria);
         $sites = $em->getRepository(Site::class)->findAll();
         return $this->render("main/homePage.html.twig", [
-            "sorties" => null,
-            "sites" => $sites
+            "sorties" => $sorties,
+            "sites" => $sites,
+            "sortiesCriteria"=>$sortiesCriteria
         ]);
     }
 
@@ -36,12 +37,12 @@ class MainController extends AbstractController
             $sortiesCriteria->setSearch($req->query->get('textSearch'));
         }
         if($req->query->get('dateDebut')){
-            $ymd = \DateTime::createFromFormat('Y-m-d', $req->query->get('dateDebut'))->format('d/m/Y');
-
-            $sortiesCriteria->setDateDebut($ymd);
+            $date = new \DateTime($req->query->get('dateDebut'));
+            $sortiesCriteria->setDateDebut($date);
         }
         if($req->query->get('dateFin')){
-
+            $date = new \DateTime($req->query->get('dateFin'));
+            $sortiesCriteria->setDateFin($date);
         }
         if($req->query->get('checkbox1')){
             $sortiesCriteria->setOrganisateur(true);

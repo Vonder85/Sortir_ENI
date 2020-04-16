@@ -2,7 +2,6 @@
 namespace App\Data;
 
 use App\Entity\Site;
-use DateTime;
 
 class SortiesCriteria {
     /**
@@ -16,12 +15,12 @@ class SortiesCriteria {
     public $search = "";
 
     /**
-     * @var DateTime
+     * @var \DateTime
      */
     public $dateDebut = null;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      */
     public $dateFin = null;
 
@@ -74,30 +73,30 @@ class SortiesCriteria {
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
-    public function getDateDebut(): date {
+    public function getDateDebut(): ?\DateTime {
         return $this->dateDebut;
     }
 
     /**
-     * @param DateTime $dateDebut
+     * @param \DateTime $dateDebut
      */
-    public function setDateDebut(DateTime $dateDebut): void {
+    public function setDateDebut(\DateTime $dateDebut): void {
         $this->dateDebut = $dateDebut;
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
-    public function getDateFin(): date {
+    public function getDateFin(): ?\DateTime {
         return $this->dateFin;
     }
 
     /**
-     * @param DateTime $dateFin
+     * @param \DateTime $dateFin
      */
-    public function setDateFin(date $dateFin): void {
+    public function setDateFin(\DateTime $dateFin): void {
         $this->dateFin = $dateFin;
     }
 
