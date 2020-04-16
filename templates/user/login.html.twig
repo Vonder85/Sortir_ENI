@@ -4,16 +4,20 @@
 
 {% block body %}
     <h3 class="text-center">Ceci est la page de connexion</h3>
-    <div class="text-center">
-        <form method="post">
-            <label for="username">Pseudo : </label>
-            <input type="text" name="_username">
-            <label for="password">Mot de passe : </label>
-            <input type="password" name="_password">
-            <input type="checkbox" id="remember_me" name="_remember_me" checked/>
-            <label for="remember_me">Se souvenir de moi</label>
-            <button type="submit">Se connecter</button>
-        </form>
+    <div class="card mt-4 text-center card-form " style="width: 25rem;">
+        <div class="card-body">
+            <div class="text-center">
+                <form method="post">
+                    <label for="username">Pseudo : </label>
+                    <input type="text" name="_username" value="{{ lastusername }}">
+                    <label for="password">Mot de passe : </label>
+                    <input type="password" name="_password"><br>
+                    <input type="checkbox" id="remember_me" name="_remember_me" checked/>
+                    <label for="remember_me">Se souvenir de moi</label>
+                    <button type="submit">Se connecter</button>
+                </form>
+            </div>
+        </div>
         <div>
             <a href="{{ path('user_forgotten_password') }}">Mot de passe oublié</a>
         </div>
