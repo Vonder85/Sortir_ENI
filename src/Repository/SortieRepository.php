@@ -51,13 +51,18 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter("user", $user);
         }
         if($criteria->isInscrit()!=false){
+            $qb->andWhere("p.user = :user")
+                ->setParameter("user", $user);
         }
         if($criteria->isPasInscrit()!=false){
-
+            $qb->andWhere("p.user != :user")
+                ->setParameter("user", $user);
         }
         if($criteria->isSortiePassee()!=false){
-
+            $qb->andWhere("s.dateTimeStart < :dateFin")
+                ->setParameter("dateFin",new \DateTime());
         }
+        $qb->join("s.participations","p");
         return $qb->getQuery()->execute();
     }
 
