@@ -1,7 +1,7 @@
 <?php
 namespace App\Data;
 
-use App\Entity\Site;
+
 
 class SortiesCriteria {
     /**
@@ -44,10 +44,11 @@ class SortiesCriteria {
      */
     public $sortiePassee = false;
 
+
     /**
      * @return int
      */
-    public function getSite(): int {
+    public function getSite(): ?int {
         return $this->site;
     }
 
@@ -61,7 +62,7 @@ class SortiesCriteria {
     /**
      * @return string
      */
-    public function getSearch(): string {
+    public function getSearch(): ?string {
         return $this->search;
     }
 

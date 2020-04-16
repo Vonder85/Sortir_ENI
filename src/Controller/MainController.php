@@ -19,6 +19,7 @@ class MainController extends AbstractController
     public function homePage(EntityManagerInterface $em, Request $req)
     {
         $sortiesCriteria = $this->buildCriteria($req);
+        dump($sortiesCriteria);
         $sorties = $em->getRepository(Sortie::class)->findSortiesFiltered($sortiesCriteria);
         $sites = $em->getRepository(Site::class)->findAll();
         return $this->render("main/homePage.html.twig", [
@@ -56,6 +57,6 @@ class MainController extends AbstractController
         if($req->query->get('checkbox4')){
             $sortiesCriteria->setSortiePassee(true);
         }
-        dump($sortiesCriteria);
+        return $sortiesCriteria;
     }
 }
