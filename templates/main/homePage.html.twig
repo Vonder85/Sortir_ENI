@@ -8,7 +8,7 @@
             <fieldset>
             <legend>Filtrer les sorties</legend>
                 <div id="sortiesFilterFormCol1">
-                    <label for="selectSite">Site: </label>
+                    <label for="selectSite">Site : </label>
                     <select id="selectSite" name="selectSite">
                         {% if sortiesCriteria.site == null %}
                             <option value="" selected>Tous les sites</option>
@@ -16,17 +16,17 @@
                             <option value="">Tous les sites</option>
                         {% endif %}
                         {% for site in sites %}
-                            {% if sortiesCriteria.site != null %}
-                                {% if sortiesCriteria.site.id == site.id %}
+
+                                {% if sortiesCriteria.site != null and sortiesCriteria.site.id == site.id %}
                                     <option value="{{ site.id }}" selected>{{ site.name }}</option>
                                 {% else %}
                                     <option value="{{ site.id }}">{{site.name}}</option>
                                 {% endif %}
-                            {% endif %}
+
                         {% endfor %}
                     </select>
 
-                    <label for="textSearch">Le nom de la sortie contient: </label>
+                    <label for="textSearch">Le nom de la sortie contient : </label>
                     {% if sortiesCriteria.search != '' %}
                         <input type="text" name="textSearch" value="{{ sortiesCriteria.search }}">
                     {% else %}
