@@ -16,7 +16,6 @@ class SiteFixtures extends Fixture
             $this->addReference("site".$i, $site);
             $manager->persist($site);
         }
-
         $manager->flush();
     }
 
