@@ -43,10 +43,11 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/Sortie", name="sortie_consult")
+     * @Route("/Sortie/{id}", name="sortie_show", requirements={"id": "\d+"})
      */
-    public function consultSortie()
+    public function showSortie($id)
     {
+
         return $this->render("sortie/consultSortie.html.twig");
     }
 

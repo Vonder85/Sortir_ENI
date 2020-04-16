@@ -23,7 +23,7 @@
         <tbody>
         {% for sortie in sorties %}
         <tr>
-            <td>{{sortie.name}}</td>
+            <td><a href="{{ path('sortie_show',{'id': sortie.id}) }}">{{sortie.name}}</a></td>
             <td>{{sortie.dateTimeStart | date}}</td>
             <td>{{sortie.deadlineRegistration | date}}</td>
             <td>Mettre nb d'inscrits /{{sortie.maxNumberRegistration}}</td>
