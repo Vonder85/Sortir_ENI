@@ -19,13 +19,37 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-     /**
-      * @return Sortie[] Returns an array of Sortie objects
+    /**
+     * @return Sortie[] Returns an array of Sortie objects
      */
-    public function findSortiesFiltered($value)
+    public function findSortiesFiltered(SortiesCriteria $criteria)
     {
         $qb=$this->createQueryBuilder("s");
-        return $qb;
+        if($criteria->getSite()!=null){
+
+        }
+        if($criteria->getSearch()!=""){
+
+        }
+        if($criteria->getDateDebut()!=null){
+
+        }
+        if($criteria->getDateFin()!=null){
+
+        }
+        if($criteria->isOrganisateur()!=false){
+
+        }
+        if($criteria->isInscrit()!=false){
+
+        }
+        if($criteria->isPasInscrit()!=false){
+
+        }
+        if($criteria->isSortiePassee()!=false){
+
+        }
+        return $qb->getQuery()->execute();
     }
 
 
