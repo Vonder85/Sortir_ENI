@@ -105,10 +105,15 @@ class User implements UserInterface
      */
     private $site;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Participations", mappedBy="user")
+     */
+    private $participations;
+
     public function __construct()
     {
         $this->sortiesOrganisees = new ArrayCollection();
-        $this->sorties = new ArrayCollection();
+        $this->participations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -217,13 +222,13 @@ class User implements UserInterface
         return $this->telephone;
     }
 
+
     public function setTelephone(string $telephone): self
     {
         $this->telephone = $telephone;
 
         return $this;
     }
-
 
     /**
      * @return mixed
@@ -251,38 +256,14 @@ class User implements UserInterface
         return $this->sortiesOrganisees;
     }
 
+
+
     /**
      * @param ArrayCollection $sortiesOrganisees
      */
     public function setSortiesOrganisees(ArrayCollection $sortiesOrganisees): void
     {
         $this->sortiesOrganisees = $sortiesOrganisees;
-    }
-
-    /**
-     * @return Collection|Sortie[]
-     */
-    public function getSorties(): Collection
-    {
-        return $this->sorties;
-    }
-
-    public function addSorty(Sortie $sorty): self
-    {
-        if (!$this->sorties->contains($sorty)) {
-            $this->sorties[] = $sorty;
-        }
-
-        return $this;
-    }
-
-    public function removeSorty(Sortie $sorty): self
-    {
-        if ($this->sorties->contains($sorty)) {
-            $this->sorties->removeElement($sorty);
-        }
-
-        return $this;
     }
 
     public function getSite(): ?Site
@@ -297,7 +278,19 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return ArrayCollection
+     */
+    public function getParticipations(): ArrayCollection {
+        return $this->participations;
+    }
 
+    /**
+     * @param ArrayCollection $participations
+     */
+    public function setParticipations(ArrayCollection $participations): void {
+        $this->participations = $participations;
+    }
 
 
 

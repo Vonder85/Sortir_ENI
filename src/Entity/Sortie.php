@@ -71,9 +71,14 @@ class Sortie
      */
     private $site;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Participations", mappedBy="sortie")
+     */
+    private $participations;
+
     public function __construct()
     {
-        $this->participants = new ArrayCollection();
+        $this->participations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -161,42 +166,13 @@ class Sortie
         return $this->organisateur;
     }
 
+
     /**
      * @param mixed $organisateur
      */
     public function setOrganisateur($organisateur): void
     {
         $this->organisateur = $organisateur;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getParticipants(): Collection
-    {
-        return $this->participants;
-    }
-
-
-
-    public function addParticipant(User $participant): self
-    {
-        if (!$this->participants->contains($participant)) {
-            $this->participants[] = $participant;
-            $participant->addSorty($this);
-        }
-
-        return $this;
-    }
-
-    public function removeParticipant(User $participant): self
-    {
-        if ($this->participants->contains($participant)) {
-            $this->participants->removeElement($participant);
-            $participant->removeSorty($this);
-        }
-
-        return $this;
     }
 
     public function getEtat(): ?Etat
@@ -237,6 +213,20 @@ class Sortie
         $this->site = $site;
 
         return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getParticipations(): ArrayCollection {
+        return $this->participations;
+    }
+
+    /**
+     * @param ArrayCollection $participations
+     */
+    public function setParticipations(ArrayCollection $participations): void {
+        $this->participations = $participations;
     }
 
 
