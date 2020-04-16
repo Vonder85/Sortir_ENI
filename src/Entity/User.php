@@ -105,6 +105,11 @@ class User implements UserInterface
      */
     private $site;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Participations", mappedBy="user")
+     */
+    private $participations;
+
     public function __construct()
     {
         $this->sortiesOrganisees = new ArrayCollection();
@@ -217,13 +222,13 @@ class User implements UserInterface
         return $this->telephone;
     }
 
+
     public function setTelephone(string $telephone): self
     {
         $this->telephone = $telephone;
 
         return $this;
     }
-
 
     /**
      * @return mixed
@@ -251,6 +256,8 @@ class User implements UserInterface
         return $this->sortiesOrganisees;
     }
 
+
+
     /**
      * @param ArrayCollection $sortiesOrganisees
      */
@@ -258,8 +265,6 @@ class User implements UserInterface
     {
         $this->sortiesOrganisees = $sortiesOrganisees;
     }
-
-
 
     public function getSite(): ?Site
     {
@@ -274,9 +279,18 @@ class User implements UserInterface
     }
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Participations", mappedBy="user")
+     * @return ArrayCollection
      */
-    private $participations;
+    public function getParticipations(): ArrayCollection {
+        return $this->participations;
+    }
+
+    /**
+     * @param ArrayCollection $participations
+     */
+    public function setParticipations(ArrayCollection $participations): void {
+        $this->participations = $participations;
+    }
 
 
 
