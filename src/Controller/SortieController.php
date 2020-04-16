@@ -89,7 +89,5 @@ class SortieController extends AbstractController
             $this->addFlash('success', 'Votre inscription a bien été prise en compte !');
             return $this->redirectToRoute('main_home');
         }
-
-
     }
 }
