@@ -4,8 +4,42 @@
 
 {% block body %}
     <div id="sortiesFilters" class="card">
-        <p>Ici les filtres</p>
+        <form action="">
+            <fieldset>
+            <legend>Filtrer les sorties</legend>
+                <div id="sortiesFilterFormCol1">
+                    <label for="selectSite">Site: </label>
+                    <select id="selectSite" name="selectSite">
+                        <option value="" selected>Tous les sites</option>
+                        {% for site in sites %}
+                            <option value="{{ site.id }}">{{site.name}}</option>
+                        {% endfor %}
+                    </select>
+
+                    <label for="textSearch">Le nom de la sortie contient: </label>
+                    <input type="text" placeholder="rechercher" name="textSearch">
+
+                    <label for="dateDebut">Entre </label>
+                    <input type="date" name="dateDebut">
+
+                    <label for="dateFin"> et  </label>
+                    <input type="date" name="dateFin">
+                </div>
+                <div id="sortiesFilterFormCol2">
+                    <input type="checkbox" name="checkbox1"> Sorties dont je suis l'organisateur/trice <br>
+
+                    <input type="checkbox" name="checkbox2"> Sorties auxquelles je suis incrit/e <br>
+
+                    <input type="checkbox" name="checkbox3"> Sorties auxquelles je ne suis pas incrit/e <br>
+
+                    <input type="checkbox" name="checkbox4"> Sorties passées <br>
+                </div>
+                <input type="submit" value="Rechercher">
+            </fieldset>
+        </form>
+
     </div>
+
     <div class="tableFixHead">
     <table>
         <thead>
@@ -23,14 +57,14 @@
         <tbody>
         {% for sortie in sorties %}
         <tr>
-            <td><a href="{{ path('sortie_show',{'id': sortie.id}) }}">{{sortie.name}}</a></td>
+            <td>{{sortie.name}}</td>
             <td>{{sortie.dateTimeStart | date}}</td>
             <td>{{sortie.deadlineRegistration | date}}</td>
             <td>Mettre nb d'inscrits /{{sortie.maxNumberRegistration}}</td>
             <td>Mettre etat</td>
             <td>Mettre inscrit o/n</td>
             <td>{{sortie.organisateur.firstname}} {{ sortie.organisateur.lastname | first}}.</td>
-            <td>Mettre liens</td>
+            <td><a href="{{ path('sortie_show',{'id': sortie.id, 'csrf': csrf_token('sortie_show_'~sortie.id)}) }}"><img src="{{ asset('pictures/magnifying-glass.svg') }}" alt="détail" class="icon_action"></a>  <a href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}"><img src="{{ asset('pictures/book.svg') }}" alt="S'inscrire" class="icon_action"></a></td>
         </tr>
         {% endfor %}
         </tbody>

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\SortiesCriteria;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,22 +20,39 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    // /**
-    //  * @return Sortie[] Returns an array of Sortie objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Sortie[] Returns an array of Sortie objects
+     */
+    public function findSortiesFiltered(SortiesCriteria $criteria)
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $qb=$this->createQueryBuilder("s");
+        if($criteria->getSite()!=null){
+
+        }
+        if($criteria->getSearch()!=""){
+
+        }
+        if($criteria->getDateDebut()!=null){
+
+        }
+        if($criteria->getDateFin()!=null){
+
+        }
+        if($criteria->isOrganisateur()!=false){
+
+        }
+        if($criteria->isInscrit()!=false){
+
+        }
+        if($criteria->isPasInscrit()!=false){
+
+        }
+        if($criteria->isSortiePassee()!=false){
+
+        }
+        return $qb->getQuery()->execute();
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Sortie
