@@ -71,6 +71,11 @@ class Sortie
      */
     private $site;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Participations", mappedBy="sortie")
+     */
+    private $participations;
+
     public function __construct()
     {
         $this->participations = new ArrayCollection();
@@ -161,6 +166,7 @@ class Sortie
         return $this->organisateur;
     }
 
+
     /**
      * @param mixed $organisateur
      */
@@ -168,7 +174,6 @@ class Sortie
     {
         $this->organisateur = $organisateur;
     }
-
 
     public function getEtat(): ?Etat
     {
@@ -211,9 +216,18 @@ class Sortie
     }
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Participations", mappedBy="sortie")
+     * @return ArrayCollection
      */
-    private $participations;
+    public function getParticipations(): ArrayCollection {
+        return $this->participations;
+    }
+
+    /**
+     * @param ArrayCollection $participations
+     */
+    public function setParticipations(ArrayCollection $participations): void {
+        $this->participations = $participations;
+    }
 
 
 }
