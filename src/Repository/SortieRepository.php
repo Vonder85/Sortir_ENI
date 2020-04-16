@@ -27,10 +27,12 @@ class SortieRepository extends ServiceEntityRepository
     {
         $qb=$this->createQueryBuilder("s");
         if($criteria->getSite()!=null){
-
+            $qb->andWhere("s.site = :site")
+            ->setParameter("site", $criteria->getSite());
         }
         if($criteria->getSearch()!=""){
-
+            $qb->andWhere($qb->expr()->like('s.name',':name'))
+                ->setParameter("title","%".$textFilter."%");
         }
         if($criteria->getDateDebut()!=null){
 

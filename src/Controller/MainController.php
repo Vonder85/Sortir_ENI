@@ -18,7 +18,7 @@ class MainController extends AbstractController
      */
     public function homePage(EntityManagerInterface $em, Request $req)
     {
-        $sortiesCriteria = $this->buildCriteria($req);
+        $sortiesCriteria = $this->buildCriteria($req, $em);
         dump($sortiesCriteria);
         $sorties = $em->getRepository(Sortie::class)->findSortiesFiltered($sortiesCriteria);
         $sites = $em->getRepository(Site::class)->findAll();
@@ -29,10 +29,12 @@ class MainController extends AbstractController
         ]);
     }
 
-    public function buildCriteria($req){
+    public function buildCriteria(Request $req, EntityManagerInterface $em){
         $sortiesCriteria = new SortiesCriteria();
-        if($req->query->get('selectSite')!=""){
-            $sortiesCriteria->setSite($req->query->get('selectSite'));
+        if($req->query->get('selectSite')!="" && $req->query->get('selectSite')!=null){
+            $idSite = $req->query->get('selectSite');
+            $site = $em->getRepository(Site::class)->find($idSite);
+            $sortiesCriteria->setSite($site);
         }
         if($req->query->get('textSearch')){
             $sortiesCriteria->setSearch($req->query->get('textSearch'));
