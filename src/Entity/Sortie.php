@@ -188,17 +188,17 @@ class Sortie
     }
 
     /**
-     * @return ArrayCollection
+     * @return
      */
-    public function getLieu(): ArrayCollection
+    public function getLieu(): ?Lieu
     {
         return $this->lieu;
     }
 
     /**
-     * @param ArrayCollection $lieu
+     * @param  $lieu
      */
-    public function setLieu(ArrayCollection $lieu): void
+    public function setLieu(Lieu $lieu): void
     {
         $this->lieu = $lieu;
     }
@@ -228,6 +228,7 @@ class Sortie
     public function setParticipations(ArrayCollection $participations): void {
         $this->participations = $participations;
     }
+
 
 
 }

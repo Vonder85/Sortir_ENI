@@ -21,22 +21,21 @@ class SortieController extends AbstractController
     /**
      * @Route("/CreerSortie", name="create")
      */
-    public function createSortie(Request $request,EntityManagerInterface $em)
+    public function createSortie(Request $request, EntityManagerInterface $em)
     {
         $sortie = new Sortie();
-        $sortForm=$this->createForm(SortieType::class,$sortie);
+        $sortForm = $this->createForm(SortieType::class, $sortie);
         $sortForm->handleRequest($request);
-        if ($sortForm->isSubmitted()&& $sortForm->isValid())
-        {
+        if ($sortForm->isSubmitted() && $sortForm->isValid()) {
             $sortie->setOrganisateur($this->getUser());
             $em->persist($sortie);
             $em->flush();
-            $this->addFlash('success','Votre sortie est bien créée ');
+            $this->addFlash('success', 'Votre sortie est bien créée ');
             return $this->redirectToRoute('main_home');
         }
 
-        return $this->render("sortie/creerSortie.html.twig",[
-            'sortForm'=>$sortForm->createView()
+        return $this->render("sortie/creerSortie.html.twig", [
+            'sortForm' => $sortForm->createView()
         ]);
     }
 
@@ -51,14 +50,20 @@ class SortieController extends AbstractController
     /**
      * @Route("/{id}/{csrf}", name="show", requirements={"id": "\d+"})
      */
-    public function showSortie($id, $csrf)
+    public function showSortie(EntityManagerInterface $em, SortieRepository $sortRepo, $id, $csrf)
     {
-        if(!$this->isCsrfTokenValid('sortie_show_'.$id, $csrf)){
+
+
+        $sortRepo = $em->getRepository(Sortie::class);
+        $sortie = $sortRepo->find($id);
+        if (!$this->isCsrfTokenValid('sortie_show_' . $id, $csrf)) {
             throw $this->createAccessDeniedException('Désolé, votre session a expiré !');
-        }else{
+        } else {
 
         }
-        return $this->render("sortie/consultSortie.html.twig");
+        return $this->render("sortie/consultSortie.html.twig", [
+            'sortie' => $sortie
+        ]);
     }
 
     /**
@@ -72,10 +77,11 @@ class SortieController extends AbstractController
     /**
      * @Route("/InscriptionSortie/{id}/{csrf}", name="inscription", requirements={"id": "\d+"})
      */
-    public function sortieRegister($id, $csrf, SortieRepository $sr, UserRepository $ur, EntityManagerInterface $em){
-        if(!$this->isCsrfTokenValid('sortie_inscription_'.$id, $csrf)){
+    public function sortieRegister($id, $csrf, SortieRepository $sr, UserRepository $ur, EntityManagerInterface $em)
+    {
+        if (!$this->isCsrfTokenValid('sortie_inscription_' . $id, $csrf)) {
             throw $this->createAccessDeniedException('Désolé, votre session a expiré !');
-        }else{
+        } else {
             $sortie = $sr->find($id);
             $user = $ur->find($this->getUser()->getId());
 
@@ -90,4 +96,20 @@ class SortieController extends AbstractController
             return $this->redirectToRoute('main_home');
         }
     }
+
+
+        /**
+         * @Route("/removeInscription/{sortie}",name="remove_inscription")
+         */
+
+        public function removeInscription (EntityManagerInterface $em, Sortie $sortie)
+        {
+            /**@var \App\Entity\User $user */
+            $user = $this->getUser();
+            $user->removeSorty($sortie);
+            $em->flush();
+            $this->addFlash('success', 'Votre inscription est bien annulée');
+            return $this->redirectToRoute('main_home');
+        }
 }
+
