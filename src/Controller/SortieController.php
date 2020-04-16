@@ -2,18 +2,24 @@
 
 namespace App\Controller;
 
+use App\Entity\Participations;
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Repository\SortieRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/sortie", name="sortie_")
+ */
 class SortieController extends AbstractController
 {
     /**
-     * @Route("/CreerSortie", name="sortie_create")
+     * @Route("/CreerSortie", name="create")
      */
     public function createSortie(Request $request,EntityManagerInterface $em)
     {
@@ -35,7 +41,7 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/ModifierSortie", name="sortie_modify")
+     * @Route("/ModifierSortie", name="modify")
      */
     public function modifySortie()
     {
@@ -43,19 +49,47 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/Sortie/{id}", name="sortie_show", requirements={"id": "\d+"})
+     * @Route("/{id}/{csrf}", name="show", requirements={"id": "\d+"})
      */
-    public function showSortie($id)
+    public function showSortie($id, $csrf)
     {
+        if(!$this->isCsrfTokenValid('sortie_show_'.$id, $csrf)){
+            throw $this->createAccessDeniedException('Désolé, votre session a expiré !');
+        }else{
 
+        }
         return $this->render("sortie/consultSortie.html.twig");
     }
 
     /**
-     * @Route("/AnnulerSortie", name="sortie_cancel")
+     * @Route("/AnnulerSortie", name="cancel")
      */
     public function cancelSortie()
     {
         return $this->render("sortie/annulerSortie.html.twig");
+    }
+
+    /**
+     * @Route("/InscriptionSortie/{id}/{csrf}", name="inscription", requirements={"id": "\d+"})
+     */
+    public function sortieRegister($id, $csrf, SortieRepository $sr, UserRepository $ur, EntityManagerInterface $em){
+        if(!$this->isCsrfTokenValid('sortie_inscription_'.$id, $csrf)){
+            throw $this->createAccessDeniedException('Désolé, votre session a expiré !');
+        }else{
+            $sortie = $sr->find($id);
+            $user = $ur->find($this->getUser()->getId());
+
+            $participation = new Participations();
+            $participation->setUser($user);
+            $participation->setSortie($sortie);
+
+            $em->persist($participation);
+            $em->flush();
+
+            $this->addFlash('success', 'Votre inscription a bien été prise en compte !');
+            return $this->redirectToRoute('main_home');
+        }
+
+
     }
 }

@@ -23,14 +23,14 @@
         <tbody>
         {% for sortie in sorties %}
         <tr>
-            <td><a href="{{ path('sortie_show',{'id': sortie.id}) }}">{{sortie.name}}</a></td>
+            <td>{{sortie.name}}</td>
             <td>{{sortie.dateTimeStart | date}}</td>
             <td>{{sortie.deadlineRegistration | date}}</td>
             <td>Mettre nb d'inscrits /{{sortie.maxNumberRegistration}}</td>
             <td>Mettre etat</td>
             <td>Mettre inscrit o/n</td>
             <td>{{sortie.organisateur.firstname}} {{ sortie.organisateur.lastname | first}}.</td>
-            <td>Mettre liens</td>
+            <td><a href="{{ path('sortie_show',{'id': sortie.id, 'csrf': csrf_token('sortie_show_'~sortie.id)}) }}"><img src="{{ asset('pictures/magnifying-glass.svg') }}" alt="détail" class="icon_action"></a>  <a href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}"><img src="{{ asset('pictures/book.svg') }}" alt="S'inscrire" class="icon_action"></a></td>
         </tr>
         {% endfor %}
         </tbody>
