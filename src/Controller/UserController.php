@@ -58,7 +58,6 @@ class UserController extends AbstractController
      * @Route("/Connexion", name="Connexion")
      */
     public function login(Request $request, AuthenticationUtils $au){
-
             $error = $au->getLastAuthenticationError();
             // last username entered by the user
             $lastUsername = $au->getLastUsername();

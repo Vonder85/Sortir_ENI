@@ -4,8 +4,42 @@
 
 {% block body %}
     <div id="sortiesFilters" class="card">
-        <p>Ici les filtres</p>
+        <form action="">
+            <fieldset>
+            <legend>Filtrer les sorties</legend>
+                <div id="sortiesFilterFormCol1">
+                    <label for="selectSite">Site: </label>
+                    <select id="selectSite" name="selectSite">
+                        <option value="" selected>Tous les sites</option>
+                        {% for site in sites %}
+                            <option value="{{ site.id }}">{{site.name}}</option>
+                        {% endfor %}
+                    </select>
+
+                    <label for="textSearch">Le nom de la sortie contient: </label>
+                    <input type="text" placeholder="rechercher" name="textSearch">
+
+                    <label for="dateDebut">Entre </label>
+                    <input type="date" name="dateDebut">
+
+                    <label for="dateFin"> et  </label>
+                    <input type="date" name="dateFin">
+                </div>
+                <div id="sortiesFilterFormCol2">
+                    <input type="checkbox" name="checkbox1"> Sorties dont je suis l'organisateur/trice <br>
+
+                    <input type="checkbox" name="checkbox2"> Sorties auxquelles je suis incrit/e <br>
+
+                    <input type="checkbox" name="checkbox3"> Sorties auxquelles je ne suis pas incrit/e <br>
+
+                    <input type="checkbox" name="checkbox4"> Sorties passées <br>
+                </div>
+                <input type="submit" value="Rechercher">
+            </fieldset>
+        </form>
+
     </div>
+
     <div class="tableFixHead">
     <table>
         <thead>
