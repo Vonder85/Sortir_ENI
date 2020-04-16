@@ -73,7 +73,7 @@ class Sortie
 
     public function __construct()
     {
-        $this->participants = new ArrayCollection();
+        $this->participations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,35 +169,6 @@ class Sortie
         $this->organisateur = $organisateur;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getParticipants(): Collection
-    {
-        return $this->participants;
-    }
-
-
-
-    public function addParticipant(User $participant): self
-    {
-        if (!$this->participants->contains($participant)) {
-            $this->participants[] = $participant;
-            $participant->addSorty($this);
-        }
-
-        return $this;
-    }
-
-    public function removeParticipant(User $participant): self
-    {
-        if ($this->participants->contains($participant)) {
-            $this->participants->removeElement($participant);
-            $participant->removeSorty($this);
-        }
-
-        return $this;
-    }
 
     public function getEtat(): ?Etat
     {
@@ -238,6 +209,11 @@ class Sortie
 
         return $this;
     }
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Participations", mappedBy="sortie")
+     */
+    private $participations;
 
 
 }

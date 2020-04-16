@@ -26,12 +26,12 @@ class Participations
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="participations")
      */
     protected $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sortie")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sortie", inversedBy="participations")
      */
     protected $sortie;
 
