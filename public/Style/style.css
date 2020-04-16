@@ -14,3 +14,11 @@ footer {
 table  { border-collapse: collapse; width: 100%; }
 th, td { padding: 8px 16px; }
 th     { background:#eee; }
+
+label {
+    display:block;
+
+    width:150px;
+
+    padding:0 5px 0 0
+}
