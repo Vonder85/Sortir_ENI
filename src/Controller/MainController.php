@@ -7,32 +7,37 @@ use App\Entity\Sortie;
 use App\Data\SortiesCriteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
+
 {
     /**
      * @Route("/", name="main_home")
      */
     public function homePage(EntityManagerInterface $em, Request $req)
     {
-        $sortiesCriteria = $this->buildCriteria($req);
+        $sortiesCriteria = $this->buildCriteria($req, $em);
         dump($sortiesCriteria);
         $sorties = $em->getRepository(Sortie::class)->findSortiesFiltered($sortiesCriteria);
         $sites = $em->getRepository(Site::class)->findAll();
         return $this->render("main/homePage.html.twig", [
             "sorties" => $sorties,
             "sites" => $sites,
-            "sortiesCriteria"=>$sortiesCriteria
+            "sortiesCriteria"=>$sortiesCriteria,
+            "stringDateDebut"=>$req->query->get('dateDebut'),
+            "stringDateFin"=>$req->query->get('dateFin'),
         ]);
     }
 
-    public function buildCriteria($req){
+    public function buildCriteria(Request $req, EntityManagerInterface $em){
         $sortiesCriteria = new SortiesCriteria();
-        if($req->query->get('selectSite')!=""){
-            $sortiesCriteria->setSite($req->query->get('selectSite'));
+        if($req->query->get('selectSite')!="" && $req->query->get('selectSite')!=null){
+            $idSite = $req->query->get('selectSite');
+            $site = $em->getRepository(Site::class)->find($idSite);
+            $sortiesCriteria->setSite($site);
         }
         if($req->query->get('textSearch')){
             $sortiesCriteria->setSearch($req->query->get('textSearch'));

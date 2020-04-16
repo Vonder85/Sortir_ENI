@@ -3,9 +3,11 @@ namespace App\Data;
 
 
 
+use App\Entity\Site;
+
 class SortiesCriteria {
     /**
-     * @var int
+     * @var Site
      */
     public $site = null;
 
@@ -44,18 +46,17 @@ class SortiesCriteria {
      */
     public $sortiePassee = false;
 
-
     /**
-     * @return int
+     * @return Site
      */
-    public function getSite(): ?int {
+    public function getSite(): ?Site {
         return $this->site;
     }
 
     /**
-     * @param int
+     * @param Site $site
      */
-    public function setSite(int $site): void {
+    public function setSite(Site $site): void {
         $this->site = $site;
     }
 

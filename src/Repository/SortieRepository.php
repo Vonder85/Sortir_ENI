@@ -6,6 +6,7 @@ use App\Data\SortiesCriteria;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,9 +16,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SortieRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $security;
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Sortie::class);
+        $this->security = $security;
     }
 
     /**
@@ -25,24 +28,29 @@ class SortieRepository extends ServiceEntityRepository
      */
     public function findSortiesFiltered(SortiesCriteria $criteria)
     {
+        $user = $this->security->getUser();
         $qb=$this->createQueryBuilder("s");
         if($criteria->getSite()!=null){
-
+            $qb->andWhere("s.site = :site")
+            ->setParameter("site", $criteria->getSite());
         }
         if($criteria->getSearch()!=""){
-
+            $qb->andWhere($qb->expr()->like('s.name',':name'))
+                ->setParameter("name","%".$criteria->getSearch()."%");
         }
         if($criteria->getDateDebut()!=null){
-
+            $qb->andWhere("s.dateTimeStart >= :dateDebut")
+                ->setParameter("dateDebut",$criteria->getDateDebut());
         }
         if($criteria->getDateFin()!=null){
-
+            $qb->andWhere("s.dateTimeStart <= :dateFin")
+                ->setParameter("dateFin",$criteria->getDateFin());
         }
-        if($criteria->isOrganisateur()!=false){
-
+        if($criteria->isOrganisateur()!=false && $user!=null){
+            $qb->andWhere("s.organisateur = :user")
+                ->setParameter("user", $user);
         }
         if($criteria->isInscrit()!=false){
-
         }
         if($criteria->isPasInscrit()!=false){
 
