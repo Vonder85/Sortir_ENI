@@ -14,3 +14,25 @@ footer {
 table  { border-collapse: collapse; width: 100%; }
 th, td { padding: 8px 16px; }
 th     { background:#eee; }
+
+/*label {
+    display:inline-block;
+    width:150px;
+    padding:0 5px 0 0
+}*/
+
+.flash{
+    padding: 20px;
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.flash-success{
+    background-color: green;
+    color: white;
+}
+
+.icon_action{
+    width: 22px;
+}
