@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
+
 {
     /**
      * @Route("/", name="main_home")
@@ -25,7 +26,9 @@ class MainController extends AbstractController
         return $this->render("main/homePage.html.twig", [
             "sorties" => $sorties,
             "sites" => $sites,
-            "sortiesCriteria"=>$sortiesCriteria
+            "sortiesCriteria"=>$sortiesCriteria,
+            "stringDateDebut"=>$req->query->get('dateDebut'),
+            "stringDateFin"=>$req->query->get('dateFin'),
         ]);
     }
 
