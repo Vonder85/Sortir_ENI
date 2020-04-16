@@ -43,4 +43,15 @@ class LieuController extends AbstractController
                              ["lieuForm"=>$lieuForm->createView()]);
 
     }
+
+    /**
+     * @Route("/lieuCoordonnees/{id}",requirements={"id"="\d+"},name="coordinate_place")
+     */
+
+    public function getPlaceCoordinate($id){
+        dump("test1");
+        //return "Test";
+
+        return $this->json(["test"]);
+    }
 }
