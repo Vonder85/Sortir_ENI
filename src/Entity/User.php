@@ -100,11 +100,6 @@ class User implements UserInterface
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Sortie", inversedBy="participants")
-     */
-    private $sorties;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="participants")
      * @ORM\JoinColumn(nullable=false)
      */

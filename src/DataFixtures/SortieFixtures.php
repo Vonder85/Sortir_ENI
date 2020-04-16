@@ -22,6 +22,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
             $sortie->setOrganisateur($this->getReference("user".rand(0,4)));
             $sortie->setEtat($this->getRandomEtat());
             $sortie->setSite($this->getReference("site".rand(0,4)));
+            $this->addReference("sortie".$i, $sortie);
             $manager->persist($sortie);
         }
 
