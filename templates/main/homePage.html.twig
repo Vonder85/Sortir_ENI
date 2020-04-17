@@ -101,7 +101,7 @@
             <td>{{sortie.dateTimeStart | date}}</td>
             <td>{{sortie.deadlineRegistration | date}}</td>
             <td>mettre nbr part/{{sortie.maxNumberRegistration}}</td>
-            <td>Mettre etat</td>
+            <td>{{ sortie.etat.name }}</td>
             <td>Mettre inscrit o/n</td>
             <td>{{sortie.organisateur.firstname}} {{ sortie.organisateur.lastname | first}}.</td>
 

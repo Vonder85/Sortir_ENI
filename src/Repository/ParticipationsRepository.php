@@ -26,9 +26,11 @@ class ParticipationsRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('p');
         $qb->andWhere('p.sortie = :idSortie')->setParameter('idSortie', $idSortie);
         $query = $qb->getQuery();
+
         return $query->getArrayResult();
 
     }
+
     // /**
     //  * @return Etat[] Returns an array of Etat objects
     //  */

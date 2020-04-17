@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Participations;
 use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Data\SortiesCriteria;
@@ -23,6 +24,8 @@ class MainController extends AbstractController
         dump($sortiesCriteria);
         $sorties = $em->getRepository(Sortie::class)->findSortiesFiltered($sortiesCriteria);
         $sites = $em->getRepository(Site::class)->findAll();
+        //$part = $em->getRepository(Participations::class)->findNbPart($sorties[1]->getId());
+        //dump($part);
         return $this->render("main/homePage.html.twig", [
             "sorties" => $sorties,
             "sites" => $sites,

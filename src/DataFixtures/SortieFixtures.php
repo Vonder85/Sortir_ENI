@@ -14,7 +14,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         for($i=0;$i<100;$i++){
             $sortie = new Sortie();
             $sortie->setName("Nom sortie ".$i);
-            $sortie->setDateTimeStart(new \DateTime());
+            $sortie->setDateTimeStart($this->getRandomDate());
             $sortie->setDuration(rand(1,200));
             $sortie->setDeadlineRegistration(new \DateTime()); //strtotime(new \DateTime()."+ ".rand(1,15)." days")
             $sortie->setMaxNumberRegistration(rand(10,10000));
@@ -92,6 +92,20 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
 
         return $etat;
 
+    }
+
+    private function getRandomDate() {
+        $randDate = rand(0,2);
+        $date = new \DateTime();
+        switch($randDate){
+            case 0:
+                date_add($date, date_interval_create_from_date_string('1 days'));
+                break;
+            case 1:
+                date_add($date, date_interval_create_from_date_string('-1 days'));
+                break;
+        }
+        return $date;
     }
 
 
