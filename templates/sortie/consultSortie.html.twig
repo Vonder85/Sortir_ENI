@@ -7,7 +7,7 @@
     <form>
         <div class="form-group">
             <label for="nom">Intitulé de la sortie</label>
-            <input type="nom" class="form-control" id="nom" value="{{ sortie.name }}">
+            <span>{{ sortie.name }}"</span>
             <label for="description">Description</label>
             <input type="text" class="form-control" id="description" value="{{ sortie.description }}">
             <label for="heure">Nombre Maximum de participant :</label>
@@ -15,6 +15,7 @@
             <label for="durée">Durée de la sortie (en minutes) :</label>
             <input type="text" class="form-control" id="nom" value="{{ sortie.duration }}">
             <a class="btn-floating btn-small waves-effect waves-light right black"href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}">M'inscrire</a>
-                   </div>
+            <a class="btn-floating btn-small waves-effect waves-light right black"href="{{ path('sortie_remove_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_remove_inscription_'~sortie.id)}) }}">Me désister</a>
+        </div>
     </form>
 {% endblock %}

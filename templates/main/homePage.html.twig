@@ -101,7 +101,7 @@
                     <td>{{sortie.name}}</td>
                     <td>{{sortie.dateTimeStart | date}}</td>
                     <td>{{sortie.deadlineRegistration | date}}</td>
-                    <td>{{ sortie.countedUsers }}/{{sortie.maxNumberRegistration}}</td>
+                    <td> {{ sortie.countedUsers }}/{{sortie.maxNumberRegistration}}</td>
                     <td>{{ sortie.etatname }}</td>
                     {% if sortie.id in userSorties %}
                         <td>x</td>
