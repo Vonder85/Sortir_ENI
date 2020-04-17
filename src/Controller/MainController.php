@@ -16,10 +16,13 @@ class MainController extends AbstractController
 
 {
     /**
-     * @Route("/user/", name="main_home")
+     * @Route("/", name="main_home")
      */
     public function homePage(EntityManagerInterface $em, Request $req)
     {
+        if(!$this->isGranted("IS_AUTHENTICATED_REMEMBERED")){
+            return $this->redirectToRoute('Connexion');
+        }
         $sortiesCriteria = $this->buildCriteria($req, $em);
         $sorties = $em->getRepository(Sortie::class)->findSortiesFiltered($sortiesCriteria);
         dump($sorties);
