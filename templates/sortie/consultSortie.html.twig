@@ -4,4 +4,17 @@
 
 {% block body %}
     <h3>Ceci est la page de consultation d'une sortie</h3>
+    <form>
+        <div class="form-group">
+            <label for="nom">Intitulé de la sortie</label>
+            <input type="nom" class="form-control" id="nom" value="{{ sortie.name }}">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description" value="{{ sortie.description }}">
+            <label for="heure">Nombre Maximum de participant :</label>
+            <input type="text" class="form-control" id="nb" value="{{ sortie.maxNumberRegistration }}">
+            <label for="durée">Durée de la sortie (en minutes) :</label>
+            <input type="text" class="form-control" id="nom" value="{{ sortie.duration }}">
+            <a class="btn-floating btn-small waves-effect waves-light right black"href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}">M'inscrire</a>
+                   </div>
+    </form>
 {% endblock %}
