@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Participations;
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Repository\ParticipationsRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -99,17 +100,25 @@ class SortieController extends AbstractController
 
 
         /**
-         * @Route("/removeInscription/{sortie}",name="remove_inscription")
+         * @Route("/RemoveSortie/{id}/{csrf}",name="remove_inscription",requirements={"id": "\d+"})
          */
 
-        public function removeInscription (EntityManagerInterface $em, Sortie $sortie)
+        public function removeInscription ($id, $csrf, ParticipationsRepository $pr,EntityManagerInterface $em)
         {
-            /**@var \App\Entity\User $user */
-            $user = $this->getUser();
-            $user->removeSorty($sortie);
-            $em->flush();
-            $this->addFlash('success', 'Votre inscription est bien annulée');
-            return $this->redirectToRoute('main_home');
+
+            if (!$this->isCsrfTokenValid('sortie_remove_inscription_' . $id, $csrf)) {
+                throw $this->createAccessDeniedException('Désolé, votre session a expiré !');
+            } else {
+                $participation =$pr->findBy(["user"=>$this->getUser(),"sortie"=>$em->getRepository(Sortie::class)->find($id)]);
+                $em->remove($participation[0]);
+                $em->flush();
+                $this->addFlash('success', 'Votre inscription est bien annulée ');
+                return $this->redirectToRoute('main_home');
+
+
+
+
+            }
         }
 }
 
