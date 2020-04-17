@@ -79,22 +79,6 @@ class User implements UserInterface
     private $resetToken;
 
     /**
-     * @return string
-     */
-    public function getResetToken(): string
-    {
-        return $this->resetToken;
-    }
-
-    /**
-     * @param $resetToken
-     */
-    public function setResetToken($resetToken): void
-    {
-        $this->resetToken = $resetToken;
-    }
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Sortie", mappedBy="organisateur",cascade={"remove"})
      */
     private $sortiesOrganisees;
@@ -110,6 +94,22 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Participations", mappedBy="user")
      */
     private $participations;
+
+    /**
+     * @return string
+     */
+    public function getResetToken(): string
+    {
+        return $this->resetToken;
+    }
+
+    /**
+     * @param $resetToken
+     */
+    public function setResetToken($resetToken): void
+    {
+        $this->resetToken = $resetToken;
+    }
 
     public function __construct()
     {
