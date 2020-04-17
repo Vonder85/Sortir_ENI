@@ -62,20 +62,13 @@ class SortieRepository extends ServiceEntityRepository
             $qb->andWhere("s.dateTimeStart < :dateFin")
                 ->setParameter("dateFin",new \DateTime());
         }
+        $qb->join("s.etat",'e');
+        $qb->Select("s.id, s.name, s.dateTimeStart, s.deadlineRegistration, s.maxNumberRegistration, e.name as etatname, o.firstname, o.lastname, COUNT(p.user) as countedUsers");
         $qb->join("s.participations","p");
+        $qb->join("s.organisateur", "o");
+        $qb->groupBy("s.id");
         return $qb->getQuery()->execute();
     }
 
 
-    /*
-    public function findOneBySomeField($value): ?Sortie
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

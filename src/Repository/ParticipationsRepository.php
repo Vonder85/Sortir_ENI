@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Participations;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -29,6 +30,23 @@ class ParticipationsRepository extends ServiceEntityRepository
 
         return $query->getArrayResult();
 
+    }
+
+    /**
+     * Returns array of Sorties id for a given user that participates in it
+     */
+    public function findByUserId(User $user){
+        $qb = $this->createQueryBuilder('p')
+            ->andWhere("p.user = :user")
+            ->setParameter("user",$user)
+            ->join("p.sortie", "s")
+            ->Select("s.id");
+        $results = $qb->getQuery()->getArrayResult();
+        $finalResultset =[];
+        foreach($results as $result){
+            array_push($finalResultset, $result["id"]);
+        }
+        return $finalResultset;
     }
 
     // /**

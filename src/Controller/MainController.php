@@ -24,14 +24,14 @@ class MainController extends AbstractController
         dump($sortiesCriteria);
         $sorties = $em->getRepository(Sortie::class)->findSortiesFiltered($sortiesCriteria);
         $sites = $em->getRepository(Site::class)->findAll();
-        //$part = $em->getRepository(Participations::class)->findNbPart($sorties[1]->getId());
-        //dump($part);
+        $userSorties = $em ->getRepository(Participations::class)->findByUserId($this->getUser());
+        dump($userSorties);
+        dump($sorties);
         return $this->render("main/homePage.html.twig", [
             "sorties" => $sorties,
             "sites" => $sites,
             "sortiesCriteria"=>$sortiesCriteria,
-            "stringDateDebut"=>$req->query->get('dateDebut'),
-            "stringDateFin"=>$req->query->get('dateFin'),
+            "userSorties"=>$userSorties
         ]);
     }
 
