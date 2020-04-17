@@ -72,7 +72,7 @@ class Sortie
     private $site;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Participations", mappedBy="sortie")
+     * @ORM\OneToMany(targetEntity="App\Entity\Participations", mappedBy="sortie", cascade={"remove"})
      */
     private $participations;
 

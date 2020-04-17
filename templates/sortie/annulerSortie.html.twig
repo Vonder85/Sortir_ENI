@@ -4,4 +4,17 @@
 
 {% block body %}
     <h3>Ceci est la page d'annulation d'une sortie</h3>
+
+
+
+    <div class="mt-4 text-center ">
+        <div class="card-body">
+            <form method="post" class="form-group" action="{{ path('sortie_cancel', {'id': id, 'csrf': csrf_token('sortie_cancel_'~id)}) }}">
+                <label for="motif" style="vertical-align: top" >Motif : </label>
+                <textarea rows="4" id="motif" name="motif"required></textarea><br>
+                <button type="submit" name="valider" class="btn btn-primary">Valider</button>
+            </form>
+        </div>
+    </div>
+
 {% endblock %}
