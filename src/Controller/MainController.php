@@ -16,7 +16,7 @@ class MainController extends AbstractController
 
 {
     /**
-     * @Route("/", name="main_home")
+     * @Route("/user/", name="main_home")
      */
     public function homePage(EntityManagerInterface $em, Request $req)
     {

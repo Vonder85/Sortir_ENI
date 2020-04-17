@@ -63,7 +63,7 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter("dateFin",new \DateTime());
         }
         $qb->join("s.etat",'e');
-        $qb->Select("s.id, s.name, s.dateTimeStart, s.deadlineRegistration, s.maxNumberRegistration, e.name as etatname, o.firstname, o.lastname, COUNT(p.user) as countedUsers");
+        $qb->Select("s.id, s.name, s.dateTimeStart, s.deadlineRegistration, s.maxNumberRegistration, e.name as etatname, o.id as organisateurid, o.firstname, o.lastname, COUNT(p.user) as countedUsers");
         $qb->join("s.participations","p");
         $qb->join("s.organisateur", "o");
         $qb->groupBy("s.id");

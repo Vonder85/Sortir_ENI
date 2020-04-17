@@ -109,7 +109,7 @@
                         <td></td>
                     {% endif %}
                     <td>{{sortie.firstname}} {{ sortie.lastname | first}}.</td>
-                    <td><a href="{{ path('sortie_show',{'id': sortie.id, 'csrf': csrf_token('sortie_show_'~sortie.id)}) }}"><img src="{{ asset('pictures/magnifying-glass.svg') }}" alt="détail" class="icon_action"></a>  {% if sortie.deadlineRegistration >  date()%}<a href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}"><img src="{{ asset('pictures/book.svg') }}" alt="S'inscrire" class="icon_action"></a>{% endif %}{% if sortie.organisateur.id == app.user.id %}<a href="{{ path('sortie_cancel',{'id': sortie.id, 'csrf': csrf_token('sortie_cancel_'~sortie.id)}) }}"><img src="{{ asset('pictures/cancel.svg') }}" alt="Annuler" class="icon_action"></a>{% endif %}</td>
+                    <td><a href="{{ path('sortie_show',{'id': sortie.id, 'csrf': csrf_token('sortie_show_'~sortie.id)}) }}"><img src="{{ asset('pictures/magnifying-glass.svg') }}" alt="détail" class="icon_action"></a>  {% if sortie.deadlineRegistration >  date()%}<a href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}"><img src="{{ asset('pictures/book.svg') }}" alt="S'inscrire" class="icon_action"></a>{% endif %}{% if sortie.organisateurid == app.user.id %}<a href="{{ path('sortie_cancel',{'id': sortie.id, 'csrf': csrf_token('sortie_cancel_'~sortie.id)}) }}"><img src="{{ asset('pictures/cancel.svg') }}" alt="Annuler" class="icon_action"></a>{% endif %}</td>
                 </tr>
             {% endif %}
         {% endfor %}

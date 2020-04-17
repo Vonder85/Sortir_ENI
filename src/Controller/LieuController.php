@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class LieuController extends AbstractController
 {
     /**
-     * @Route("/lieu", name="lieux_list")
+     * @Route("/user/lieu", name="lieux_list")
      */
     public function list(EntityManagerInterface $em)
     {
@@ -49,8 +49,8 @@ class LieuController extends AbstractController
     }
 
     /**
-     * @Route("/lieuCoordonnees/{id}",requirements={"id"="\d+"},name="coordinate_place")
-     * @Route("/lieuCoordonnees",name="coordinate_place_empty")
+     * @Route("/user/lieuCoordonnees/{id}",requirements={"id"="\d+"},name="coordinate_place")
+     * @Route("/user/lieuCoordonnees",name="coordinate_place_empty")
      */
     public function getLieu($id, Request $req, LieuRepository $repo){
       if ($req->isXmlHttpRequest()){
