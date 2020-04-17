@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Participations;
 use App\Entity\Sortie;
 use App\Form\SortieType;
@@ -15,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/sortie", name="sortie_")
+ * @Route("/user/sortie", name="sortie_")
  */
 class SortieController extends AbstractController
 {
@@ -29,6 +30,8 @@ class SortieController extends AbstractController
         $sortForm->handleRequest($request);
         if ($sortForm->isSubmitted() && $sortForm->isValid()) {
             $sortie->setOrganisateur($this->getUser());
+            $etatDeBase = $em->getRepository(Etat::class)->findBy(["name"=>"Créée"]);
+            $sortie->setEtat($etatDeBase[0]);
             $em->persist($sortie);
             $em->flush();
             $this->addFlash('success', 'Votre sortie est bien créée ');
@@ -68,11 +71,32 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/AnnulerSortie", name="cancel")
+     * @Route("/AnnulerSortie/{id}/{csrf}", name="cancel", requirements={"id": "\d+"})
      */
-    public function cancelSortie()
+    public function cancelSortie($id, $csrf, Request $request, SortieRepository $sr, EntityManagerInterface $em)
     {
-        return $this->render("sortie/annulerSortie.html.twig");
+        $sorties = $sr->findAll();
+        $id = $request->get('id');
+
+        if (!$this->isCsrfTokenValid('sortie_cancel_' . $id, $csrf)) {
+            throw $this->createAccessDeniedException('Désolé, votre session a expiré !');
+        } else {
+
+            $motif = $request->get("motif");
+            if($motif !== null){
+
+                $sortie = $sr->find($id);
+                $em->remove($sortie);
+                $em->flush();
+
+                $this->addFlash('success', 'Votre sortie a été annulée');
+                return $this->redirectToRoute('main_home');
+            }
+        }
+        return $this->render("sortie/annulerSortie.html.twig", [
+            "sorties" => $sorties,
+            "id" => $id
+        ]);
     }
 
     /**
