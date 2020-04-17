@@ -21,12 +21,9 @@ class MainController extends AbstractController
     public function homePage(EntityManagerInterface $em, Request $req)
     {
         $sortiesCriteria = $this->buildCriteria($req, $em);
-        dump($sortiesCriteria);
         $sorties = $em->getRepository(Sortie::class)->findSortiesFiltered($sortiesCriteria);
         $sites = $em->getRepository(Site::class)->findAll();
         $userSorties = $em ->getRepository(Participations::class)->findByUserId($this->getUser());
-        dump($userSorties);
-        dump($sorties);
         return $this->render("main/homePage.html.twig", [
             "sorties" => $sorties,
             "sites" => $sites,

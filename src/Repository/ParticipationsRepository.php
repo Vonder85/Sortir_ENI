@@ -35,7 +35,7 @@ class ParticipationsRepository extends ServiceEntityRepository
     /**
      * Returns array of Sorties id for a given user that participates in it
      */
-    public function findByUserId(User $user){
+    public function findByUserId(User $user = null){
         $qb = $this->createQueryBuilder('p')
             ->andWhere("p.user = :user")
             ->setParameter("user",$user)
