@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Participations;
 use App\Entity\Sortie;
 use App\Form\SortieType;
@@ -28,6 +29,8 @@ class SortieController extends AbstractController
         $sortForm->handleRequest($request);
         if ($sortForm->isSubmitted() && $sortForm->isValid()) {
             $sortie->setOrganisateur($this->getUser());
+            $etatDeBase = $em->getRepository(Etat::class)->findBy(["name"=>"Créée"]);
+            $sortie->setEtat($etatDeBase[0]);
             $em->persist($sortie);
             $em->flush();
             $this->addFlash('success', 'Votre sortie est bien créée ');

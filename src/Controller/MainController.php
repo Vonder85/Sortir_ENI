@@ -22,6 +22,7 @@ class MainController extends AbstractController
     {
         $sortiesCriteria = $this->buildCriteria($req, $em);
         $sorties = $em->getRepository(Sortie::class)->findSortiesFiltered($sortiesCriteria);
+        dump($sorties);
         $sites = $em->getRepository(Site::class)->findAll();
         $userSorties = $em ->getRepository(Participations::class)->findByUserId($this->getUser());
         return $this->render("main/homePage.html.twig", [
