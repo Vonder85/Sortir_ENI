@@ -72,10 +72,11 @@ class User implements UserInterface
     private $roles;
 
     /**
-     * token qui servira lors de l'oubli de mot de passe
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $resetToken;
+
+    private $resetToken;
 
     /**
      * @return string
