@@ -111,22 +111,16 @@ class UserController extends AbstractController
         if($request->isMethod('POST')){
             $email = $request->request->get("email");
             $em = $this->getDoctrine()->getManager();
-            $user = $em->getRepository(User::class)->findOneByEmail($email);
+            $user = $em->getRepository(User::class)->findOneBy( ["email" => $email]);
+
             if($user === null){
                 $this->addFlash('danger', "Email Inconnu");
-                return $this->redirectToRoute('/');
+                return $this->redirectToRoute('Connexion');
             }
             $token = $tokenGenerator->generateToken();
 
-            /**
-             * @var User $user
-             */
-            try{
-                $user->setResetToken($token);
-            }catch(\Exception $e){
-                $this->addFlash('warning', $e->getMessage());
-                return $this->redirectToRoute('main_home');
-            }
+
+            $user->setResetToken($token);
 
             $url = $this->generateUrl('user_reset_password', array('token'=>$token), UrlGeneratorInterface::ABSOLUTE_URL);
 
@@ -136,10 +130,11 @@ class UserController extends AbstractController
                 ->setBody("Vous avez oublié votre mot de passe. Voici le token pour réinitialiser votre mot de passe : " . $url,'text/html');
 
             $emailer->send($message);
-
+            $em->flush();
             $this->addFlash('notice', 'Mail envoyé');
 
-            return $this->redirectToRoute('main_home');
+            return $this->redirectToRoute('Connexion');
+
         }
 
         return $this->render("security/forgottenPassword.html.twig");
@@ -171,7 +166,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('main_home');
 
         }else{
-            return $this->render('security/reset_password.html.twig', ['token' => $token]);
+            return $this->render('security/resetPassword.html.twig', ['token' => $token]);
         }
     }
 
