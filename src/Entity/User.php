@@ -72,26 +72,11 @@ class User implements UserInterface
     private $roles;
 
     /**
-     * token qui servira lors de l'oubli de mot de passe
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $resetToken;
 
-    /**
-     * @return string
-     */
-    public function getResetToken(): string
-    {
-        return $this->resetToken;
-    }
-
-    /**
-     * @param $resetToken
-     */
-    public function setResetToken($resetToken): void
-    {
-        $this->resetToken = $resetToken;
-    }
+    private $resetToken;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Sortie", mappedBy="organisateur",cascade={"remove"})
@@ -109,6 +94,22 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Participations", mappedBy="user")
      */
     private $participations;
+
+    /**
+     * @return string
+     */
+    public function getResetToken(): string
+    {
+        return $this->resetToken;
+    }
+
+    /**
+     * @param $resetToken
+     */
+    public function setResetToken($resetToken): void
+    {
+        $this->resetToken = $resetToken;
+    }
 
     public function __construct()
     {

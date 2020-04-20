@@ -3,7 +3,7 @@
 {% block title %}Sortie | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h3>Ceci est la page de consultation d'une sortie</h3>
+    <h3>{{ sortie.name }}</h3>
     <form>
         <div class="form-group">
             <div> Nom de la sortie : <span id="sortieName">{{ sortie.name }}</span> </div>
@@ -40,4 +40,3 @@
     </table>
 
 {% endblock %}
-
