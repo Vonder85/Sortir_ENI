@@ -1,11 +1,18 @@
 {% extends 'base.html.twig' %}
 
 
-{% block title %}Admin/Users | {{ parent() }}{% endblock %}
+{% block title %}Admin/Utilisateurs | {{ parent() }}{% endblock %}
 {% block body %}
-    <h1 class="mb-0 text-center">Users/Admin</h1>
-
-    <table class="table mb-0">
+    <h1 class="mb-0 text-center">Utilisateurs/Admin</h1>
+    <div class="mt-4">
+        <a href="{{ path('admin_user_add') }}">
+            <button type="button" class="btn btn-primary">Ajouter un utilisateur</button>
+        </a>
+        <a href="{{ path('admin_users_add') }}">
+            <button type="button" class="btn btn-primary">Ajouter des utilisateurs via fichier CSV</button>
+        </a>
+    </div>
+    <table class="table mb-0 mt-4">
         <thead>
         <tr>
             <th scope="col">#</th>
@@ -16,13 +23,17 @@
         </thead>
         <tbody>
         {% set i = 1 %}
-        {% for user  in users%}
+        {% for user  in users %}
 
             <tr>
                 <th scope="row">{{ i }}</th>
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
-                <td><button><a href="{{ path('admin_user_delete', {'id': user.id, 'csrf': csrf_token('user_delete_'~user.id)}) }}">Delete</a></button></td>
+                <td>
+                    <button>
+                        <a href="{{ path('admin_user_delete', {'id': user.id, 'csrf': csrf_token('user_delete_'~user.id)}) }}">Delete</a>
+                    </button>
+                </td>
             </tr>
             {% set i = i+1 %}
         {% endfor %}

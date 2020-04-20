@@ -53,7 +53,28 @@ class AdminController extends AbstractController
         }else {
             return $this->redirectToRoute('main_home');
         }
+    }
 
+    /**
+     * @Route("/user/add/", name="user_add")
+     */
+    public function addOneUser(){
+        if($this->isGranted('ROLE_ADMIN')){
+            return $this->render('admin/addUser.html.twig');
+        }else {
+            return $this->redirectToRoute('main_home');
+        }
+    }
+
+    /**
+     * @Route("users/add/", name="users_add")
+     */
+    public function addUsersWithCsv(){
+        if($this->isGranted('ROLE_ADMIN')){
+            return $this->render('admin/addUsersWithCsv.html.twig');
+        }else {
+            return $this->redirectToRoute('main_home');
+        }
     }
 }
 
