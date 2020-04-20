@@ -73,13 +73,15 @@ class UserController extends AbstractController
     /**
      * @Route("/Profil/{id}", name="user_profile", requirements={"id": "\d+"})
      */
-    public function userProfile($id, EntityManagerInterface $em, UserRepository $ur, Request $request, UserPasswordEncoderInterface $encoder)
+    public function userProfile(User $users,$id, EntityManagerInterface $em, UserRepository $ur, Request $request, UserPasswordEncoderInterface $encoder)
     {
         if (!$this->getUser()->getActive()) {
             return $this->render('user/desactivate.html.twig');
         }else{
 
         }
+        $ur = $em->getRepository(User::class);
+        $users->getUsername();
         $user = $ur->find($id);
         $profileForm = $this->createForm(RegisterType::class, $user);
         $photoIn = $user->getPhoto();
@@ -105,6 +107,7 @@ class UserController extends AbstractController
         }
         return $this->render('user/profile.html.twig', [
             "profileForm" => $profileForm->createView(),
+            "users"=>$users
         ]);
     }
 
