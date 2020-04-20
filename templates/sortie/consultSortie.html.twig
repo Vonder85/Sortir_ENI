@@ -6,7 +6,7 @@
     <h3>{{ sortie.name }}</h3>
     <form>
         <div class="form-group">
-            <div> Nom de la sortie : <span id="sortieName">{{ sortie.name }}</span> </div>
+            <div> Organisateur de la sortie : <a href="{{ path('user_show_profile', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.firstname }} {{ sortie.organisateur.lastname }}</a></div>
             <div> Date et heure de la sortie : <span id="dateTimeStart">{{ sortie.dateTimeStart |date("Y-m-d h:i") }}</span> </div>
             <div> Date limite d'inscription : <span id="deadline">{{ sortie.deadlineRegistration |date("Y-m-d h:i") }}</span> </div>
             <div> Nombre de place : <span id="nbPlaces">{{ sortie.maxNumberRegistration }}</span></div>
@@ -28,14 +28,14 @@
         <thead>
             <tr>
                 <th class="th-sm">Pseudo</th>
-                <th class="th-sm">Nom</th>
+                <th class="th-sm">Prénom et Nom</th>
             </tr>
         </thead>
         <tbody>
             {% for user in usersList %}
             <tr>
-                <td><a href="{{path('user_profile', {'id': user.id})}}">{{ user.username }}</a></td>
-                <td>{{ user.lastname }}</td>
+                <td><a href="{{path('user_show_profile', {'id': user.id})}}">{{ user.username }}</a></td>
+                <td>{{ user.firstname }} {{ user.lastname }}</td>
             </tr>
             {% endfor %}
         </tbody>
