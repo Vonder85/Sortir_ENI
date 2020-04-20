@@ -4,4 +4,8 @@
 {% block title %}Admin/Ajouter des utilisateurs | {{ parent() }}{% endblock %}
 {% block body %}
 
+    {{ form_start(csvForm) }}
+    {{ form_widget(csvForm) }}
+    <button class="btn btn-primary" type="submit">Valider</button>
+    {{ form_end(csvForm) }}
 {% endblock %}
