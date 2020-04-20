@@ -10,7 +10,11 @@
     <div class="mt-4 text-center ">
         <div class="card-body">
             <form method="post" class="form-group" action="{{ path('sortie_cancel', {'id': id, 'csrf': csrf_token('sortie_cancel_'~id)}) }}">
-                <label for="motif" style="vertical-align: top" >Motif : </label>
+                <div>Nom de la sortie :  {{ sortie.name }}</div><br>
+                <div>Date de la sortie : {{ sortie.dateTimeStart |date("Y-m-d h:i") }}</div><br>
+                <div>Site organisateur : {{ sortie.site.name }}</div><br>
+                <div>Lieu : {{ sortie.lieu.name }} {{ sortie.lieu.street }}, {{  sortie.lieu.ville.zip }} {{ sortie.lieu.ville.name }}</div><br>
+                <label for="motif" style="vertical-align: top" >Motif d'annulation : </label>
                 <textarea rows="4" id="motif" name="motif"required></textarea><br>
                 <button type="submit" name="valider" class="btn btn-primary">Valider</button>
             </form>

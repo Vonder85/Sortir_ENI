@@ -58,3 +58,7 @@ crashlytics-build.properties
 fabric.properties
 
 /.idea/
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###

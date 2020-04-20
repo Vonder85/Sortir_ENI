@@ -89,6 +89,9 @@ class SortieController extends AbstractController
      */
     public function cancelSortie($id, $csrf, Request $request, SortieRepository $sr, EntityManagerInterface $em)
     {
+        $sortRepo = $em->getRepository(Sortie::class);
+        $sortie = $sortRepo->find($id);
+        $sortie->getLieu()->getVille()->getName();
         $sorties = $sr->findAll();
         $id = $request->get('id');
 
@@ -109,7 +112,8 @@ class SortieController extends AbstractController
         }
         return $this->render("sortie/annulerSortie.html.twig", [
             "sorties" => $sorties,
-            "id" => $id
+            "id" => $id,
+            "sortie"=>$sortie
         ]);
     }
 
