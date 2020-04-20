@@ -1,4 +1,23 @@
-body { padding-bottom: 70px; }
+body {
+    padding-bottom: 70px;
+}
+
+@media screen and (max-width: 767px){
+    #sortiesFilters{
+      display: none;
+    }
+    #clotureSortie,#organisateur,#nbInscrit,#actions,#etatSortie,#inscrit{
+        display: none;
+    }
+}
+
+@media screen and (min-width: 768px){
+    #lieu{
+        display: none;
+    }
+}
+
+
 
 .tableFixHead          { overflow-y: auto; height: 500px; }
 .tableFixHead thead th { position: sticky; top: 0; }
