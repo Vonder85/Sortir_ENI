@@ -3,11 +3,9 @@
 {% block title %}Sortie | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h3>Ceci est la page de consultation d'une sortie</h3>
+    <h3>{{ sortie.name }}</h3>
     <form>
         <div class="form-group">
-            <label for="nom">Intitulé de la sortie</label>
-            <span>{{ sortie.name }}"</span>
             <label for="description">Description</label>
             <input type="text" class="form-control" id="description" value="{{ sortie.description }}">
             <label for="heure">Nombre Maximum de participant :</label>
