@@ -1,0 +1,5 @@
+username,lastname,firstname,email,password,photo,active,created_at,telephone,reset_token
+jenB,bouteiller,jennifer,jen@bo.fr,jen,default_profile_pic_fixtures.png,1,2020-04-20 07:28:35,0236598742,NULL
+fabD,david,fabienn,"fab@gm,fr",fab,default_profile_pic_fixtures.png,1,2020-04-20 07:28:35,0236598743,NULL
+axelP,pouliquen,axel,axe@gf.fr,axe,default_profile_pic_fixtures.png,1,2020-04-20 07:28:35,0236598744,NULL
+julienS,schiano,julien,jul@jj.fr,jul,default_profile_pic_fixtures.png,1,2020-04-20 07:28:35,0236598745,NULL
