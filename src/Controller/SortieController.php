@@ -57,7 +57,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/{id}/{csrf}", name="show", requirements={"id": "\d+"})
      */
-    public function showSortie(EntityManagerInterface $em, SortieRepository $sortRepo, $id, $csrf, UserRepository $ur, LieuRepository $lr)
+    public function showSortie(EntityManagerInterface $em, SortieRepository $sortRepo, $id, $csrf, UserRepository $ur)
     {
         $sortRepo = $em->getRepository(Sortie::class);
         $sortie = $sortRepo->find($id);
@@ -74,8 +74,6 @@ class SortieController extends AbstractController
         return $this->render("sortie/consultSortie.html.twig", [
             'sortie' => $sortie,
             'usersList' => $usersList,
-            //'lieu' => $lieu,
-            //'ville' => $ville,
         ]);
     }
 

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Participations;
+use App\Entity\Sortie;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -48,6 +49,8 @@ class ParticipationsRepository extends ServiceEntityRepository
         }
         return $finalResultset;
     }
+
+
 
     // /**
     //  * @return Etat[] Returns an array of Etat objects
