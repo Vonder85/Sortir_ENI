@@ -52,12 +52,17 @@ class AdminController extends AbstractController
     /**
      * @Route("/user/delete/{id}/{csrf}", name="user_delete", requirements={"id": "\d+"})
      */
-    public function deleteUser($id, $csrf, UserRepository $ur){
+    public function deleteUser($id, $csrf, UserRepository $ur, EntityManagerInterface $em){
         if($this->isGranted('ROLE_ADMIN')){
             if(!$this->isCsrfTokenValid('user_delete_' . $id, $csrf)){
                 throw $this->createAccessDeniedException('Sorry, session has expired !');
             }else {
                 $user = $ur->find($id);
+                $em->remove($user);
+                $em->flush();
+
+                $this->addFlash('success', 'Utilisateur supprimé');
+                return $this->redirectToRoute('admin_users');
             }
         }else {
             return $this->redirectToRoute('main_home');
