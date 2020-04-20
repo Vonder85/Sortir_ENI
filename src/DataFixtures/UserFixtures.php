@@ -20,7 +20,9 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
+        $role = [];
         for($i=0;$i<5;$i++){
+            $role[0] = $this->getRandomRoles();
             $user = new User();
             $user->setUsername("user".$i);
             $user->setLastname("lastName".$i);
@@ -37,8 +39,10 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             }
             $user->setSite($this->getReference("site".rand(0,4)));
             $user->setPhoto("default_profile_pic_fixtures.png");
+            $user->setRoles($role);
             $this->addReference("user".$i, $user);
             $manager->persist($user);
+            $role = array();
         }
         $manager->flush();
     }
@@ -47,5 +51,21 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         return array(
             SiteFixtures::class,
         );
+    }
+
+    private function getRandomRoles(){
+        $rand=rand(0,1);
+        switch ($rand){
+            case 0:
+                return "ROLE_USER";
+                break;
+            case 1:
+                return "ROLE_ADMIN";
+                break;
+
+            default:
+                return "description par défaut, ne devrait pas apparaitre";
+                break;
+        }
     }
 }

@@ -1,4 +1,24 @@
-body { padding-bottom: 70px; }
+body {
+    padding-bottom: 70px;
+}
+
+
+@media screen and (max-width: 767px){
+    #sortiesFilters{
+      display: none;
+    }
+    #clotureSortie,#organisateur,#nbInscrit,#actions,#etatSortie,#inscrit{
+        display: none;
+    }
+}
+
+@media screen and (min-width: 768px){
+    #lieu{
+        display: none;
+    }
+}
+
+
 
 .tableFixHead          { overflow-y: auto; height: 500px; }
 .tableFixHead thead th { position: sticky; top: 0; }
@@ -7,6 +27,9 @@ body { padding-bottom: 70px; }
 table  { border-collapse: collapse; width: 100%; }
 th, td { padding: 8px 16px; }
 th     { background:#366c9b; color:white;}
+tr {
+    cursor: pointer;
+}
 
 /*label {
     display:inline-block;

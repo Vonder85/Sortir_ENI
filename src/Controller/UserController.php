@@ -25,23 +25,22 @@ class UserController extends AbstractController
         $user->setCreatedAt(new \DateTime());
         $user->setActive(true);
 
-        $registerForm=$this->createForm(RegisterType::class, $user);
+        $registerForm = $this->createForm(RegisterType::class, $user);
         $registerForm->handleRequest($request);
-        if($registerForm->isSubmitted() && $registerForm->isValid()){
+        if ($registerForm->isSubmitted() && $registerForm->isValid()) {
             //Hash password
             $hashed = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hashed);
 
             $photo = $registerForm->get('photo')->getData();
-            if($photo){
-                $photoName = $this->generateUniqueFileName().'.'.strtolower($photo->getClientOriginalExtension());
+            if ($photo) {
+                $photoName = $this->generateUniqueFileName() . '.' . strtolower($photo->getClientOriginalExtension());
                 $photo->move(
                     $this->getParameter('upload_photos'),
                     $photoName
                 );
                 $user->setPhoto($photoName);
             }
-
 
 
             $em->persist($user);
@@ -57,63 +56,79 @@ class UserController extends AbstractController
     /**
      * @Route("/Connexion", name="Connexion")
      */
-    public function login(Request $request, AuthenticationUtils $au){
-            $error = $au->getLastAuthenticationError();
-            // last username entered by the user
-            $lastUsername = $au->getLastUsername();
-            return $this->render('user/login.html.twig', [
-                "error" => $error,
-                "lastusername" => $lastUsername,
-            ]);
+    public function login(Request $request, AuthenticationUtils $au)
+    {
+        $error = $au->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $au->getLastUsername();
+
+        return $this->render('user/login.html.twig', [
+            "error" => $error,
+            "lastusername" => $lastUsername,
+        ]);
+
+
     }
 
     /**
      * @Route("/Profil/{id}", name="user_profile", requirements={"id": "\d+"})
      */
-    public function userProfile($id, EntityManagerInterface $em, UserRepository $ur, Request $request, UserPasswordEncoderInterface $encoder){
+    public function userProfile(User $users,$id, EntityManagerInterface $em, UserRepository $ur, Request $request, UserPasswordEncoderInterface $encoder)
+    {
+        if (!$this->getUser()->getActive()) {
+            return $this->render('user/desactivate.html.twig');
+        }else{
+
+        }
+        $ur = $em->getRepository(User::class);
+        $users->getUsername();
         $user = $ur->find($id);
         $profileForm = $this->createForm(RegisterType::class, $user);
         $photoIn = $user->getPhoto();
 
         $profileForm->handleRequest($request);
-        if($profileForm->isSubmitted() && $profileForm->isValid()){
+        if ($profileForm->isSubmitted() && $profileForm->isValid()) {
             //Hash password
             $hashed = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hashed);
 
             $photo = $profileForm->get('photo')->getData();
-            if($photo){
-                $photoName = $this->generateUniqueFileName().'.'.strtolower($photo->getClientOriginalExtension());
+            if ($photo) {
+                $photoName = $this->generateUniqueFileName() . '.' . strtolower($photo->getClientOriginalExtension());
                 $photo->move(
                     $this->getParameter('upload_photos'),
                     $photoName
                 );
                 $user->setPhoto($photoName);
-            }else{
+            } else {
                 $user->setPhoto($photoIn);
             }
             $em->flush();
         }
         return $this->render('user/profile.html.twig', [
             "profileForm" => $profileForm->createView(),
+            "users"=>$users
         ]);
     }
 
     /**
      * @Route("/Deconnexion", name="Deconnexion")
      */
-    public function logout(){}
+    public function logout()
+    {
+    }
 
     /**
      * @Route("/MotdepasseOublie", name="user_forgotten_password")
      */
-    public function forgottenPassword(Request $request, \Swift_Mailer $emailer, TokenGeneratorInterface $tokenGenerator){
-        if($request->isMethod('POST')){
+    public function forgottenPassword(Request $request, \Swift_Mailer $emailer, TokenGeneratorInterface $tokenGenerator)
+    {
+        if ($request->isMethod('POST')) {
             $email = $request->request->get("email");
             $em = $this->getDoctrine()->getManager();
-            $user = $em->getRepository(User::class)->findOneBy( ["email" => $email]);
+            $user = $em->getRepository(User::class)->findOneBy(["email" => $email]);
 
-            if($user === null){
+            if ($user === null) {
                 $this->addFlash('danger', "Email Inconnu");
                 return $this->redirectToRoute('Connexion');
             }
@@ -122,12 +137,12 @@ class UserController extends AbstractController
 
             $user->setResetToken($token);
 
-            $url = $this->generateUrl('user_reset_password', array('token'=>$token), UrlGeneratorInterface::ABSOLUTE_URL);
+            $url = $this->generateUrl('user_reset_password', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
 
             $message = (new \Swift_Message('Forgot Password'))
                 ->setFrom('sortir_eni@dev.com')
                 ->setTo($user->getEmail())
-                ->setBody("Vous avez oublié votre mot de passe. Voici le token pour réinitialiser votre mot de passe : " . $url,'text/html');
+                ->setBody("Vous avez oublié votre mot de passe. Voici le token pour réinitialiser votre mot de passe : " . $url, 'text/html');
 
             $emailer->send($message);
             $em->flush();
@@ -143,13 +158,14 @@ class UserController extends AbstractController
     /**
      * @Route("/reinitialiser/{token}", name="user_reset_password")
      */
-    public function resetPassword(Request $request, string $token, UserPasswordEncoderInterface $encoder){
-        if($request->isMethod('POST')){
+    public function resetPassword(Request $request, string $token, UserPasswordEncoderInterface $encoder)
+    {
+        if ($request->isMethod('POST')) {
             $em = $this->getDoctrine()->getManager();
 
             $user = $em->getRepository(User::class)->findOneByToken($token);
 
-            if($user === null){
+            if ($user === null) {
                 $this->addFlash('danger', 'Token inconnu');
                 return $this->redirectToRoute('main_home');
             }
@@ -165,7 +181,7 @@ class UserController extends AbstractController
 
             return $this->redirectToRoute('main_home');
 
-        }else{
+        } else {
             return $this->render('security/resetPassword.html.twig', ['token' => $token]);
         }
     }
@@ -174,7 +190,7 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}", name="user_show_profile", requirements={"id": "\d+"})
      */
-    public function showProfile(EntityManagerInterface $em, UserRepository $ur, $id=1)
+    public function showProfile(EntityManagerInterface $em, UserRepository $ur, $id = 1)
     {
         $ur = $em->getRepository(User::class);
         $user = $ur->find($id);

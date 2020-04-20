@@ -1,5 +1,5 @@
-site_id,username,lastname,firstname,email,password,photo,active,created_at,telephone,reset_token
-173,jenB,bouteiller,jennifer,jen@bo.fr,jen,default_profile_pic_fixtures.png,1,2020-04-20 07:28:35,236598742,NULL
-174,fabD,david,fabienn,"fab@gm,fr",fab,default_profile_pic_fixtures.png,1,2020-04-20 07:28:35,236598743,NULL
-175,axelP,pouliquen,axel,axe@gf.fr,axe,default_profile_pic_fixtures.png,1,2020-04-20 07:28:35,236598744,NULL
-176,julienS,schiano,julien,jul@jj.fr,jul,default_profile_pic_fixtures.png,1,2020-04-20 07:28:35,236598745,NULL
+site_id,username,lastname,firstname,email,password,photo,active,created_at,telephone,reset_token,roles
+204,username,bouteiller,jennifer,jen@bo.fr,jen,default_profile_pic_fixtures.png,1,2020-04-20 07:28:35,236598742,NULL,ROLE_ADMIN
+205,fab,david,fabienn,"fab@gm,fr",fab,default_profile_pic_fixtures.png,1,2020-04-20 07:28:35,236598743,NULL,ROLE_ADMIN
+204,axel,pouliquen,axel,axe@gf.fr,axe,default_profile_pic_fixtures.png,1,2020-04-20 07:28:35,236598744,NULL,ROLE_ADMIN
+204,julien,schiano,julien,jul@jj.fr,jul,default_profile_pic_fixtures.png,1,2020-04-20 07:28:35,236598745,NULL,ROLE_ADMIN

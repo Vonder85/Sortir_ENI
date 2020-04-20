@@ -3,18 +3,23 @@
 {% block title %}Annulation sortie | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h3>Annuler une sortie</h3>
-
-
-
-    <div class="mt-4 text-center ">
+    <h3 class="text-center">Annuler une sortie</h3>
+    <br>
+    <div class="card">
         <div class="card-body">
-            <form method="post" class="form-group" action="{{ path('sortie_cancel', {'id': id, 'csrf': csrf_token('sortie_cancel_'~id)}) }}">
-                <label for="motif" style="vertical-align: top" >Motif : </label>
-                <textarea rows="4" id="motif" name="motif"required></textarea><br>
-                <button type="submit" name="valider" class="btn btn-primary">Valider</button>
-            </form>
+            <p><span style="font-weight: bold">Nom de la sortie :  </span>{{ sortie.name }}</p>
+            <p><span style="font-weight: bold">Date de la sortie : </span>{{ sortie.dateTimeStart |date("Y-m-d h:i") }}</p>
+            <p><span style="font-weight: bold">Site organisateur : </span>{{ sortie.site.name }}</p>
+            <p><span style="font-weight: bold">Lieu : </span>{{ sortie.lieu.name }} {{ sortie.lieu.street }}, {{  sortie.lieu.ville.zip }} {{ sortie.lieu.ville.name }}</p>
+            <label for="motif" style="vertical-align: top;font-weight: bold" >Motif d'annulation : </label>
+            <textarea rows="4" id="motif" name="motif"required></textarea>
         </div>
     </div>
+    <br>
+        <form method="post" class="form-group" action="{{ path('sortie_cancel', {'id': id, 'csrf': csrf_token('sortie_cancel_'~id)}) }}">
+            <button type="submit" name="valider" class="btn btn-primary float-right">Valider</button>
+        </form>
+
+
 
 {% endblock %}

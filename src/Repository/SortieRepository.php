@@ -66,10 +66,11 @@ class SortieRepository extends ServiceEntityRepository
         $qb->andWhere("s.dateTimeStart >= :dateArchivage")
             ->setParameter("dateArchivage",$currentDate->sub(new \DateInterval('P30D')));
         $qb->join("s.etat",'e');
-        $qb->Select("s.id, s.name, s.dateTimeStart, s.deadlineRegistration, s.maxNumberRegistration, e.name as etatname, o.id as organisateurid, o.firstname, o.lastname, l.name as lieuName, COUNT(p.id) as countedUsers");
+        $qb->Select("s.id, s.name, s.dateTimeStart, s.deadlineRegistration, s.maxNumberRegistration, e.name as etatname, o.id as organisateurid, o.firstname, o.lastname, v.name as villeName, COUNT(p.id) as countedUsers");
         $qb->leftJoin("s.participations", "p");
         $qb->join("s.organisateur", "o");
         $qb->join("s.lieu", "l");
+        $qb->join("l.ville", "v");
         $qb->groupBy("s.id");
         return $qb->getQuery()->execute();
     }

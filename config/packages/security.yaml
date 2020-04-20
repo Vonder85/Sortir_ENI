@@ -16,7 +16,7 @@ security:
                 check_path: Connexion
             logout:
                 path: Deconnexion
-                target: main_home
+                target: Connexion
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800 # 1 week in seconds
