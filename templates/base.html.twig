@@ -10,6 +10,7 @@
         <header>
             {% include ('include/_nav.html.twig') %}
         </header>
+        <br>
         <div class="container">
         {# read and display all flash messages #}
         {% for label, messages in app.flashes %}
@@ -20,9 +21,7 @@
             {% endfor %}
         {% endfor %}
 
-        {% block body %}
-
-        {% endblock %}
+        {% block body %}{% endblock %}
         </div>
 
         <nav class="navbar fixed-bottom navbar-light text-white bg-couleur-perso" style="height : 4%;">

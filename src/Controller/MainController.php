@@ -25,6 +25,7 @@ class MainController extends AbstractController
         }
         $sortiesCriteria = $this->buildCriteria($req, $em);
         $sorties = $em->getRepository(Sortie::class)->findSortiesFiltered($sortiesCriteria);
+        dump($sorties);
         $sites = $em->getRepository(Site::class)->findAll();
         $userSorties = $em ->getRepository(Participations::class)->findByUserId($this->getUser());
         return $this->render("main/homePage.html.twig", [
@@ -38,9 +39,13 @@ class MainController extends AbstractController
     public function buildCriteria(Request $req, EntityManagerInterface $em){
         $sortiesCriteria = new SortiesCriteria();
         if($req->query->get('selectSite')!="" && $req->query->get('selectSite')!=null){
-            $idSite = $req->query->get('selectSite');
-            $site = $em->getRepository(Site::class)->find($idSite);
-            $sortiesCriteria->setSite($site);
+            if($req->query->get('selectSite')=="all"){
+
+            }else{
+                $idSite = $req->query->get('selectSite');
+                $site = $em->getRepository(Site::class)->find($idSite);
+                $sortiesCriteria->setSite($site);
+            }
         }else{
             $sortiesCriteria->setSite($this->getUser()->getSite());
         }
