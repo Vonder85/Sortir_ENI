@@ -91,7 +91,7 @@ class User implements UserInterface
     private $site;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Participations", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Participations", mappedBy="user", cascade={"remove"})
      */
     private $participations;
 
