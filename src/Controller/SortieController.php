@@ -66,6 +66,7 @@ class SortieController extends AbstractController
         } else {
             $ur = $em->getRepository(User::class);
             $usersList = $ur->findAllBySortie($sortie);
+            $userSorties = $em ->getRepository(Participations::class)->findByUserId($this->getUser());
 
             $sortie->getLieu()->getVille()->getName();
             dump($sortie);
@@ -74,6 +75,7 @@ class SortieController extends AbstractController
         return $this->render("sortie/consultSortie.html.twig", [
             'sortie' => $sortie,
             'usersList' => $usersList,
+            'userSortie' => $userSorties,
         ]);
     }
 
