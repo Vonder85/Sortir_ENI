@@ -4,13 +4,20 @@
 
 {% block body %}
     <h3>Nouvelle sortie</h3>
-    {{ form_start(sortForm) }}
-    {{ form_widget(sortForm) }}
-    <div> Lieu : <span id="lieuName"></span></div>
-    <div> Adresse : <span id="lieuStreet"></span></div>
-    <div> Code Postal : <span id="lieuZip"></span></div>
-    <div> Ville : <span id="lieuVille"></span></div>
-    <div> Coordonnées GPS : <span id="lieuGps"></span></div>
+    <br>
+    <div class="row">
+        <div class="col-6">
+            {{ form_start(sortForm) }}
+            {{ form_widget(sortForm) }}
+        </div>
+        <div class="col-6">
+            <div> Lieu : <span id="lieuName"></span></div>
+            <div> Adresse : <span id="lieuStreet"></span></div>
+            <div> Code Postal : <span id="lieuZip"></span></div>
+            <div> Ville : <span id="lieuVille"></span></div>
+            <div> Coordonnées GPS : <span id="lieuGps"></span></div>
+        </div>
+    </div>
     <button class="btn btn-primary waves-effect waves-light" type="submit" name="action">Créer</button>
     {{ form_end(sortForm) }}
 

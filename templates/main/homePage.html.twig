@@ -7,78 +7,83 @@
         <form action="">
             <fieldset>
             <legend>Filtrer les sorties</legend>
-                <div id="sortiesFilterFormCol1">
-                    <label for="selectSite">Site : </label>
-                    <select id="selectSite" name="selectSite">
-                        {% if sortiesCriteria.site == null %}
-                            <option value="" selected>Tous les sites</option>
+                <div class="row">
+                    <div class="col-5">
+                        <label for="selectSite">Site : </label>
+                        <select id="selectSite" name="selectSite">
+                            {% if sortiesCriteria.site == null %}
+                                <option value="all" selected>Tous les sites</option>
+                            {% else %}
+                                <option value="all">Tous les sites</option>
+                            {% endif %}
+                            {% for site in sites %}
+
+                                    {% if sortiesCriteria.site != null and sortiesCriteria.site.id == site.id %}
+                                        <option value="{{ site.id }}" selected>{{ site.name }}</option>
+                                    {% else %}
+                                        <option value="{{ site.id }}">{{site.name}}</option>
+                                    {% endif %}
+
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <label for="textSearch">Le nom de la sortie contient : </label>
+                        {% if sortiesCriteria.search != '' %}
+                            <input type="text" name="textSearch" value="{{ sortiesCriteria.search }}">
                         {% else %}
-                            <option value="">Tous les sites</option>
+                            <input type="text" placeholder="rechercher" name="textSearch">
                         {% endif %}
-                        {% for site in sites %}
 
-                                {% if sortiesCriteria.site != null and sortiesCriteria.site.id == site.id %}
-                                    <option value="{{ site.id }}" selected>{{ site.name }}</option>
-                                {% else %}
-                                    <option value="{{ site.id }}">{{site.name}}</option>
-                                {% endif %}
+                        <label for="dateDebut">Entre </label>
+                        {%  if sortiesCriteria.dateDebut != null %}
+                            <input type="date" name="dateDebut" value="{{ sortiesCriteria.dateDebut | date("Y-m-d") }}">
+                        {% else %}
+                            <input type="date" name="dateDebut">
+                        {% endif %}
 
-                        {% endfor %}
-                    </select>
+                        <label for="dateFin"> et  </label>
+                        {% if sortiesCriteria.dateFin != null %}
+                            <input type="date" name="dateFin" value="{{ sortiesCriteria.dateFin | date("Y-m-d") }}">
+                        {% else %}
+                            <input type="date" name="dateFin">
+                        {% endif %}
 
-                    <label for="textSearch">Le nom de la sortie contient : </label>
-                    {% if sortiesCriteria.search != '' %}
-                        <input type="text" name="textSearch" value="{{ sortiesCriteria.search }}">
-                    {% else %}
-                        <input type="text" placeholder="rechercher" name="textSearch">
-                    {% endif %}
+                    </div>
+                    <div class="col-5">
+                        {% if sortiesCriteria.organisateur == true %}
+                            <input type="checkbox" name="checkbox1" checked> Sorties dont je suis l'organisateur/trice <br>
+                        {% else %}
+                            <input type="checkbox" name="checkbox1"> Sorties dont je suis l'organisateur/trice <br>
+                        {% endif %}
 
-                    <label for="dateDebut">Entre </label>
-                    {%  if sortiesCriteria.dateDebut != null %}
-                        <input type="date" name="dateDebut" value="{{ sortiesCriteria.dateDebut | date("Y-m-d") }}">
-                    {% else %}
-                        <input type="date" name="dateDebut">
-                    {% endif %}
+                        {% if sortiesCriteria.inscrit == true %}
+                            <input type="checkbox" name="checkbox2" checked> Sorties auxquelles je suis inscrit/e <br>
+                        {% else %}
+                            <input type="checkbox" name="checkbox2"> Sorties auxquelles je suis inscrit/e <br>
+                        {% endif %}
 
-                    <label for="dateFin"> et  </label>
-                    {% if sortiesCriteria.dateFin != null %}
-                        <input type="date" name="dateFin" value="{{ sortiesCriteria.dateFin | date("Y-m-d") }}">
-                    {% else %}
-                        <input type="date" name="dateFin">
-                    {% endif %}
+                        {% if sortiesCriteria.pasInscrit == true %}
+                            <input type="checkbox" name="checkbox3" checked> Sorties auxquelles je ne suis pas inscrit/e <br>
+                        {% else %}
+                            <input type="checkbox" name="checkbox3"> Sorties auxquelles je ne suis pas inscrit/e <br>
+                        {% endif %}
 
+                        {% if sortiesCriteria.sortiePassee == true %}
+                            <input type="checkbox" name="checkbox4" checked> Sorties passées <br>
+                        {% else %}
+                            <input type="checkbox" name="checkbox4"> Sorties passées <br>
+                        {% endif %}
+                    </div>
+                    <div class="col-2">
+                        <br><br>
+                        <input type="submit" value="Rechercher" class="btn btn-primary">
+                    </div>
                 </div>
-                <div id="sortiesFilterFormCol2">
-                    {% if sortiesCriteria.organisateur == true %}
-                        <input type="checkbox" name="checkbox1" checked> Sorties dont je suis l'organisateur/trice <br>
-                    {% else %}
-                        <input type="checkbox" name="checkbox1"> Sorties dont je suis l'organisateur/trice <br>
-                    {% endif %}
-
-                    {% if sortiesCriteria.inscrit == true %}
-                        <input type="checkbox" name="checkbox2" checked> Sorties auxquelles je suis inscrit/e <br>
-                    {% else %}
-                        <input type="checkbox" name="checkbox2"> Sorties auxquelles je suis inscrit/e <br>
-                    {% endif %}
-
-                    {% if sortiesCriteria.pasInscrit == true %}
-                        <input type="checkbox" name="checkbox3" checked> Sorties auxquelles je ne suis pas inscrit/e <br>
-                    {% else %}
-                        <input type="checkbox" name="checkbox3"> Sorties auxquelles je ne suis pas inscrit/e <br>
-                    {% endif %}
-
-                    {% if sortiesCriteria.sortiePassee == true %}
-                        <input type="checkbox" name="checkbox4" checked> Sorties passées <br>
-                    {% else %}
-                        <input type="checkbox" name="checkbox4"> Sorties passées <br>
-                    {% endif %}
-                </div>
-                <input type="submit" value="Rechercher">
             </fieldset>
         </form>
 
     </div>
-
+    <br>
     <div class="tableFixHead">
     <table>
         <thead>
