@@ -121,6 +121,8 @@ class AdminController extends AbstractController
                 $data = $serializer->decode(file_get_contents($filecsv), 'csv');
 
                 for($i = 0; $i < sizeof($data); $i++){
+                    $role = [];
+                    $role[0] = $data[$i]["roles"];
                     $user = new User();
                     //Hasher mot de passe
                     $hashed = $encoder->encodePassword($user, $data[$i]["password"]);
@@ -139,6 +141,7 @@ class AdminController extends AbstractController
                     $user->setTelephone($data[$i]["telephone"]);
                     $user->setResetToken($data[$i]["reset_token"]);
                     $user->setSite($site);
+                    $user->setRoles($role);
 
                     $em->persist($user);
                     $em->flush();

@@ -69,6 +69,9 @@ class User implements UserInterface
      */
     private $telephone;
 
+    /**
+     * @ORM\Column(type="array")
+     */
     private $roles;
 
     /**
@@ -182,6 +185,7 @@ class User implements UserInterface
         return $this;
     }
 
+
     public function getPhoto(): ?string
     {
         return $this->photo;
@@ -234,11 +238,17 @@ class User implements UserInterface
     /**
      * @return mixed
      */
-    public function getRoles()
+    public function getRoles(): ?array
     {
-        return ["ROLE_ADMIN", "ROLE_USER"];
+        return $this->roles;
     }
 
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
     public function getSalt()
     {
         return null;
