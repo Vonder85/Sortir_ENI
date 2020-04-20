@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Profile Utilisateur | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h3>{{ user.username }}</h3>
+    <form>
+        <div class="form-group">
+            <div>Prénom : <span id="firstname">{{ user.firstname }}</span> </div>
+            <div>Nom : <span id="lastname">{{ user.lastname }}</span></div>
+            <div>Téléphone : <span id="telephone">{{ user.telephone }}</span></div>
+            <div>Email : <span id="email">{{ user.email }}</span></div>
+            <div>Site de rattachement : <span id="site">{{ user.site.name }}</span></div>
+        </div>
+        <div class="col-4">
+            <br>
+            <img src="{{ asset('uploads/profilePictures/'~app.user.photo ) | imagine_filter('my_thumb') }}"
+                 alt="photo de profil">
+        </div>
+    </form>
+    <form>
+        <input type="button" value="Retour" onclick="history.back()">
+    </form>
+{% endblock %}
+
+
+
