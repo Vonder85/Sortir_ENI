@@ -26,27 +26,36 @@ use Symfony\Component\Serializer\Serializer;
  */
 class SortieController extends AbstractController
 {
+
     /**
      * @Route("/CreerSortie", name="create")
      */
     public function createSortie(Request $request, EntityManagerInterface $em)
     {
-        $sortie = new Sortie();
-        $sortForm = $this->createForm(SortieType::class, $sortie);
-        $sortForm->handleRequest($request);
-        if ($sortForm->isSubmitted() && $sortForm->isValid()) {
-            $sortie->setOrganisateur($this->getUser());
-            $etatDeBase = $em->getRepository(Etat::class)->findBy(["name"=>"Créée"]);
-            $sortie->setEtat($etatDeBase[0]);
-            $em->persist($sortie);
-            $em->flush();
-            $this->addFlash('success', 'Votre sortie est bien créée ');
-            return $this->redirectToRoute('main_home');
-        }
+        if (!$this->isGranted("IS_AUTHENTICATED_REMEMBERED")) {
+            return $this->redirectToRoute('Connexion');
+        } else {
+            if ($this->isActive()) {
+                $sortie = new Sortie();
+                $sortForm = $this->createForm(SortieType::class, $sortie);
+                $sortForm->handleRequest($request);
+                if ($sortForm->isSubmitted() && $sortForm->isValid()) {
+                    $sortie->setOrganisateur($this->getUser());
+                    $etatDeBase = $em->getRepository(Etat::class)->findBy(["name" => "Créée"]);
+                    $sortie->setEtat($etatDeBase[0]);
+                    $em->persist($sortie);
+                    $em->flush();
+                    $this->addFlash('success', 'Votre sortie est bien créée ');
+                    return $this->redirectToRoute('main_home');
+                }
 
-        return $this->render("sortie/creerSortie.html.twig", [
-            'sortForm' => $sortForm->createView()
-        ]);
+                return $this->render("sortie/creerSortie.html.twig", [
+                    'sortForm' => $sortForm->createView()
+                ]);
+            } else {
+                return $this->render('user/desactivate.html.twig');
+            }
+        }
     }
 
     /**
@@ -69,7 +78,7 @@ class SortieController extends AbstractController
         } else {
             $ur = $em->getRepository(User::class);
             $usersList = $ur->findAllBySortie($sortie);
-            $userSorties = $em ->getRepository(Participations::class)->findByUserId($this->getUser());
+            $userSorties = $em->getRepository(Participations::class)->findByUserId($this->getUser());
 
             $sortie->getLieu()->getVille()->getName();
             dump($sortie);
@@ -97,7 +106,7 @@ class SortieController extends AbstractController
         } else {
 
             $motif = $request->get("motif");
-            if($motif !== null){
+            if ($motif !== null) {
 
                 $sortie = $sr->find($id);
                 $em->remove($sortie);
@@ -137,24 +146,32 @@ class SortieController extends AbstractController
     }
 
 
-        /**
-         * @Route("/RemoveSortie/{id}/{csrf}",name="remove_inscription",requirements={"id": "\d+"})
-         */
+    /**
+     * @Route("/RemoveSortie/{id}/{csrf}",name="remove_inscription",requirements={"id": "\d+"})
+     */
 
-        public function removeInscription ($id, $csrf, ParticipationsRepository $pr,EntityManagerInterface $em)
-        {
-            if (!$this->isCsrfTokenValid('sortie_remove_inscription_' . $id, $csrf)) {
-                throw $this->createAccessDeniedException('Désolé, votre session a expiré !');
-            } else {
-                $participation =$pr->findBy(["user"=>$this->getUser(),"sortie"=>$em->getRepository(Sortie::class)->find($id)]);
-                $em->remove($participation[0]);
-                $em->flush();
-                $this->addFlash('success', 'Votre inscription est bien annulée ');
-                return $this->redirectToRoute('main_home');
+    public function removeInscription($id, $csrf, ParticipationsRepository $pr, EntityManagerInterface $em)
+    {
+        if (!$this->isCsrfTokenValid('sortie_remove_inscription_' . $id, $csrf)) {
+            throw $this->createAccessDeniedException('Désolé, votre session a expiré !');
+        } else {
+            $participation = $pr->findBy(["user" => $this->getUser(), "sortie" => $em->getRepository(Sortie::class)->find($id)]);
+            $em->remove($participation[0]);
+            $em->flush();
+            $this->addFlash('success', 'Votre inscription est bien annulée ');
+            return $this->redirectToRoute('main_home');
 
-            }
         }
+    }
 
-       
+
+    public function isActive()
+    {
+        if ($this->getUser()->getActive()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
