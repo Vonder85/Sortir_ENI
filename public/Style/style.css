@@ -1,9 +1,4 @@
-#footer {
-    position:absolute;
-    bottom:0;
-    width:100%;
-    height:80px;
-}
+body { padding-bottom: 70px; }
 
 .tableFixHead          { overflow-y: auto; height: 500px; }
 .tableFixHead thead th { position: sticky; top: 0; }
@@ -39,6 +34,9 @@ th     { background:#eee; }
     width:10%;
 }
 
-.bg-couleur-perso, #footer{
+.bg-couleur-perso, .navbar{
     background-color: #366c9b;
 }
+
+
+

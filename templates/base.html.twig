@@ -25,17 +25,11 @@
         {% endblock %}
         </div>
 
-        <section id="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
-                        <p><u>Application réalisée par Fabienne D, Jennifer B, Julien S, Axel P</u></p>
-                        <p class="h6">&copy; Sortir.com {{ "now" |date("Y") }}.</p>
-                    </div>
-                    <hr>
-                </div>
-            </div>
-        </section>
+        <nav class="navbar fixed-bottom navbar-light text-white bg-couleur-perso" style="height : 4%;">
+            <span class="navbar-text text-white" style="position: absolute; left: 50%; transform: translateX(-50%);">&copy; Sortir.com {{ "now" |date("Y") }}.</span>
+        </nav>
+
+
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
