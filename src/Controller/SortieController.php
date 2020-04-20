@@ -77,10 +77,6 @@ class SortieController extends AbstractController
         }
         $serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
 
-        $data = $serializer->decode(file_get_contents('testCsv.csv'), 'csv');
-        dump($data[0]["username"]);
-
-
         return $this->render("sortie/consultSortie.html.twig", [
             'sortie' => $sortie,
             'usersList' => $usersList,
