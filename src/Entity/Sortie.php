@@ -188,7 +188,7 @@ class Sortie
     }
 
     /**
-     * @return
+     * @return mixed
      */
     public function getLieu(): ?Lieu
     {

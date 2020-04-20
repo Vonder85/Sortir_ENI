@@ -18,7 +18,7 @@
             <div> Ville : <span id="lieuVille">{{ sortie.lieu.ville.name }}</span></div>
             <div> Coordonnées GPS : <span id="lieuGps">{{ sortie.lieu.latitude }} / {{ sortie.lieu.longitude }}</span></div>
 
-            <a class="btn-floating btn-small waves-effect waves-light right black"href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}">M'inscrire</a>
+            {% if sortie.deadlineRegistration >  date()%}<a class="btn-floating btn-small waves-effect waves-light right black"href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}">M'inscrire</a>{% endif %}
                    </div>
     </form>
 
