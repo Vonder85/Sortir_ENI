@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin | {{ parent() }}{% endblock %}
+{% block body %}
+    <h1 class="mb-0 text-center">Back-office/Admin</h1>
+    <div class="text-center mt-4">
+        <a class="btn btn-primary" href="{{ path('admin_users') }}">Users</a>
+    </div>
+{% endblock %}

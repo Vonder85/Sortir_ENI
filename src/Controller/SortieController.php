@@ -17,6 +17,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\CsvEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Route("/user/sortie", name="sortie_")
@@ -72,6 +75,12 @@ class SortieController extends AbstractController
             dump($sortie);
 
         }
+        $serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
+
+        $data = $serializer->decode(file_get_contents('testCsv.csv'), 'csv');
+        dump($data[0]["username"]);
+
+
         return $this->render("sortie/consultSortie.html.twig", [
             'sortie' => $sortie,
             'usersList' => $usersList,
