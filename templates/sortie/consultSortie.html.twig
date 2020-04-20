@@ -28,14 +28,14 @@
         <thead>
             <tr>
                 <th class="th-sm">Pseudo</th>
-                <th class="th-sm">Nom</th>
+                <th class="th-sm">Prénom et Nom</th>
             </tr>
         </thead>
         <tbody>
             {% for user in usersList %}
             <tr>
-                <td><a href="{{path('user_profile', {'id': user.id})}}">{{ user.username }}</a></td>
-                <td>{{ user.lastname }}</td>
+                <td><a href="{{path('user_show_profile', {'id': user.id})}}">{{ user.username }}</a></td>
+                <td>{{ user.firstname }} {{ user.lastname }}</td>
             </tr>
             {% endfor %}
         </tbody>
