@@ -28,6 +28,9 @@ class LieuController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/user/lieu/add", name=")
+     */
     public function add(EntityManagerInterface $em, Request $request)
     {
         $lieu = new Lieu();
