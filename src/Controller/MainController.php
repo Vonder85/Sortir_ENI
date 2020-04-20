@@ -25,7 +25,6 @@ class MainController extends AbstractController
         }
         $sortiesCriteria = $this->buildCriteria($req, $em);
         $sorties = $em->getRepository(Sortie::class)->findSortiesFiltered($sortiesCriteria);
-        dump($sorties);
         $sites = $em->getRepository(Site::class)->findAll();
         $userSorties = $em ->getRepository(Participations::class)->findByUserId($this->getUser());
         return $this->render("main/homePage.html.twig", [
@@ -42,6 +41,8 @@ class MainController extends AbstractController
             $idSite = $req->query->get('selectSite');
             $site = $em->getRepository(Site::class)->find($idSite);
             $sortiesCriteria->setSite($site);
+        }else{
+            $sortiesCriteria->setSite($this->getUser()->getSite());
         }
         if($req->query->get('textSearch')){
             $sortiesCriteria->setSearch($req->query->get('textSearch'));

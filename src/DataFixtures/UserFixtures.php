@@ -35,7 +35,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             }else{
                 $user->setTelephone("0011223344");
             }
-            $user->setSite($this->getReference("site1"));
+            $user->setSite($this->getReference("site".rand(0,4)));
             $user->setPhoto("default_profile_pic_fixtures.png");
             $this->addReference("user".$i, $user);
             $manager->persist($user);
