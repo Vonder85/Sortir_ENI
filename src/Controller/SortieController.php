@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\Lieu;
 use App\Entity\Participations;
 use App\Entity\Sortie;
+use App\Entity\User;
 use App\Form\SortieType;
+use App\Repository\LieuRepository;
 use App\Repository\ParticipationsRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
@@ -54,19 +57,25 @@ class SortieController extends AbstractController
     /**
      * @Route("/{id}/{csrf}", name="show", requirements={"id": "\d+"})
      */
-    public function showSortie(EntityManagerInterface $em, SortieRepository $sortRepo, $id, $csrf)
+    public function showSortie(EntityManagerInterface $em, SortieRepository $sortRepo, $id, $csrf, UserRepository $ur, LieuRepository $lr)
     {
-
-
         $sortRepo = $em->getRepository(Sortie::class);
         $sortie = $sortRepo->find($id);
         if (!$this->isCsrfTokenValid('sortie_show_' . $id, $csrf)) {
             throw $this->createAccessDeniedException('Désolé, votre session a expiré !');
         } else {
+            $ur = $em->getRepository(User::class);
+            $usersList = $ur->findAllBySortie($sortie);
+
+            $sortie->getLieu()->getVille()->getName();
+            dump($sortie);
 
         }
         return $this->render("sortie/consultSortie.html.twig", [
-            'sortie' => $sortie
+            'sortie' => $sortie,
+            'usersList' => $usersList,
+            //'lieu' => $lieu,
+            //'ville' => $ville,
         ]);
     }
 
@@ -129,7 +138,6 @@ class SortieController extends AbstractController
 
         public function removeInscription ($id, $csrf, ParticipationsRepository $pr,EntityManagerInterface $em)
         {
-
             if (!$this->isCsrfTokenValid('sortie_remove_inscription_' . $id, $csrf)) {
                 throw $this->createAccessDeniedException('Désolé, votre session a expiré !');
             } else {
@@ -139,10 +147,9 @@ class SortieController extends AbstractController
                 $this->addFlash('success', 'Votre inscription est bien annulée ');
                 return $this->redirectToRoute('main_home');
 
-
-
-
             }
         }
+
+       
 }
 

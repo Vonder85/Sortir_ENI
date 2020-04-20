@@ -6,6 +6,7 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -41,6 +42,21 @@ class UserRepository extends ServiceEntityRepository
         } catch (NoResultException $e) {
         } catch (NonUniqueResultException $e) {
         }
+    }
+
+    /**
+     * @param $sortie
+     * @return array
+     */
+    public function findAllBySortie($sortie)
+    {
+        $qb = $this->createQueryBuilder('u')
+            -> innerJoin('App\Entity\Participations', 'p', Join::WITH, 'u.id = p.user')
+            -> andWhere ('p.sortie = :sortie')
+            ->setParameter('sortie', $sortie);
+
+        return $qb->getQuery()->getArrayResult();
+
     }
     // /**
     //  * @return User[] Returns an array of User objects
