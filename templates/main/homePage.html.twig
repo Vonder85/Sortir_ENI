@@ -79,6 +79,7 @@
                         <input type="submit" value="Rechercher" class="btn btn-primary">
                     </div>
                 </div>
+                <input type="submit" value="Rechercher">
             </fieldset>
         </form>
 
@@ -88,14 +89,16 @@
     <table>
         <thead>
         <tr>
-            <th class="th-sm">Nom de la sortie</th>
-            <th class="th-sm">Date de la sortie</th>
-            <th class="th-sm">Clôture</th>
-            <th class="th-sm">Inscrits/places</th>
-            <th class="th-sm">État</th>
-            <th class="th-sm">Inscrit</th>
-            <th class="th-sm">Organisateur</th>
-            <th class="th-sm">Actions</th>
+            <th class="th-sm" id="nomSortie">Nom de la sortie</th>
+            <th class="th-sm" id="dateSortie">Date de la sortie</th>
+            <th class="th-sm" id="clotureSortie">Clôture</th>
+            <th class="th-sm" id="nbInscrit">Inscrits/places</th>
+            <th class="th-sm" id="etatSortie">État</th>
+            <th class="th-sm" id="inscrit">Inscrit</th>
+            <th class="th-sm" id="organisateur">Organisateur</th>
+            <th class="th-sm" id="actions">Actions</th>
+            <th class="th-sm" id="lieu">Lieu</th>
+
         </tr>
         </thead>
         <tbody>
@@ -105,16 +108,17 @@
                 <tr>
                     <td>{{sortie.name}}</td>
                     <td>{{sortie.dateTimeStart | date}}</td>
-                    <td>{{sortie.deadlineRegistration | date}}</td>
-                    <td> {{ sortie.countedUsers }}/{{sortie.maxNumberRegistration}}</td>
-                    <td>{{ sortie.etatname }}</td>
+                    <td id="clotureSortie">{{sortie.deadlineRegistration | date}}</td>
+                    <td id="nbInscrit"> {{ sortie.countedUsers }}/{{sortie.maxNumberRegistration}}</td>
+                    <td id="etatSortie">{{ sortie.etatname }}</td>
+                    <td id="lieu">{{ sortie.villeName }}</td>
                     {% if sortie.id in userSorties %}
-                        <td>x</td>
+                        <td id="inscrit">x</td>
                     {% else %}
-                        <td></td>
+                        <td id="inscrit"></td>
                     {% endif %}
-                    <td>{{sortie.firstname}} {{ sortie.lastname | first}}.</td>
-                    <td><a href="{{ path('sortie_show',{'id': sortie.id, 'csrf': csrf_token('sortie_show_'~sortie.id)}) }}"><img src="{{ asset('pictures/magnifying-glass.svg') }}" alt="détail" class="icon_action"></a>  {% if sortie.deadlineRegistration >  date()%}<a href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}"><img src="{{ asset('pictures/book.svg') }}" alt="S'inscrire" class="icon_action"></a>{% endif %}{% if sortie.organisateurid == app.user.id %}<a href="{{ path('sortie_cancel',{'id': sortie.id, 'csrf': csrf_token('sortie_cancel_'~sortie.id)}) }}"><img src="{{ asset('pictures/cancel.svg') }}" alt="Annuler" class="icon_action"></a>{% endif %}</td>
+                    <td id="organisateur">{{sortie.firstname}} {{ sortie.lastname | first}}.</td>
+                    <td id="actions"><a href="{{ path('sortie_show',{'id': sortie.id, 'csrf': csrf_token('sortie_show_'~sortie.id)}) }}"><img src="{{ asset('pictures/magnifying-glass.svg') }}" alt="détail" class="icon_action"></a>  {% if sortie.deadlineRegistration >  date()%}<a href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}"><img src="{{ asset('pictures/book.svg') }}" alt="S'inscrire" class="icon_action"></a>{% endif %}{% if sortie.organisateurid == app.user.id %}<a href="{{ path('sortie_cancel',{'id': sortie.id, 'csrf': csrf_token('sortie_cancel_'~sortie.id)}) }}"><img src="{{ asset('pictures/cancel.svg') }}" alt="Annuler" class="icon_action"></a>{% endif %}</td>
                 </tr>
             {% endif %}
         {% endfor %}
