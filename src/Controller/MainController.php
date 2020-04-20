@@ -41,6 +41,8 @@ class MainController extends AbstractController
             $idSite = $req->query->get('selectSite');
             $site = $em->getRepository(Site::class)->find($idSite);
             $sortiesCriteria->setSite($site);
+        }else{
+            $sortiesCriteria->setSite($this->getUser()->getSite());
         }
         if($req->query->get('textSearch')){
             $sortiesCriteria->setSearch($req->query->get('textSearch'));
