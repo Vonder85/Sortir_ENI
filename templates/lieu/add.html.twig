@@ -3,13 +3,20 @@
 {% block title %}Ajouter un lieu | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h2>Ajouter un Lieu</h2>
+    <h3>Ajouter un Lieu</h3>
 
     {{ form_start(lieuForm) }}
     {{ form_widget(lieuForm) }}
 
-    <button type ="submit">Ajouter</button>
+    <div> Code Postal : <span id="lieuZip"></span></div>
+
+    <br>
+
+    <button class="btn btn-primary waves-effect waves-light" type ="submit">Ajouter</button>
     {{ form_end(lieuForm) }}
+
+    <button class="btn btn-primary waves-effect waves-light" onclick="history.back()">Retour</button>
+    <button class="btn btn-primary waves-effect waves-light" onclick="window.location.href=''">Ajouter une ville</button>
 
 {% endblock %}
 
