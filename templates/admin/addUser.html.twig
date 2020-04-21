@@ -9,9 +9,9 @@
             <p class="card-text">{{ form_start(registerForm) }}
                 {{ form_widget(registerForm) }}</p>
 
-            <input type="radio" name="role" value=1 checked>
+            <input type="radio" name="role" value="user" checked>
             <label for="user">Utilisateur</label><br>
-            <input type="radio" name="role" value=0>
+            <input type="radio" name="role" value="admin">
             <label for="admin">Administrateur</label><br>
             <button class="btn btn-primary" type="submit">Ajouter</button>
             <p class="card-text">{{ form_end(registerForm) }}</p>
