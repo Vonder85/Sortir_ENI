@@ -92,6 +92,15 @@ class AdminController extends AbstractController
                     );
                     $user->setPhoto($photoName);
                 }
+
+                $role =
+                dump($role);
+                if($role == 0){
+                    $roles[] = 'ROLE_ADMIN';
+                }else{
+                    $roles[] = 'ROLE_USER';
+                }
+                $user->setRoles($roles);
                 $em->persist($user);
                 $em->flush();
                 $this->addFlash('success', 'Votre utilisateur est bien ajouté');

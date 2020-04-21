@@ -8,15 +8,45 @@
     {{ form_start(lieuForm) }}
     {{ form_widget(lieuForm) }}
 
-    <div> Code Postal : <span id="lieuZip"></span></div>
+    <label for="codePostal">Code Postal :</label>
+    <input type="text" name="codePostal" id="codePostal">
 
     <br>
 
-    <button class="btn btn-primary waves-effect waves-light" type ="submit">Ajouter</button>
+    <button class="btn btn-primary waves-effect waves-light" type="submit">Ajouter</button>
     {{ form_end(lieuForm) }}
 
     <button class="btn btn-primary waves-effect waves-light" onclick="history.back()">Retour</button>
-    <button class="btn btn-primary waves-effect waves-light" onclick="window.location.href=''">Ajouter une ville</button>
+    <button class="btn btn-primary waves-effect waves-light" onclick="window.location.href=''">Ajouter une ville
+    </button>
 
 {% endblock %}
+    {% block javascript%}
+    $(document).ready(function (){
+        $('#codePostal').on("change",function () {
+            ajaxCall();
+        });
 
+        function ajaxCall() {
+
+        var cp = $('#codePostal').val;
+        console.log(cp);
+            $.ajax({
+                url:'https://geo.api.gouv.fr/communes?codePostal=' + cp +'&fields=centre&format=json&geometry=centre',
+                method:"get",
+                dataType: 'json',
+                contentType: "application/json"
+        }).done(function (result) {
+
+            console.log(result);
+
+        });
+    }
+
+    function refreshList(msg){
+          $('#lieuZip').text(msg.zip);
+    }
+    //provoquer l'évènement à la fin du chargement
+    $('#lieu_ville').change();
+    })
+    {% endblock %}
