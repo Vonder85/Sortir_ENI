@@ -22,7 +22,7 @@
 
     {{ form_end(sortForm) }}
 
-    <button class="btn btn-primary waves-effect waves-light" onclick="history.back()">Retour</button>
+    <button class="btn btn-primary waves-effect waves-light" onclick="history.go(-1)">Retour</button>
     <button class="btn btn-primary waves-effect waves-light" onclick="window.location.href='{{ path('lieu_add') }}'">Ajouter un lieu</button>
 {% endblock %}
 
