@@ -90,12 +90,13 @@ class AdminController extends AbstractController
                         $this->getParameter('upload_photos'),
                         $photoName
                     );
-                    $user->setPhoto($photoName);
-                }
 
-                $role =
-                dump($role);
-                if($role == 0){
+                }else{
+                    $photoName = 'default_profile_pic_fixtures.png';
+                }
+                $user->setPhoto($photoName);
+                $role = $request->request->get('role');
+                if($role === 'admin'){
                     $roles[] = 'ROLE_ADMIN';
                 }else{
                     $roles[] = 'ROLE_USER';
