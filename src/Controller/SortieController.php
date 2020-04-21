@@ -12,6 +12,7 @@ use App\Repository\LieuRepository;
 use App\Repository\ParticipationsRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
+use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -76,7 +77,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/{id}/{csrf}", name="show", requirements={"id": "\d+"})
      */
-    public function showSortie(EntityManagerInterface $em, SortieRepository $sortRepo, $id, $csrf, UserRepository $ur)
+    public function showSortie(EntityManagerInterface $em, SortieRepository $sortRepo, $id, $csrf, UserRepository $ur, VilleRepository $vr)
     {
         $sortRepo = $em->getRepository(Sortie::class);
         $sortie = $sortRepo->find($id);
@@ -89,12 +90,15 @@ class SortieController extends AbstractController
 
             $sortie->getLieu()->getVille()->getName();
 
+            $cp = $vr->find($sortie->getLieu()->getVille()->getId())->getZip();
+            $data = json_decode(file_get_contents('https://geo.api.gouv.fr/communes?codePostal='.$cp.'&fields=centre&format=json&geometry=centre'));
         }
 
         return $this->render("sortie/consultSortie.html.twig", [
             'sortie' => $sortie,
             'usersList' => $usersList,
             'userSortie' => $userSorties,
+            "data" => $data
         ]);
     }
 
