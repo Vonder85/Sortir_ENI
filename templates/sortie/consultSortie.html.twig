@@ -7,39 +7,86 @@
     <br>
     <form>
         <div class="form-group">
-            <p><span style="font-weight: bold">Organisateur de la sortie : </span> <a href="{{ path('user_show_profile', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.firstname }} {{ sortie.organisateur.lastname }}</a></p>
-            <p><span style="font-weight: bold">Date et heure de la sortie : </span>{{ sortie.dateTimeStart |date("Y-m-d h:i") }}</p>
-            <p><span style="font-weight: bold">Date limite d'inscription : </span>{{ sortie.deadlineRegistration |date("Y-m-d h:i") }}</p>
-            <p><span style="font-weight: bold">Nombre de place : </span>{{ sortie.maxNumberRegistration }}</p>
-            <p><span style="font-weight: bold">Durée : </span>{{ sortie.duration }}</p>
-            <p><span style="font-weight: bold">Description et infos : </span>{{ sortie.description }}</p>
-            <p><span style="font-weight: bold">Lieu : </span>{{ sortie.lieu.name }}</p>
-            <p><span style="font-weight: bold">Adresse : </span>{{ sortie.lieu.street }}</p>
-            <p><span style="font-weight: bold">Code Postal : </span>{{ sortie.lieu.ville.zip }}</p>
-            <p><span style="font-weight: bold">Ville : </span>{{ sortie.lieu.ville.name }}</p>
-            <p><span style="font-weight: bold">Coordonnées GPS : </span>{{ sortie.lieu.latitude }} / {{ sortie.lieu.longitude }}</p>
+            <div class="container">
 
-            {% if sortie.deadlineRegistration >  date()%}<a class="btn-floating btn-small waves-effect waves-light right black"href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}">M'inscrire</a>{% endif %}
-            {% if sortie.id in userSortie %}{% if sortie.dateTimeStart > date() %}<a class="btn-floating btn-small waves-effect waves-light right black"href="{{ path('sortie_remove_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_remove_inscription_'~sortie.id)}) }}">Me désister</a>{% endif %}{% endif %}
+                <p><span style="font-weight: bold">Organisateur de la sortie : </span> <a
+                            href="{{ path('user_show_profile', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.firstname }} {{ sortie.organisateur.lastname }}</a>
+                </p>
+                <p>
+                    <span style="font-weight: bold">Date et heure de la sortie : </span>{{ sortie.dateTimeStart |date("Y-m-d h:i") }}
+                </p>
+                <p>
+                    <span style="font-weight: bold">Date limite d'inscription : </span>{{ sortie.deadlineRegistration |date("Y-m-d h:i") }}
+                </p>
+                <p><span style="font-weight: bold">Nombre de place : </span>{{ sortie.maxNumberRegistration }}</p>
+                <p><span style="font-weight: bold">Durée : </span>{{ sortie.duration }}</p>
+                <p><span style="font-weight: bold">Description et infos : </span>{{ sortie.description }}</p>
+                <div class="row">
+                    <div class="col-6">
+                        <p><span style="font-weight: bold">Lieu : </span>{{ sortie.lieu.name }}</p>
+                        <p><span style="font-weight: bold">Adresse : </span>{{ sortie.lieu.street }}</p>
+                        <p><span style="font-weight: bold">Code Postal : </span>{{ sortie.lieu.ville.zip }}</p>
+                        <p><span style="font-weight: bold">Ville : </span>{{ sortie.lieu.ville.name }}</p>
+                        <p><span style="font-weight: bold">Coordonnées GPS : </span>{{ sortie.lieu.latitude }}
+                            / {{ sortie.lieu.longitude }}</p>
+                    </div>
+                    <div id="myMap" class="mt-4 text-center col-6"></div>
+                </div>
+            </div>
+            {% if sortie.deadlineRegistration >  date() %}<a
+                class="btn-floating btn-small waves-effect waves-light right black"
+                href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}">
+                    M'inscrire</a>{% endif %}
+            {% if sortie.id in userSortie %}{% if sortie.dateTimeStart > date() %}<a
+                class="btn-floating btn-small waves-effect waves-light right black"
+                href="{{ path('sortie_remove_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_remove_inscription_'~sortie.id)}) }}">
+                    Me désister</a>{% endif %}{% endif %}
 
         </div>
     </form>
 
     <table>
         <thead>
-            <tr>
-                <th class="th-sm">Pseudo</th>
-                <th class="th-sm">Prénom et Nom</th>
-            </tr>
+        <tr>
+            <th class="th-sm">Pseudo</th>
+            <th class="th-sm">Prénom et Nom</th>
+        </tr>
         </thead>
         <tbody>
-            {% for user in usersList %}
+        {% for user in usersList %}
             <tr>
-                <td><a href="{{path('user_show_profile', {'id': user.id})}}">{{ user.username }}</a></td>
+                <td><a href="{{ path('user_show_profile', {'id': user.id}) }}">{{ user.username }}</a></td>
                 <td>{{ user.firstname }} {{ user.lastname }}</td>
             </tr>
-            {% endfor %}
+        {% endfor %}
         </tbody>
     </table>
+
+    <br><br><br>
+
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+            integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+            crossorigin=""></script>
+    <script>
+        //On initialise la latitude et la longitude (centre de la carte)
+
+        let lat = 47.2173;
+        let lon = -1.5534;
+
+        // On initialise la carte
+        const map = L.map('myMap').setView([lat, lon], 11);
+        // Leaflet ne récupère pas les cartes (tiles) sur un serveur par défaut. Nous devons lui préciser où nous souhaitons les récupérer. Ici, openstreetmap.fr
+        L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+// Il est toujours bien de laisser le lien vers la source des données
+            attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
+            minZoom: 1,
+            maxZoom: 20
+        }).addTo(map);
+
+        //Ajout d'un marqueur
+        const marker = L.marker([lat, lon]).addTo(map);
+        //Ajout d'une popup
+        marker.bindPopup("<h1>Paris</h1>")
+    </script>
 
 {% endblock %}
