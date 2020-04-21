@@ -27,8 +27,8 @@
                         <p><span style="font-weight: bold">Adresse : </span>{{ sortie.lieu.street }}</p>
                         <p><span style="font-weight: bold">Code Postal : </span>{{ sortie.lieu.ville.zip }}</p>
                         <p><span style="font-weight: bold">Ville : </span>{{ sortie.lieu.ville.name }}</p>
-                        <p><span style="font-weight: bold">Coordonnées GPS : </span>{{ sortie.lieu.latitude }}
-                            / {{ sortie.lieu.longitude }}</p>
+                        <p><span style="font-weight: bold">Coordonnées GPS : </span>{{ data[0].centre.coordinates[1] }}
+                            / {{ data[0].centre.coordinates[0] }}</p>
                     </div>
                     <div id="myMap" class="mt-4 text-center col-6"></div>
                 </div>
@@ -70,8 +70,8 @@
     <script>
         //On initialise la latitude et la longitude (centre de la carte)
 
-        let lat = {{ sortie.lieu.latitude }};
-        let lon = {{ sortie.lieu.longitude }};
+        let lat = {{ data[0].centre.coordinates[1] }};
+        let lon = {{ data[0].centre.coordinates[0] }};
 
         // On initialise la carte
         const map = L.map('myMap').setView([lat, lon], 11);
