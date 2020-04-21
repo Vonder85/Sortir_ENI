@@ -8,15 +8,46 @@
     {{ form_start(lieuForm) }}
     {{ form_widget(lieuForm) }}
 
-    <div> Code Postal : <span id="lieuZip"></span></div>
+    <label for="codePostal">Code Postal :</label>
+    <input type="text" name="codePostal" id="codePostal" disabled>
 
     <br>
 
-    <button class="btn btn-primary waves-effect waves-light" type ="submit">Ajouter</button>
+    <button class="btn btn-primary waves-effect waves-light" type="submit">Ajouter</button>
     {{ form_end(lieuForm) }}
 
     <button class="btn btn-primary waves-effect waves-light" onclick="history.go(-1)">Retour</button>
     <button class="btn btn-primary waves-effect waves-light" onclick="window.location.href='{{ path('ville_create') }}'">Ajouter une ville</button>
 
 {% endblock %}
+    {% block javascript%}
+    $(document).ready(function (){
+        $('#lieu_ville').on("change",function () {
+            ajaxCall();
+        });
+        function ajaxCall() {
+            var idVille =$('#lieu_ville').val();
+            $.ajax({
+                url:'{{ (path('ville_coordinates_empty')) }}/' + idVille,
+                method:"post"
+            }).done(function (msg) {
+            $("#codePostal").val(msg["codePostal"]);
+            ajaxCallForApi();
+        });
+    }
 
+        function ajaxCallForApi() {
+        var cp = $('#codePostal').val();
+        $.ajax({
+            url:"https://geo.api.gouv.fr/communes?codePostal=" + cp + "&fields=centre&format=json&geometry=centre",
+            method:"get",
+            dataType: 'json',
+            contentType: "application/json"
+        }).done(function (result) {
+            console.log(result);
+            $("#lieu_latitude").val(result[0]['centre']['coordinates'][0]);
+            $("#lieu_longitude").val(result[0]['centre']['coordinates'][1]);
+        });
+    }
+})
+    {% endblock %}

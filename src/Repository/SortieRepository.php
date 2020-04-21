@@ -65,6 +65,9 @@ class SortieRepository extends ServiceEntityRepository
         $currentDate = new \DateTime();
         $qb->andWhere("s.dateTimeStart >= :dateArchivage")
             ->setParameter("dateArchivage",$currentDate->sub(new \DateInterval('P30D')));
+        $qb->andWhere("e.name LIKE :etat OR s.organisateur = :organisateur")
+            ->setParameter("etat","Ouverte")
+            ->setParameter("organisateur", $user);
         $qb->join("s.etat",'e');
         $qb->Select("s.id, s.name, s.dateTimeStart, s.deadlineRegistration, s.maxNumberRegistration, e.name as etatname, o.id as organisateurid, o.firstname, o.lastname, v.name as villeName, COUNT(p.id) as countedUsers");
         $qb->leftJoin("s.participations", "p");

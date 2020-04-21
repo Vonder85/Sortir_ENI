@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -34,7 +35,7 @@ class RegisterType extends AbstractType
                 'mapped' => false,
                 'required' => false,
             ])
-            ;
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

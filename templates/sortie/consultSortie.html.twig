@@ -70,8 +70,8 @@
     <script>
         //On initialise la latitude et la longitude (centre de la carte)
 
-        let lat = 47.2173;
-        let lon = -1.5534;
+        let lat = {{ sortie.lieu.latitude }};
+        let lon = {{ sortie.lieu.longitude }};
 
         // On initialise la carte
         const map = L.map('myMap').setView([lat, lon], 11);
@@ -86,7 +86,8 @@
         //Ajout d'un marqueur
         const marker = L.marker([lat, lon]).addTo(map);
         //Ajout d'une popup
-        marker.bindPopup("<h1>Paris</h1>")
+        marker.bindPopup("<h3>{{ sortie.lieu.name }}</h3>" +
+            "<address>{{ sortie.lieu.street}}</address>");
     </script>
 
 {% endblock %}

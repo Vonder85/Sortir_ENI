@@ -11,8 +11,11 @@
     <body>
         <header>
             {% include ('include/_nav.html.twig') %}
+           <!-- <button id="dark" class="btn-primary" onclick="myFunction()">Dark mode</button>-->
+           <button id="dark" onclick="myFunction()">DarkMode</button>
         </header>
         <br>
+
         <div class="container">
         {# read and display all flash messages #}
         {% for label, messages in app.flashes %}
@@ -31,10 +34,20 @@
         </nav>
 
 
-
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <script>{% block javascript %}{% endblock %}</script>
+       <script>{% block javascript %}{% endblock %}</script>
+            <script> function myFunction() {
+                var element = document.body;
+                var test =  document.getElementById("dark").innerHTML;
+                element.classList.toggle("dark-mode");
+                if (test=="Dark mode") {
+                    document.getElementById("dark").innerHTML = "Light mode";
+                }else {
+                    document.getElementById("dark").innerHTML = "Dark mode";
+                }}
+
+        </script>
     </body>
 </html>
