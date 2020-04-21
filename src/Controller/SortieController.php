@@ -90,10 +90,6 @@ class SortieController extends AbstractController
             $sortie->getLieu()->getVille()->getName();
 
         }
-        $serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
-
-        $data = $serializer->decode(file_get_contents('testCsv.csv'), 'csv');
-
 
         return $this->render("sortie/consultSortie.html.twig", [
             'sortie' => $sortie,

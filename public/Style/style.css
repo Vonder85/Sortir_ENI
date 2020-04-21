@@ -21,13 +21,13 @@ body {
 
 
 
-.tableFixHead          { overflow-y: auto; height: 500px; }
-.tableFixHead thead th { position: sticky; top: 0; }
+.tableFixHead          { overflow-y: auto; height: 500px;  }
+.tableFixHead thead th { position: sticky; top: 0; border-color: #222222; border-radius: inherit; }
 
 /* Just common table stuff. Really. */
 table  { border-collapse: collapse; width: 100%; }
 th, td { padding: 8px 16px; }
-th     { background:#366c9b; color:white;}
+th     { background:#366c9b; color:white; }
 tr {
     cursor: pointer;
 }
@@ -65,5 +65,19 @@ tr {
 .btn-primary{
     background-color: #366c9b;
 }
+
+
+#sortiesFilters{
+    color: #222222;
+    border-color: #222222;
+    border-radius: inherit;
+}
+
+.dark-mode {
+
+    background-color: #222222;
+    color: white;}
+
+
 
 
