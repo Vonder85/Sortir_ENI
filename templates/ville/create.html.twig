@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une Ville |{{ parent() }}{% endblock %}
+
+{% block body %}
+    <h3>Ajouter une Ville</h3>
+
+    {{ form_start(villeForm) }}
+    {{ form_widget(villeForm) }}
+
+    <button class="btn btn-primary waves-effect waves-light" type ="submit">Ajouter</button>
+    {{ form_end(villeForm) }}
+
+    <button class="btn btn-primary waves-effect waves-light" onclick="history.back()">Retour</button>
+
+{% endblock %}
+
+
+
