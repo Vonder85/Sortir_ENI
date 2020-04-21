@@ -21,8 +21,14 @@ class LieuType extends AbstractType
                 'label'=>'Ville',
                 'choice_label'=>'name'
             ])
-            ->add('latitude', null, ['label' => 'Latitude  '])
-            ->add('longitude', null, ['label' => 'Longitude  '])
+            ->add('latitude', null, [
+                'label' => 'Latitude  ',
+                'disabled' => 'true'
+            ])
+            ->add('longitude', null, [
+                'label' => 'Longitude  ',
+                'disabled' => 'true'
+            ])
         ;
     }
 

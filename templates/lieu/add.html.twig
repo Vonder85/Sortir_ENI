@@ -9,7 +9,7 @@
     {{ form_widget(lieuForm) }}
 
     <label for="codePostal">Code Postal :</label>
-    <input type="text" name="codePostal" id="codePostal">
+    <input type="text" name="codePostal" id="codePostal" disabled>
 
     <br>
 
@@ -17,37 +17,37 @@
     {{ form_end(lieuForm) }}
 
     <button class="btn btn-primary waves-effect waves-light" onclick="history.back()">Retour</button>
-    <button class="btn btn-primary waves-effect waves-light" onclick="window.location.href=''">Ajouter une ville
-    </button>
+    <button class="btn btn-primary waves-effect waves-light" onclick="window.location.href='{{ path('ville_create') }}'">Ajouter une ville</button>
 
 {% endblock %}
     {% block javascript%}
     $(document).ready(function (){
-        $('#codePostal').on("change",function () {
+        $('#lieu_ville').on("change",function () {
             ajaxCall();
         });
-    <button class="btn btn-primary waves-effect waves-light" onclick="window.location.href='{{ path('ville_create') }}'">Ajouter une ville</button>
-
         function ajaxCall() {
-
-        var cp = $('#codePostal').val;
-        console.log(cp);
+            var idVille =$('#lieu_ville').val();
             $.ajax({
-                url:'https://geo.api.gouv.fr/communes?codePostal=' + cp +'&fields=centre&format=json&geometry=centre',
-                method:"get",
-                dataType: 'json',
-                contentType: "application/json"
-        }).done(function (result) {
-
-            console.log(result);
-
+                url:'{{ (path('ville_coordinates_empty')) }}/' + idVille,
+                method:"post"
+            }).done(function (msg) {
+            $("#codePostal").val(msg["codePostal"]);
+            ajaxCallForApi();
         });
     }
 
-    function refreshList(msg){
-          $('#lieuZip').text(msg.zip);
+        function ajaxCallForApi() {
+        var cp = $('#codePostal').val();
+        $.ajax({
+            url:"https://geo.api.gouv.fr/communes?codePostal=" + cp + "&fields=centre&format=json&geometry=centre",
+            method:"get",
+            dataType: 'json',
+            contentType: "application/json"
+        }).done(function (result) {
+            console.log(result);
+            $("#lieu_latitude").val(result[0]['centre']['coordinates'][0]);
+            $("#lieu_longitude").val(result[0]['centre']['coordinates'][1]);
+        });
     }
-    //provoquer l'évènement à la fin du chargement
-    $('#lieu_ville').change();
-    })
+})
     {% endblock %}
