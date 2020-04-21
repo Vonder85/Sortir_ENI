@@ -41,8 +41,15 @@ class SortieController extends AbstractController
                 $sortForm->handleRequest($request);
                 if ($sortForm->isSubmitted() && $sortForm->isValid()) {
                     $sortie->setOrganisateur($this->getUser());
-                    $etatDeBase = $em->getRepository(Etat::class)->findBy(["name" => "Créée"]);
-                    $sortie->setEtat($etatDeBase[0]);
+
+                    if($_POST["submitButton"]=="enregistrer"){
+                        $etat = $em->getRepository(Etat::class)->findBy(["name" => "Créée"]);
+                        $sortie->setEtat($etat[0]);
+                    }
+                    if($_POST["submitButton"]=="publier"){
+                        $etat = $em->getRepository(Etat::class)->findBy(["name" => "Ouverte"]);
+                        $sortie->setEtat($etat[0]);
+                    }
                     $em->persist($sortie);
                     $em->flush();
                     $this->addFlash('success', 'Votre sortie est bien créée ');
@@ -168,6 +175,25 @@ class SortieController extends AbstractController
             return $this->redirectToRoute('main_home');
 
         }
+    }
+
+    /**
+     * @Route("/PublierSortie/{id}/{csrf}", name="open", requirements={"id": "\d+"})
+     */
+    public function openSortie($id, $csrf, Request $request, SortieRepository $sr, EntityManagerInterface $em)
+    {
+        if (!$this->isCsrfTokenValid('sortie_open_' . $id, $csrf)) {
+            throw $this->createAccessDeniedException('Désolé, votre session a expiré !');
+        } else {
+            $sortie = $em->getRepository(Sortie::class)->find($id);
+            $etat = $em->getRepository(Etat::class)->findBy(["name"=>"Ouverte"]);
+            $sortie->setEtat($etat[0]);
+            $em->persist($sortie);
+            $em->flush();
+
+            $this->addFlash('success', 'Votre sortie a été publiée');
+        }
+        return $this->redirectToRoute('main_home');
     }
 
 
