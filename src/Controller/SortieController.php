@@ -88,10 +88,12 @@ class SortieController extends AbstractController
             $userSorties = $em->getRepository(Participations::class)->findByUserId($this->getUser());
 
             $sortie->getLieu()->getVille()->getName();
-            dump($sortie);
 
         }
         $serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
+
+        $data = $serializer->decode(file_get_contents('testCsv.csv'), 'csv');
+
 
         return $this->render("sortie/consultSortie.html.twig", [
             'sortie' => $sortie,

@@ -85,7 +85,7 @@
     </div>
     <br>
     <div class="tableFixHead">
-    <table class="table table-hover">
+    <table class="table table-hover table-dark">
         <thead>
         <tr>
             <th class="th-sm" id="nomSortie">Nom de la sortie</th>
@@ -96,7 +96,7 @@
             <th class="th-sm" id="inscrit">Inscrit</th>
             <th class="th-sm" id="organisateur">Organisateur</th>
             <th class="th-sm" id="actions">Actions</th>
-            <th class="th-sm" id="lieu">Lieu</th>
+            <th class="th-sm" id="lieuxCache">Lieu</th>
 
         </tr>
         </thead>
@@ -110,7 +110,7 @@
                     <td id="clotureSortie">{{sortie.deadlineRegistration | date}}</td>
                     <td id="nbInscrit"> {{ sortie.countedUsers }}/{{sortie.maxNumberRegistration}}</td>
                     <td id="etatSortie">{{ sortie.etatname }}</td>
-                    <td id="lieu">{{ sortie.villeName }}</td>
+                    <td id="lieuxCache">{{ sortie.villeName }}</td>
                     {% if sortie.id in userSorties %}
                         <td id="inscrit">x</td>
                     {% else %}

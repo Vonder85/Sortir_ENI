@@ -28,24 +28,26 @@ class LieuController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/user/lieu/add", name="lieu_add")
+     */
     public function add(EntityManagerInterface $em, Request $request)
     {
         $lieu = new Lieu();
 
-        $lieuForm = $this ->createForm(LieuType::class, $lieu);
-        $lieuForm -> handleRequest($request);
-        if($lieuForm -> isSubmitted() && $lieuForm -> isValid())
+        $lieuForm = $this->createForm(LieuType::class);
+        $lieuForm->handleRequest($request);
+        if($lieuForm->isSubmitted() && $lieuForm-> isValid())
         {
-            $em -> persist($lieu);
-            $em -> flush();
+            $em->persist($lieu);
+            $em->flush();
 
-            $this -> addFlash('success', 'Ce lieu a bien été ajouté');
-
-            return $this ->redirectToRoute('#');
+            $this->addFlash('success', 'Ce nouveau lieu a bien été ajouté');
+            return $this->redirectToRoute('sortie_create');
         }
-        return $this->render('lieu/add.html.twig',
-                             ["lieuForm"=>$lieuForm->createView()]);
-
+        return $this->render('lieu/add.html.twig', [
+            'lieuForm'=> $lieuForm->createView()
+        ]);
     }
 
     /**
