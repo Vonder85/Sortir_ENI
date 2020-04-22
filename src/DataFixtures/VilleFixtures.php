@@ -11,42 +11,51 @@ class VilleFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        for ($i = 0; $i < 5; $i++) {
-            $ville = new Ville();
-            $ville->setName($this->RandomNomVille());
-            $ville->setZip(rand(00001, 99999));
-            $this->addReference("ville".$i,$ville);
-            $manager->persist($ville);
-        }
+        $i=0;
+
+        $ville = new Ville();
+        $ville->setName("Bordeaux");
+        $ville->setZip("33000");
+        $this->addReference("ville".$i,$ville);
+        $manager->persist($ville);
+        $i++;
+
+        $ville = new Ville();
+        $ville->setName("Nantes");
+        $ville->setZip("44000");
+        $this->addReference("ville".$i,$ville);
+        $manager->persist($ville);
+        $i++;
+
+        $ville = new Ville();
+        $ville->setName("Lille");
+        $ville->setZip("59000");
+        $this->addReference("ville".$i,$ville);
+        $manager->persist($ville);
+        $i++;
+
+        $ville = new Ville();
+        $ville->setName("Marseille");
+        $ville->setZip("13000");
+        $this->addReference("ville".$i,$ville);
+        $manager->persist($ville);
+        $i++;
+
+        $ville = new Ville();
+        $ville->setName("Paris");
+        $ville->setZip("75000");
+        $this->addReference("ville".$i,$ville);
+        $manager->persist($ville);
+        $i++;
+
+        $ville = new Ville();
+        $ville->setName("Ajaccio");
+        $ville->setZip("20000");
+        $this->addReference("ville".$i,$ville);
+        $manager->persist($ville);
+        $i++;
 
         $manager->flush();
     }
 
-    public function RandomNomVille()
-    {
-        $rand = rand(0, 5);
-        switch ($rand) {
-            case 0 :
-                return "Bordeaux";
-                break;
-            case 1 :
-                return "Nantes";
-                break;
-            case 2 :
-                return "Lille";
-                break;
-            case 3 :
-                return "Marseille";
-                break;
-            case 4 :
-                return "Paris";
-                break;
-            case 5 :
-                return "Ajaccio";
-                break;
-            default:
-                return "Pas de ville sélectionnée";
-
-        }
-    }
 }
