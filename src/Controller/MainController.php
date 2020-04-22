@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Participations;
 use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Data\SortiesCriteria;
+use App\Repository\EtatRepository;
+use App\Repository\ParticipationsRepository;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Security;
@@ -19,18 +23,19 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="main_home")
      */
-    public function homePage(EntityManagerInterface $em, Request $req)
+    public function homePage(EntityManagerInterface $em, Request $req, EtatRepository $er, ParticipationsRepository $pr)
     {
 
         if (!$this->isGranted("IS_AUTHENTICATED_REMEMBERED")) {
             return $this->redirectToRoute('Connexion');
         } else {
             if ($this->isActive()) {
+                $this->etat($er, $em, $pr);
                 $sortiesCriteria = $this->buildCriteria($req, $em);
                 $sorties = $em->getRepository(Sortie::class)->findSortiesFiltered($sortiesCriteria);
-                dump($sorties);
                 $sites = $em->getRepository(Site::class)->findAll();
                 $userSorties = $em->getRepository(Participations::class)->findByUserId($this->getUser());
+
                 return $this->render("main/homePage.html.twig", [
                     "sorties" => $sorties,
                     "sites" => $sites,
@@ -91,5 +96,39 @@ class MainController extends AbstractController
         } else {
             return false;
         }
+    }
+
+    public function etat(EtatRepository $er, EntityManagerInterface $em, ParticipationsRepository $pr)
+    {
+        $etats = $er->findAll();
+        $sorties = $em->getRepository(Sortie::class)->findAll();
+        $dateToday = new \DateTime();
+        $now = new \DateTime($dateToday->format('Y-m-d H:i:s'));
+        foreach ($sorties as $sortie){
+
+            $date = $sortie->getDateTimeStart();
+            $dateDebut = new \DateTime($date->format('Y-m-d H:i:s'));
+            $dateFin = $dateDebut->add(new \DateInterval('PT0H'.$sortie->getDuration().'M'))->format('Y-m-d H:i:s');
+
+            /**
+             * var Sortie $sortie
+             */
+
+            if(($sortie->getDeadlineRegistration() > $now && $sortie->getDateTimeStart() > $now)){
+            }
+            elseif($sortie->getDateTimeStart()< $now && $dateFin > $now ){
+                $sortie->setEtat($etats[3]);
+            }elseif (($sortie->getDeadlineRegistration() < $now && $sortie->getDateTimeStart() > $now) /*|| $pr->findNbParticipations($sortie->getId()) == $sortie->getMaxNumberRegistration()*/){
+                $sortie->setEtat($etats[2]);
+            }
+            elseif($dateFin < $now){
+                $sortie->setEtat($etats[4]);
+            }else{
+                $sortie->setEtat($etats[5]);
+            }
+        }
+
+        $em->flush();
+
     }
 }

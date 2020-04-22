@@ -28,9 +28,7 @@ class ParticipationsRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('p');
         $qb->andWhere('p.sortie = :idSortie')->setParameter('idSortie', $idSortie);
         $query = $qb->getQuery();
-
-        return $query->getArrayResult();
-
+        return sizeof($query->getArrayResult());
     }
 
     /**

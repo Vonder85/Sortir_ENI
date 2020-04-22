@@ -86,5 +86,16 @@ class SortieRepository extends ServiceEntityRepository
 
     }
 
+    /**
+     * @return Sortie[]
+     */
+    public function findSortieWithEtat(){
+        $qb = $this->createQueryBuilder('s');
+        $qb->join("s.participations", 'p');
+        $qb->select('s.id', 'COUNT(p.id) as countedUsers');
+        $qb->groupBy('s.id');
+        return $qb->getQuery()->execute();
+    }
+
 
 }
