@@ -115,13 +115,12 @@ class MainController extends AbstractController
              */
 
             if(($sortie->getDeadlineRegistration() > $now && $sortie->getDateTimeStart() > $now)){
-            }
-            elseif($sortie->getDateTimeStart()< $now && $dateFin > $now ){
-                $sortie->setEtat($etats[3]);
-            }elseif (($sortie->getDeadlineRegistration() < $now && $sortie->getDateTimeStart() > $now) /*|| $pr->findNbParticipations($sortie->getId()) == $sortie->getMaxNumberRegistration()*/){
+            }else if (($sortie->getDeadlineRegistration() < $now && $sortie->getDateTimeStart() > $now) /*|| $pr->findNbParticipations($sortie->getId()) == $sortie->getMaxNumberRegistration()*/){
                 $sortie->setEtat($etats[2]);
+            }else if(($sortie->getDateTimeStart() < $now && $dateFin > $now )){
+                $sortie->setEtat($etats[3]);
             }
-            elseif($dateFin < $now){
+            else if($dateFin < $now){
                 $sortie->setEtat($etats[4]);
             }else{
                 $sortie->setEtat($etats[5]);
