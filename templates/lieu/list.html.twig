@@ -3,7 +3,7 @@
 {% block body %}Liste des lieux | {{ parent() }}{% endblock %}
 
 {% block title %}
-    <h2>Nos Lieux de sortie</h2>
+    <h3>Nos Lieux de sortie</h3>
     <div class="lieux_list"
     {% for lieu in lieux %}
         {{ lieu.name }}<br>
