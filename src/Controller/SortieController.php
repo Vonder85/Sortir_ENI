@@ -43,6 +43,12 @@ class SortieController extends AbstractController
                 if ($sortForm->isSubmitted() && $sortForm->isValid()) {
                     $sortie->setOrganisateur($this->getUser());
 
+                    $privee = $request->request->get('privee');
+
+                    if($privee)
+                    {
+                        $sortie->setPrivee(true);
+                    }
                     if($_POST["submitButton"]=="enregistrer"){
                         $etat = $em->getRepository(Etat::class)->findBy(["name" => "Créée"]);
                         $sortie->setEtat($etat[0]);
@@ -51,6 +57,7 @@ class SortieController extends AbstractController
                         $etat = $em->getRepository(Etat::class)->findBy(["name" => "Ouverte"]);
                         $sortie->setEtat($etat[0]);
                     }
+
                     $em->persist($sortie);
                     $em->flush();
                     $this->addFlash('success', 'Votre sortie est bien créée ');

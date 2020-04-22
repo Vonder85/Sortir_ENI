@@ -16,7 +16,7 @@
     <button class="btn btn-primary waves-effect waves-light" type="submit">Ajouter</button>
     {{ form_end(lieuForm) }}
 
-    <button class="btn btn-primary waves-effect waves-light" onclick="history.back()">Retour</button>
+    <button class="btn btn-primary waves-effect waves-light" onclick="history.go(-1)">Retour</button>
     <button class="btn btn-primary waves-effect waves-light" onclick="window.location.href='{{ path('ville_create') }}'">Ajouter une ville</button>
 
 {% endblock %}

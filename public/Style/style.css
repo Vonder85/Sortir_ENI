@@ -67,16 +67,34 @@ tr {
 }
 
 
-#sortiesFilters{
-    color: #222222;
+#sortiesFilterss{
     border-color: #222222;
     border-radius: inherit;
+    background-color: lightslategray;
+    color: #222222;
 }
 
 .dark-mode {
 
-    background-color: #222222;
+    background-color: #090f0f;
     color: white;}
+
+@media (prefers-color-scheme: dark) {
+    :root{
+    --body-color:white;
+    --body-bg:black;
+    }
+
+}
+
+h3{
+
+}
+fieldset{
+    padding-left: 10px;
+}
+
+
 
 
 
