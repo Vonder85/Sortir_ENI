@@ -12,11 +12,12 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         for($i=0;$i<100;$i++){
+            $dateDebut = $this->getRandomDate();
             $sortie = new Sortie();
             $sortie->setName("Nom sortie ".$i);
-            $sortie->setDateTimeStart($this->getRandomDate());
+            $sortie->setDateTimeStart($dateDebut);
             $sortie->setDuration(rand(1,200));
-            $sortie->setDeadlineRegistration(new \DateTime()); //strtotime(new \DateTime()."+ ".rand(1,15)." days")
+            $sortie->setDeadlineRegistration(date_add(new \DateTime(), date_interval_create_from_date_string(rand(1,3)." days"))); //strtotime(new \DateTime()."+ ".rand(1,15)." days")
             $sortie->setMaxNumberRegistration(rand(10,10000));
             $sortie->setDescription($this->getRandomDescription());
             $sortie->setOrganisateur($this->getReference("user".rand(0,4)));
@@ -66,7 +67,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
 
     private function getRandomEtat(){
         $etat=null;
-        $rand=rand(0,5);
+        $rand=rand(0,1);
         switch ($rand){
             case 0 :
                 $etat=$this->getReference("etat_cree");
@@ -74,21 +75,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
             case 1 :
                 $etat=$this->getReference("etat_ouvert");
                 break;
-            case 2 :
-                $etat=$this->getReference("etat_cloture");
-                break;
-            case 3 :
-                $etat=$this->getReference("etat_activite_en_cours");
-                break;
-            case 4 :
-                $etat=$this->getReference("etat_passe");
-                break;
-            case 5 :
-                $etat=$this->getReference("etat_annule");
-                break;
-            default:
-                return "pas d'état";
-                break;
+
         }
 
         return $etat;
@@ -96,15 +83,25 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
     }
 
     private function getRandomDate() {
-        $randDate = rand(0,2);
+        $randDate = rand(0,5);
         $date = new \DateTime();
         switch($randDate){
             case 0:
-                date_add($date, date_interval_create_from_date_string('1 days'));
+                date_add($date, date_interval_create_from_date_string('10 days'));
                 break;
             case 1:
                 date_add($date, date_interval_create_from_date_string('-1 days'));
                 break;
+            case 2:
+                date_add($date, date_interval_create_from_date_string('-3 days'));
+                break;
+            case 3:
+                date_add($date, date_interval_create_from_date_string('6 days'));
+                break;
+            case 4:
+                date_add($date, date_interval_create_from_date_string('8 days'));
+                break;
+
         }
         return $date;
     }
