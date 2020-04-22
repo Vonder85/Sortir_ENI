@@ -43,11 +43,34 @@
                 var test =  document.getElementById("dark").innerHTML;
                 element.classList.toggle("dark-mode");
                 if (test=="Dark mode") {
+                    document.cookie = "darkMode=true; path=/";
                     document.getElementById("dark").innerHTML = "Light mode";
                 }else {
+                    document.cookie = "darkMode=false; path=/";
                     document.getElementById("dark").innerHTML = "Dark mode";
                 }}
+            </script>
+            <script>
+                $(document).ready(function (){
+                    let decodedCookie = decodeURIComponent(document.cookie);
+                    let ca = decodedCookie.split(';');
+                    for(var i = 0; i <ca.length; i++) {
+                        var c = ca[i];
+                        while (c.charAt(0) == ' ') {
+                            c = c.substring(1);
+                        }
+                        if (c.indexOf("darkMode=") == 0) {
+                            var darkCookie = c.substring(9, c.length);
+                        }
+                    }
+                    if(darkCookie!="true"){
+                        var element = document.body;
+                        element.classList.toggle("dark-mode");
+                        document.getElementById("dark").innerHTML = "Light mode";
+                    }
+                })
+            </script>
 
-        </script>
+
     </body>
 </html>
