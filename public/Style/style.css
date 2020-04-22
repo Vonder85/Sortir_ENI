@@ -67,16 +67,32 @@ tr {
 }
 
 
-#sortiesFilters{
-    color: #222222;
+#sortiesFilterss{
     border-color: #222222;
     border-radius: inherit;
+    background-color: lightslategray;
+    color: #222222;
+}
+.darkmode--activated  {
+
+    color: #DDDDDD;
+
 }
 
 .dark-mode {
 
     background-color: #222222;
     color: white;}
+
+@media (prefers-color-scheme: dark) {
+    :root{
+    --body-color:white;
+    --body-bg:black;
+    }
+
+}
+
+
 
 
 
