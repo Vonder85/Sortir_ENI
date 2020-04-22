@@ -36,14 +36,14 @@ class VilleFixtures extends Fixture
 
         $ville = new Ville();
         $ville->setName("Marseille");
-        $ville->setZip("13000");
+        $ville->setZip("13001");
         $this->addReference("ville".$i,$ville);
         $manager->persist($ville);
         $i++;
 
         $ville = new Ville();
         $ville->setName("Paris");
-        $ville->setZip("75000");
+        $ville->setZip("75001");
         $this->addReference("ville".$i,$ville);
         $manager->persist($ville);
         $i++;

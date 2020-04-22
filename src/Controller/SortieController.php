@@ -92,6 +92,7 @@ class SortieController extends AbstractController
 
             $cp = $vr->find($sortie->getLieu()->getVille()->getId())->getZip();
             $data = json_decode(file_get_contents('https://geo.api.gouv.fr/communes?codePostal='.$cp.'&fields=centre&format=json&geometry=centre'));
+            dump($data);
         }
 
         return $this->render("sortie/consultSortie.html.twig", [
