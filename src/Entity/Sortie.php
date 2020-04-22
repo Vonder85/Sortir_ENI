@@ -76,6 +76,11 @@ class Sortie
      */
     private $participations;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $privee;
+
     public function __construct()
     {
         $this->participations = new ArrayCollection();
@@ -227,6 +232,18 @@ class Sortie
      */
     public function setParticipations(ArrayCollection $participations): void {
         $this->participations = $participations;
+    }
+
+    public function getPrivee(): ?bool
+    {
+        return $this->privee;
+    }
+
+    public function setPrivee(?bool $privee): self
+    {
+        $this->privee = $privee;
+
+        return $this;
     }
 
 
