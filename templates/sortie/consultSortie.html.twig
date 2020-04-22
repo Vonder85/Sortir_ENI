@@ -33,14 +33,18 @@
                     <div id="myMap" class="mt-4 text-center col-6"></div>
                 </div>
             </div>
-            {% if sortie.deadlineRegistration >  date() %}<a
-                class="btn-floating btn-small waves-effect waves-light right black"
-                href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}">
-                    M'inscrire</a>{% endif %}
-            {% if sortie.id in userSortie %}{% if sortie.dateTimeStart > date() %}<a
-                class="btn-floating btn-small waves-effect waves-light right black"
-                href="{{ path('sortie_remove_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_remove_inscription_'~sortie.id)}) }}">
-                    Me désister</a>{% endif %}{% endif %}
+            {% if sortie.deadlineRegistration >=  date() %}
+                <a class="btn-floating btn-small waves-effect waves-light right black"
+                href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}">M'inscrire</a>
+            {% endif %}
+            {% if sortie.id in userSortie and sortie.dateTimeStart >= date() %}
+                <a class="btn-floating btn-small waves-effect waves-light right black"
+                href="{{ path('sortie_remove_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_remove_inscription_'~sortie.id)}) }}">Me désister</a>
+            {% endif %}
+            {% if app.user.id == sortie.organisateur.id and sortie.dateTimeStart >= date() %}
+                <a class="btn-floating btn-small waves-effect waves-light right black"
+                   href="{{ path('sortie_update',{'id': sortie.id, 'csrf': csrf_token('sortie_update_'~sortie.id)}) }}">Modifier la sortie</a>
+            {% endif %}
 
         </div>
     </form>
