@@ -17,21 +17,21 @@ class RegisterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', null,['label'=> 'Pseudo : '])
-            ->add('lastname', null,['label'=> 'Nom : '])
-            ->add('firstname', null,['label'=> 'Prénom : '])
-            ->add('email', EmailType::class, ['label'=> 'Email : '])
+            ->add('username', null,['label'=> 'Pseudo  '])
+            ->add('lastname', null,['label'=> 'Nom  '])
+            ->add('firstname', null,['label'=> 'Prénom  '])
+            ->add('email', EmailType::class, ['label'=> 'Email '])
             ->add('password', RepeatedType::class,[
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe ne sont pas identiques',
                 'required' => true,
                 'first_options' => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Confirmation']
+                'second_options' =>['label' => 'Confirmer mot de passe']
             ])
-            ->add('telephone', null,['label'=> 'téléphone : '])
-            ->add('site', null, ['label' => 'Site de rattachement :', 'choice_label' => 'name'])
+            ->add('telephone', null,['label'=> 'téléphone '])
+            ->add('site', null, ['label' => 'Site', 'choice_label' => 'name'])
             ->add('photo', FileType::class, [
-                'label' => 'Photo : ',
+                'label' => 'Photo  ',
                 'mapped' => false,
                 'required' => false,
             ])
