@@ -73,15 +73,10 @@ tr {
     background-color: lightslategray;
     color: #222222;
 }
-.darkmode--activated  {
-
-    color: #DDDDDD;
-
-}
 
 .dark-mode {
 
-    background-color: #222222;
+    background-color: #090f0f;
     color: white;}
 
 @media (prefers-color-scheme: dark) {
