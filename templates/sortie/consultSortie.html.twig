@@ -44,7 +44,11 @@
 
         </div>
     </form>
-
+        {% if sortie.privee is same as (true) %}
+            <label for="addParticipant">Ajouter un participant </label>
+            <input type="text" name="addParticipant" id="addParticipant" placeholder="Pseudo">
+            <input type="submit" value="Ajouter">
+        {% endif %}
     <table>
         <thead>
         <tr>
