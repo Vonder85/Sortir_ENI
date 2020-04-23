@@ -1,5 +1,6 @@
 body {
     padding-bottom: 70px;
+    background-color: #bec3cc;
 }
 
 
@@ -17,9 +18,6 @@ body {
         display: none;
     }
 }
-
-
-
 
 .tableFixHead          { overflow-y: auto; height: 500px;  }
 .tableFixHead thead th { position: sticky; top: 0; border-color: #222222; border-radius: inherit; }
@@ -84,15 +82,12 @@ tr {
     --body-color:white;
     --body-bg:black;
     }
-
 }
 
-h3{
-
-}
-fieldset{
+fieldset {
     padding-left: 10px;
 }
+
 
 
 

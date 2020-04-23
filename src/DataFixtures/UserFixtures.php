@@ -20,30 +20,163 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $role = [];
-        for($i=0;$i<5;$i++){
-            $role[0] = $this->getRandomRoles();
-            $user = new User();
-            $user->setUsername("user".$i);
-            $user->setLastname("lastName".$i);
-            $user->setFirstname("firstName".$i);
-            $user->setEmail("email_".$i."@fragile.fr");
-            $password = $this->encoder->encodePassword($user, $i);
-            $user->setPassword($password);
-            $user->setActive(true);
-            $user->setCreatedAt(new \DateTime());
-            if($i<10){
-                $user->setTelephone("0".$i."1".$i."2".$i."3".$i."4".$i);
-            }else{
-                $user->setTelephone("0011223344");
-            }
-            $user->setSite($this->getReference("site".rand(0,4)));
-            $user->setPhoto("default_profile_pic_fixtures.png");
-            $user->setRoles($role);
-            $this->addReference("user".$i, $user);
-            $manager->persist($user);
-            $role = array();
-        }
+        $i=0;
+        $user = new User;
+        $user->setUsername("user1");
+        $user->setLastname("Martin");
+        $user->setFirstname("Gérard");
+        $user->setEmail("G.Martin25@gmail.com");
+        $password=$this->encoder->encodePassword($user,"1");
+        $user->setPassword($password);
+        $user->setActive(true);
+        $user->setCreatedAt(new\DateTime());
+        $user->setTelephone("0238659897");
+        $user->setSite($this->getReference("site".rand(0,2)));
+        $user->setPhoto("default_profile_pic_fixtures.png");
+        $user->setRoles(["ROLE_ADMIN"]);
+        $this->addReference("user".$i, $user);
+        $manager->persist($user);
+        $i++;
+
+        $user = new User;
+        $user->setUsername("user2");
+        $user->setLastname("Durand");
+        $user->setFirstname("Laura");
+        $user->setEmail("L.Durand32@gmail.com");
+        $password=$this->encoder->encodePassword($user,"2");
+        $user->setPassword($password);
+        $user->setActive(true);
+        $user->setCreatedAt(new\DateTime());
+        $user->setTelephone("0611458203");
+        $user->setSite($this->getReference("site".rand(0,2)));
+        $user->setPhoto("default_profile_pic_fixtures.png");
+        $user->setRoles(["ROLE_ADMIN"]);
+        $this->addReference("user".$i, $user);
+        $manager->persist($user);
+        $i++;
+
+
+        $user = new User;
+        $user->setUsername("user3");
+        $user->setLastname("Gomez");
+        $user->setFirstname("Vanessa");
+        $user->setEmail("V.Gomez15@hotmail.fr");
+        $password=$this->encoder->encodePassword($user,"3");
+        $user->setPassword($password);
+        $user->setActive(true);
+        $user->setCreatedAt(new\DateTime());
+        $user->setTelephone("0796330215");
+        $user->setSite($this->getReference("site".rand(0,2)));
+        $user->setPhoto("default_profile_pic_fixtures.png");
+        $user->setRoles(["ROLE_USER"]);
+        $this->addReference("user".$i, $user);
+        $manager->persist($user);
+        $i++;
+
+        $user = new User;
+        $user->setUsername("user4");
+        $user->setLastname("Moulin");
+        $user->setFirstname("Stéphane");
+        $user->setEmail("Stephane.M@hotmail.com");
+        $password=$this->encoder->encodePassword($user,"4");
+        $user->setPassword($password);
+        $user->setActive(true);
+        $user->setCreatedAt(new\DateTime());
+        $user->setTelephone("0365201548");
+        $user->setSite($this->getReference("site".rand(0,2)));
+        $user->setPhoto("default_profile_pic_fixtures.png");
+        $user->setRoles(["ROLE_USER"]);
+        $this->addReference("user".$i, $user);
+        $manager->persist($user);
+        $i++;
+
+        $user = new User;
+        $user->setUsername("user5");
+        $user->setLastname("Boisgontier");
+        $user->setFirstname("Hervé");
+        $user->setEmail("H.Boisgontier@campus-eni.fr");
+        $password=$this->encoder->encodePassword($user,"5");
+        $user->setPassword($password);
+        $user->setActive(true);
+        $user->setCreatedAt(new\DateTime());
+        $user->setTelephone("0240563296");
+        $user->setSite($this->getReference("site".rand(0,2)));
+        $user->setPhoto("default_profile_pic_fixtures.png");
+        $user->setRoles(["ROLE_USER"]);
+        $this->addReference("user".$i, $user);
+        $manager->persist($user);
+        $i++;
+
+        $user = new User;
+        $user->setUsername("user6");
+        $user->setLastname("Pouliquen");
+        $user->setFirstname("Axel");
+        $user->setEmail("Axel.Pouliquen@wanadoo.fr");
+        $password=$this->encoder->encodePassword($user,"6");
+        $user->setPassword($password);
+        $user->setActive(true);
+        $user->setCreatedAt(new\DateTime());
+        $user->setTelephone("0754823025");
+        $user->setSite($this->getReference("site".rand(0,2)));
+        $user->setPhoto("default_profile_pic_fixtures.png");
+        $user->setRoles(["ROLE_USER"]);
+        $this->addReference("user".$i, $user);
+        $manager->persist($user);
+        $i++;
+
+        $user = new User;
+        $user->setUsername("user7");
+        $user->setLastname("David");
+        $user->setFirstname("Fabienne");
+        $user->setEmail("Fabienne.David@gmail.com");
+        $password=$this->encoder->encodePassword($user,"7");
+        $user->setPassword($password);
+        $user->setActive(true);
+        $user->setCreatedAt(new\DateTime());
+        $user->setTelephone("0754878625");
+        $user->setSite($this->getReference("site".rand(0,2)));
+        $user->setPhoto("default_profile_pic_fixtures.png");
+        $user->setRoles(["ROLE_USER"]);
+        $this->addReference("user".$i, $user);
+        $manager->persist($user);
+        $i++;
+
+        $user = new User;
+        $user->setUsername("user8");
+        $user->setLastname("SCHIANO DI COLAS");
+        $user->setFirstname("Julien");
+        $user->setEmail("Julien.SDC@aol.fr");
+        $password=$this->encoder->encodePassword($user,"8");
+        $user->setPassword($password);
+        $user->setActive(true);
+        $user->setCreatedAt(new\DateTime());
+        $user->setTelephone("0754823025");
+        $user->setSite($this->getReference("site".rand(0,2)));
+        $user->setPhoto("default_profile_pic_fixtures.png");
+        $user->setRoles(["ROLE_USER"]);
+        $this->addReference("user".$i, $user);
+        $manager->persist($user);
+        $i++;
+
+        $user = new User;
+        $user->setUsername("user9");
+        $user->setLastname("Bouteiller");
+        $user->setFirstname("Jennifer");
+        $user->setEmail("J.Bouteiller@free.fr");
+        $password=$this->encoder->encodePassword($user,"9");
+        $user->setPassword($password);
+        $user->setActive(true);
+        $user->setCreatedAt(new\DateTime());
+        $user->setTelephone("0549980525");
+        $user->setSite($this->getReference("site".rand(0,2)));
+        $user->setPhoto("default_profile_pic_fixtures.png");
+        $user->setRoles(["ROLE_USER"]);
+        $this->addReference("user".$i, $user);
+        $manager->persist($user);
+        $i++;
+
+
+
         $manager->flush();
     }
 
@@ -53,19 +186,5 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         );
     }
 
-    private function getRandomRoles(){
-        $rand=rand(0,1);
-        switch ($rand){
-            case 0:
-                return "ROLE_USER";
-                break;
-            case 1:
-                return "ROLE_ADMIN";
-                break;
 
-            default:
-                return "description par défaut, ne devrait pas apparaitre";
-                break;
-        }
-    }
 }

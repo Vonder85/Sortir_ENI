@@ -2,7 +2,11 @@
 {% block title %}Nouvelle sortie | {{ parent() }}{% endblock %}
 
 {% block body %}
+    <div id="sortiesFilterss" class="card">
+    <fieldset >
     <h3>Nouvelle sortie</h3>
+    </fieldset>
+    </div>
     <br>
     {{ form_start(sortForm) }}
             {{ form_widget(sortForm) }}

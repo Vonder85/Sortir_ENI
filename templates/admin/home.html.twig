@@ -3,8 +3,12 @@
 {% block title %}Admin | {{ parent() }}{% endblock %}
 {% block body %}
     <br>
+    <div id="sortiesFilterss" class="card">
+    <fieldset >
     <h1 class="mb-0 text-center">Back-office/Admin</h1>
-    <br><br><br><br><br><br><br><br>
+    </fieldset>
+    </div>
+    <br><br><br><br><br><br>
     <div class="text-center mt-4">
         <a class="btn btn-primary" href="{{ path('admin_users') }}">Utilisateurs</a>
         <a class="btn btn-primary" href="{{ path('site_add') }}">Ajouter un site de rattachement</a>
