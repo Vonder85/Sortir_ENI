@@ -142,16 +142,16 @@ class UserController extends AbstractController
 
             $user->setResetToken($token);
 
+            $em->flush();
             $url = $this->generateUrl('user_reset_password', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
 
-            $message = (new \Swift_Message('Forgot Password'))
+            $message = (new \Swift_Message('Mot de passe oublié'))
                 ->setFrom('sortir_eni@dev.com')
                 ->setTo($user->getEmail())
                 ->setBody("Vous avez oublié votre mot de passe. Voici le token pour réinitialiser votre mot de passe : " . $url, 'text/html');
 
             $emailer->send($message);
-            $em->flush();
-            $this->addFlash('notice', 'Mail envoyé');
+            $this->addFlash('success', 'Mail envoyé');
 
             return $this->redirectToRoute('Connexion');
 
