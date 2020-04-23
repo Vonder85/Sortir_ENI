@@ -73,13 +73,6 @@ class SortieController extends AbstractController
         }
     }
 
-    /**
-     * @Route("/ModifierSortie", name="modify")
-     */
-    public function modifySortie()
-    {
-        return $this->render("sortie/modifierSortie.html.twig");
-    }
 
     /**
      * @Route("/{id}/{csrf}", name="show", requirements={"id": "\d+"})
@@ -99,6 +92,7 @@ class SortieController extends AbstractController
 
             $cp = $vr->find($sortie->getLieu()->getVille()->getId())->getZip();
             $data = json_decode(file_get_contents('https://geo.api.gouv.fr/communes?codePostal='.$cp.'&fields=centre&format=json&geometry=centre'));
+            dump($data);
         }
 
         return $this->render("sortie/consultSortie.html.twig", [
@@ -106,6 +100,41 @@ class SortieController extends AbstractController
             'usersList' => $usersList,
             'userSortie' => $userSorties,
             "data" => $data
+        ]);
+    }
+
+    /**
+     * @Route("/ModifierSortie/{id}/{csrf}", name="update", requirements={"id": "\d+"})
+     */
+    public function updateSortie(EntityManagerInterface $em, SortieRepository $sortRepo, $id, $csrf, UserRepository $ur, VilleRepository $vr, Request $request)
+    {
+        if (!$this->isCsrfTokenValid('sortie_update_' . $id, $csrf)) {
+            throw $this->createAccessDeniedException('Désolé, vous ne pouvez pas accéder à cette page !');
+        } else {
+            $sortie = $sortRepo->find($id);
+            $sortForm = $this->createForm(SortieType::class, $sortie);
+            $sortForm->handleRequest($request);
+            if ($sortForm->isSubmitted() && $sortForm->isValid()) {
+                if($request->request->get('privee'))
+                {
+                    $sortie->setPrivee(true);
+                }
+                if($_POST["submitButton"]=="enregistrer"){
+                    $etat = $em->getRepository(Etat::class)->findBy(["name" => "Créée"]);
+                    $sortie->setEtat($etat[0]);
+                }
+                if($_POST["submitButton"]=="publier"){
+                    $etat = $em->getRepository(Etat::class)->findBy(["name" => "Ouverte"]);
+                    $sortie->setEtat($etat[0]);
+                }
+                $em->flush();
+                return $this->redirectToRoute("main_home");
+            }
+        }
+
+        return $this->render("sortie/modifierSortie.html.twig", [
+            'sortieForm' => $sortForm->createView(),
+            'sortie' => $sortie,
         ]);
     }
 
