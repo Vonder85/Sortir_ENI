@@ -90,8 +90,8 @@
                 {% else %}
                     <tr onclick="window.location='{{ path('sortie_show',{'id': sortie.id, 'csrf': csrf_token('sortie_show_'~sortie.id)}) }}';">
                         <td>{{ sortie.name }}</td>
-                        <td>{{ sortie.dateTimeStart | date }}</td>
-                        <td id="clotureSortie">{{ sortie.deadlineRegistration | date }}</td>
+                        <td>{{ sortie.dateTimeStart | date ('d/m/Y')}}</td>
+                        <td id="clotureSortie">{{ sortie.deadlineRegistration | date ('d/m/Y') }}</td>
                         <td id="nbInscrit"> {{ sortie.countedUsers }}/{{ sortie.maxNumberRegistration }}</td>
                         <td id="etatSortie">{{ sortie.etatname }}</td>
                         <td id="lieuxCache">{{ sortie.villeName }}</td>
