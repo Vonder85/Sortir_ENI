@@ -49,7 +49,6 @@ class ParticipationsRepository extends ServiceEntityRepository
     }
 
 
-
     // /**
     //  * @return Etat[] Returns an array of Etat objects
     //  */
