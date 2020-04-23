@@ -62,15 +62,17 @@ class SortieRepository extends ServiceEntityRepository
             $qb->andWhere("e.name LIKE 'passée'");
         }
         $currentDate = new \DateTime();
-        $qb->andWhere("s.dateTimeStart >= :dateArchivage")
-            ->setParameter("dateArchivage",$currentDate->sub(new \DateInterval('P30D')));
-        $qb->andWhere("e.name LIKE :etat OR (s.organisateur = :user OR p.user = :user)")
-            ->setParameter("etat","Ouverte")
-            ->setParameter("user", $user);
-        $qb->andWhere("s.privee = false OR (s.organisateur = :user OR p.user = :user)")
-            ->setParameter("user", $user);
+        if($user->getRoles() != ["ROLE_ADMIN"]){
+            $qb->andWhere("s.dateTimeStart >= :dateArchivage")
+                ->setParameter("dateArchivage",$currentDate->sub(new \DateInterval('P30D')));
+            $qb->andWhere("e.name LIKE :etat OR (s.organisateur = :user OR p.user = :user)")
+                ->setParameter("etat","Ouverte")
+                ->setParameter("user", $user);
+            $qb->andWhere("s.privee = false OR (s.organisateur = :user OR p.user = :user)")
+                ->setParameter("user", $user);
+        }
         $qb->join("s.etat",'e');
-        $qb->Select("s.id, s.name, s.dateTimeStart, s.deadlineRegistration, s.maxNumberRegistration, e.name as etatname, o.id as organisateurid, o.firstname, o.lastname, v.name as villeName, COUNT(p.id) as countedUsers");
+        $qb->Select("s.id, s.name, s.dateTimeStart, s.deadlineRegistration, s.maxNumberRegistration, e.name as etatname, o.id as organisateurid, o.firstname, o.lastname, v.name as villeName, s.annulation as motifAnnulation, COUNT(p.id) as countedUsers");
         $qb->leftJoin("s.participations", "p");
         $qb->join("s.organisateur", "o");
         $qb->join("s.lieu", "l");

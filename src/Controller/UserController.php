@@ -194,12 +194,9 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}", name="user_show_profile", requirements={"id": "\d+"})
      */
-    public function showProfile(EntityManagerInterface $em, UserRepository $ur, $id = 1)
+    public function showProfile(EntityManagerInterface $em, UserRepository $ur, $id)
     {
-        $ur = $em->getRepository(User::class);
         $user = $ur->find($id);
-        $user->getSite()->getName();
-
         return $this->render("user/show_profile.html.twig", [
             'user' => $user,
         ]);
