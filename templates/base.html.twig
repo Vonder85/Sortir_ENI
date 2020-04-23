@@ -26,10 +26,11 @@
             {% endfor %}
         {% endfor %}
 
-        {% block body %}{% endblock %}
-        </div>
+        {% block body %}
+        {% endblock %}
 
-        <nav class="navbar fixed-bottom navbar-light text-white bg-couleur-perso" style="height : 4%;">
+
+                <nav class="navbar fixed-bottom navbar-light text-white bg-couleur-perso" style="height : 4%;">
             <span class="navbar-text text-white" style="position: absolute; left: 50%; transform: translateX(-50%);">&copy; Sortir.com {{ "now" |date("Y") }}</span>
         </nav>
 
@@ -43,10 +44,10 @@
                 var test =  document.getElementById("dark").innerHTML;
                 element.classList.toggle("dark-mode");
                 if (test=="Dark mode") {
-                    document.cookie = "darkMode=true; path=/";
+                    document.cookie = "darkMode=false; path=/";
                     document.getElementById("dark").innerHTML = "Light mode";
                 }else {
-                    document.cookie = "darkMode=false; path=/";
+                    document.cookie = "darkMode=true; path=/";
                     document.getElementById("dark").innerHTML = "Dark mode";
                 }}
             </script>

@@ -3,7 +3,11 @@
 {% block title %}Sortie | {{ parent() }}{% endblock %}
 
 {% block body %}
+<div id="sortiesFilterss" class="card">
+    <fieldset >
     <h3>{{ sortie.name }}</h3>
+    </fieldset>
+</div>
     <br>
     <form>
         <div class="form-group">
@@ -27,8 +31,10 @@
                         <p><span style="font-weight: bold">Adresse : </span>{{ sortie.lieu.street }}</p>
                         <p><span style="font-weight: bold">Code Postal : </span>{{ sortie.lieu.ville.zip }}</p>
                         <p><span style="font-weight: bold">Ville : </span>{{ sortie.lieu.ville.name }}</p>
-                        <p><span style="font-weight: bold">Coordonnées GPS : </span>{{ data[0].centre.coordinates[1] }}
+                        {% if data|default is not empty %}
+                            <p><span style="font-weight: bold">Coordonnées GPS : </span>{{ data[0].centre.coordinates[1] }}
                             / {{ data[0].centre.coordinates[0] }}</p>
+                        {% endif %}
                     </div>
                     <div id="myMap" class="mt-4 text-center col-6"></div>
                 </div>
@@ -75,27 +81,28 @@
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
             integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
             crossorigin=""></script>
+    {% if data|default is not empty %}
     <script>
-        //On initialise la latitude et la longitude (centre de la carte)
+            //On initialise la latitude et la longitude (centre de la carte)
+            let lat = {{ data[0].centre.coordinates[1] }};
+            let lon = {{ data[0].centre.coordinates[0] }};
 
-        let lat = {{ data[0].centre.coordinates[1] }};
-        let lon = {{ data[0].centre.coordinates[0] }};
+            // On initialise la carte
+            const map = L.map('myMap').setView([lat, lon], 11);
+            // Leaflet ne récupère pas les cartes (tiles) sur un serveur par défaut. Nous devons lui préciser où nous souhaitons les récupérer. Ici, openstreetmap.fr
+            L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+            // Il est toujours bien de laisser le lien vers la source des données
+                attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
+                minZoom: 1,
+                maxZoom: 20
+            }).addTo(map);
 
-        // On initialise la carte
-        const map = L.map('myMap').setView([lat, lon], 11);
-        // Leaflet ne récupère pas les cartes (tiles) sur un serveur par défaut. Nous devons lui préciser où nous souhaitons les récupérer. Ici, openstreetmap.fr
-        L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
-// Il est toujours bien de laisser le lien vers la source des données
-            attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
-            minZoom: 1,
-            maxZoom: 20
-        }).addTo(map);
-
-        //Ajout d'un marqueur
-        const marker = L.marker([lat, lon]).addTo(map);
-        //Ajout d'une popup
-        marker.bindPopup("<h3>{{ sortie.lieu.name }}</h3>" +
-            "<address>{{ sortie.lieu.street}}</address>");
+            //Ajout d'un marqueur
+            const marker = L.marker([lat, lon]).addTo(map);
+            //Ajout d'une popup
+            marker.bindPopup("<h3>{{ sortie.lieu.name }}</h3>" +
+                "<address>{{ sortie.lieu.street}}</address>");
     </script>
+    {% endif %}
 
 {% endblock %}

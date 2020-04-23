@@ -3,7 +3,11 @@
 
 {% block title %}Admin/Utilisateurs | {{ parent() }}{% endblock %}
 {% block body %}
-    <h1 class="mb-0 text-center">Utilisateurs/Admin</h1>
+<div id="sortiesFilterss" class="card">
+    <fieldset >
+    <h3 class="mb-0 text-center">Utilisateurs/Admin</h3>
+    </fieldset>
+</div>
     <div class="mt-4">
         <a href="{{ path('admin_user_add') }}">
             <button type="button" class="btn btn-primary">Ajouter un utilisateur</button>
