@@ -11,6 +11,9 @@ body {
     #clotureSortie,#organisateur,#nbInscrit,#actions,#etatSortie,#inscrit{
         display: none;
     }
+    .jen{
+        display: none;
+    }
 }
 
 @media screen and (min-width: 768px){
@@ -20,6 +23,7 @@ body {
 }
 
 .tableFixHead          { overflow-y: auto; height: 500px;  }
+
 .tableFixHead thead th { position: sticky; top: 0; border-color: #222222; border-radius: inherit; }
 
 /* Just common table stuff. Really. */
@@ -35,6 +39,7 @@ tr {
     width:150px;
     padding:0 5px 0 0
 }*/
+
 
 .flash{
     padding: 20px;
@@ -66,11 +71,11 @@ tr {
 
 
 #sortiesFilterss{
-    border-color: #222222;
-    border-radius: inherit;
-    background-color: lightslategray;
-    color: #222222;
-}
+     border-color: #222222;
+     border-radius: inherit;
+     background-color: lightslategray;
+     color: #222222;
+ }
 
 .dark-mode {
 

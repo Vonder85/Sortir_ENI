@@ -3,7 +3,7 @@
 {% block title %}Accueil | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div id="sortiesFilterss" class="card">
+    <div id="sortiesFilterss" class="card jen">
         <form action="">
             <fieldset>
                 <legend>Filtrer les sorties</legend>
@@ -35,9 +35,8 @@
                         {% endif %}
 
                         <label for="dateDebut">Entre </label>
-                        {% if sortiesCriteria.dateDebut != null %}
-                            <input type="date" name="dateDebut"
-                                   value="{{ sortiesCriteria.dateDebut | date("d/m/Y'") }}">
+                        {%  if sortiesCriteria.dateDebut != null %}
+                            <input type="date" name="dateDebut" value="{{ sortiesCriteria.dateDebut | date("d/m/Y'") }}">
                         {% else %}
                             <input type="date" name="dateDebut">
                         {% endif %}
@@ -51,21 +50,13 @@
 
                     </div>
                     <div class="col-5">
-                        <input type="checkbox"
-                               name="checkbox1" {% set coche = sortiesCriteria.organisateur == true?"checked":"" %}{{ coche }}>
-                        Sorties dont je suis l'organisateur/trice <br>
+                        <input type="checkbox" name="checkbox1" {% set coche = sortiesCriteria.organisateur == true?"checked":"" %}{{ coche }}> Sorties dont je suis l'organisateur/trice <br>
 
-                        <input type="checkbox"
-                               name="checkbox2" {% set coche = sortiesCriteria.inscrit == true?"checked":"" %}{{ coche }}>
-                        Sorties auxquelles je suis inscrit/e <br>
+                        <input type="checkbox" name="checkbox2" {% set coche = sortiesCriteria.inscrit == true?"checked":"" %}{{ coche }}> Sorties auxquelles je suis inscrit/e <br>
 
-                        <input type="checkbox"
-                               name="checkbox3" {% set coche = sortiesCriteria.pasInscrit == true?"checked":"" %}{{ coche }}>
-                        Sorties auxquelles je ne suis pas inscrit/e <br>
+                        <input type="checkbox" name="checkbox3" {% set coche = sortiesCriteria.pasInscrit == true?"checked":"" %}{{ coche }}> Sorties auxquelles je ne suis pas inscrit/e <br>
 
-                        <input type="checkbox"
-                               name="checkbox4" {% set coche = sortiesCriteria.sortiePassee == true?"checked":"" %}{{ coche }}>
-                        Sorties passées <br>
+                        <input type="checkbox" name="checkbox4" {% set coche = sortiesCriteria.sortiePassee == true?"checked":"" %}{{ coche }}> Sorties passées <br>
                     </div>
                     <div class="col-2">
                         <br><br>
@@ -109,7 +100,7 @@
                         {% else %}
                             <td id="inscrit"></td>
                         {% endif %}
-                        <td id="organisateur">{{ sortie.firstname }} {{ sortie.lastname | first }}.</td>
+                        <td id="organisateur"><a href="{{ path('user_show_profile', {'id': sortie.organisateurid}) }}"> {{ sortie.firstname }} {{ sortie.lastname | first }}.</a></td>
                         <td id="actions">
                             {% if sortie.organisateurid == app.user.id or is_granted("ROLE_ADMIN") %}
                                 {% if sortie.etatname is not same as ('Annulée') %}

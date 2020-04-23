@@ -13,11 +13,12 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
     {
         for($i=0;$i<100;$i++){
             $dateDebut = $this->getRandomDate();
+            $dateDeadline = date_add(clone $dateDebut, date_interval_create_from_date_string("-1 days"));
             $sortie = new Sortie();
             $sortie->setName("Sortie n°".$i);
             $sortie->setDateTimeStart($dateDebut);
             $sortie->setDuration(rand(1,200));
-            $sortie->setDeadlineRegistration(date_add(new \DateTime(), date_interval_create_from_date_string(rand(1,3)." days"))); //strtotime(new \DateTime()."+ ".rand(1,15)." days")
+            $sortie->setDeadlineRegistration($dateDeadline); //strtotime(new \DateTime()."+ ".rand(1,15)." days")
             $sortie->setMaxNumberRegistration(rand(10,40));
             $sortie->setDescription($this->getRandomDescription());
             $sortie->setOrganisateur($this->getReference("user".rand(0,8)));

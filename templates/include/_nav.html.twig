@@ -30,7 +30,7 @@
                 </li>
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
-                <li class="nav-item">
+                <li class="nav-item" id="sortiesFilters">
                     <a class="nav-link text-white" href="{{ path('admin_home') }}">Admin</a>
                 </li>
             {% endif %}

@@ -59,15 +59,14 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter("user", $user);
         }
         if($criteria->isSortiePassee()!=false){
-            $qb->andWhere("s.dateTimeStart < :dateFin")
-                ->setParameter("dateFin",new \DateTime());
+            $qb->andWhere("e.name LIKE 'passée'");
         }
         $currentDate = new \DateTime();
         $qb->andWhere("s.dateTimeStart >= :dateArchivage")
             ->setParameter("dateArchivage",$currentDate->sub(new \DateInterval('P30D')));
-        $qb->andWhere("e.name LIKE :etat OR s.organisateur = :organisateur")
+        $qb->andWhere("e.name LIKE :etat OR (s.organisateur = :user OR p.user = :user)")
             ->setParameter("etat","Ouverte")
-            ->setParameter("organisateur", $user);
+            ->setParameter("user", $user);
         $qb->andWhere("s.privee = false OR (s.organisateur = :user OR p.user = :user)")
             ->setParameter("user", $user);
         $qb->join("s.etat",'e');
@@ -77,7 +76,6 @@ class SortieRepository extends ServiceEntityRepository
         $qb->join("s.lieu", "l");
         $qb->join("l.ville", "v");
         $qb->groupBy("s.id");
-        dump($qb->getQuery()->execute());
         return $qb->getQuery()->execute();
     }
 
