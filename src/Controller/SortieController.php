@@ -150,13 +150,16 @@ class SortieController extends AbstractController
             throw $this->createAccessDeniedException('Désolé, votre session a expiré !');
         } else {
 
-            $motif = $request->request->get("motif");
+            $motif = $request->request->get('motif');
             dump($motif);
+            if($motif){
                 $sortie = $sr->find($id);
                 $sortie->setEtat($em->getRepository(Etat::class)->findOneBy(['name'=>'Annulée']));
                 $em->flush();
                 $this->addFlash('success', 'Votre sortie a été annulée');
                 return $this->redirectToRoute('main_home');
+            }
+
             }
 
         return $this->render("sortie/annulerSortie.html.twig", [
