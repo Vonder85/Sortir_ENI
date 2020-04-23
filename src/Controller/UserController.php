@@ -78,42 +78,41 @@ class UserController extends AbstractController
     /**
      * @Route("/Profil/{id}", name="user_profile", requirements={"id": "\d+"})
      */
-    public function userProfile(User $users,$id, EntityManagerInterface $em, UserRepository $ur, Request $request, UserPasswordEncoderInterface $encoder)
-    {
-        if (!$this->getUser()->getActive()) {
-            return $this->render('user/desactivate.html.twig');
-        }else{
-
-        }
-        $ur = $em->getRepository(User::class);
-        $users->getUsername();
-        $user = $ur->find($id);
-        $profileForm = $this->createForm(RegisterType::class, $user);
-        $photoIn = $user->getPhoto();
-
-        $profileForm->handleRequest($request);
-        if ($profileForm->isSubmitted() && $profileForm->isValid()) {
-            //Hash password
-            $hashed = $encoder->encodePassword($user, $user->getPassword());
-            $user->setPassword($hashed);
-
-            $photo = $profileForm->get('photo')->getData();
-            if ($photo) {
-                $photoName = $this->generateUniqueFileName() . '.' . strtolower($photo->getClientOriginalExtension());
-                $photo->move(
-                    $this->getParameter('upload_photos'),
-                    $photoName
-                );
-                $user->setPhoto($photoName);
-            } else {
-                $user->setPhoto($photoIn);
+    public function userProfile(User $users,$id, EntityManagerInterface $em, UserRepository $ur, Request $request, UserPasswordEncoderInterface $encoder) {
+        if (!$this->isGranted("IS_AUTHENTICATED_REMEMBERED")) {
+            return $this->redirectToRoute('Connexion');
+        } else {
+            if (!$this->getUser()->getActive()) {
+                return $this->render('user/desactivate.html.twig');
             }
-            $em->flush();
+            $user = $ur->find($id);
+            $profileForm = $this->createForm(RegisterType::class, $user);
+            $photoIn = $user->getPhoto();
+
+            $profileForm->handleRequest($request);
+            if ($profileForm->isSubmitted() && $profileForm->isValid()) {
+                //Hash password
+                $hashed = $encoder->encodePassword($user, $user->getPassword());
+                $user->setPassword($hashed);
+
+                $photo = $profileForm->get('photo')->getData();
+                if ($photo) {
+                    $photoName = $this->generateUniqueFileName() . '.' . strtolower($photo->getClientOriginalExtension());
+                    $photo->move(
+                        $this->getParameter('upload_photos'),
+                        $photoName
+                    );
+                    $user->setPhoto($photoName);
+                } else {
+                    $user->setPhoto($photoIn);
+                }
+                $em->flush();
+            }
+            return $this->render('user/profile.html.twig', [
+                "profileForm" => $profileForm->createView(),
+                "users" => $users
+            ]);
         }
-        return $this->render('user/profile.html.twig', [
-            "profileForm" => $profileForm->createView(),
-            "users"=>$users
-        ]);
     }
 
     /**
