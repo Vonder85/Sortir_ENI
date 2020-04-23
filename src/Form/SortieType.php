@@ -24,7 +24,7 @@ class SortieType extends AbstractType
             ->add('name',null,['label'=> 'Nom de la sortie  '])
             ->add('dateTimeStart',null,['label'=> 'Début de la sortie ',
                 'widget' => 'choice'])
-            ->add('duration',null,['label'=> 'Durée de la sortie '])
+            ->add('duration',null,['label'=> 'Durée de la sortie (min)'])
             ->add('deadlineRegistration',null,[
                 'label'=> 'Date Limite Inscription '
             ])

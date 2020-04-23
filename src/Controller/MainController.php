@@ -100,30 +100,35 @@ class MainController extends AbstractController
 
     public function etat(EtatRepository $er, EntityManagerInterface $em, ParticipationsRepository $pr)
     {
+        $tab = [];
         $etats = $er->findAll();
+        $part = $em->getRepository(Sortie::class)->findSortieWithEtat();
+        for ($i = 0; $i < sizeof($part); $i++) {
+            $tab[$part[$i]['id']] = ['id' => $part[$i]['id'],
+                'countedUsers' => $part[$i]['countedUsers']];
+        }
         $sorties = $em->getRepository(Sortie::class)->findAll();
         $dateToday = new \DateTime();
         $now = new \DateTime($dateToday->format('Y-m-d H:i:s'));
-        foreach ($sorties as $sortie){
+        foreach ($sorties as $sortie) {
 
             $date = $sortie->getDateTimeStart();
             $dateDebut = new \DateTime($date->format('Y-m-d H:i:s'));
-            $dateFin = $dateDebut->add(new \DateInterval('PT0H'.$sortie->getDuration().'M'))->format('Y-m-d H:i:s');
+            $dateFin = new \DateTime($dateDebut->add(new \DateInterval('PT0H' . $sortie->getDuration() . 'M'))->format('Y-m-d H:i:s'));
 
             /**
              * var Sortie $sortie
              */
 
-            if(($sortie->getDeadlineRegistration() > $now && $sortie->getDateTimeStart() > $now)){
-            }else if (($sortie->getDeadlineRegistration() < $now && $sortie->getDateTimeStart() > $now) /*|| $pr->findNbParticipations($sortie->getId()) == $sortie->getMaxNumberRegistration()*/){
-                $sortie->setEtat($etats[2]);
-            }else if(($sortie->getDateTimeStart() < $now && $dateFin > $now )){
+            if ($sortie->getEtat() == 'Annulée') {
+
+            } else if (($sortie->getDeadlineRegistration() > $now && $sortie->getDateTimeStart() > $now)) {
+            } else if (($sortie->getDateTimeStart() < $now && $dateFin > $now)) {
                 $sortie->setEtat($etats[3]);
-            }
-            else if($dateFin < $now){
+            } else if (($sortie->getDeadlineRegistration() < $now && $sortie->getDateTimeStart() > $now) || $tab[$sortie->getId()]['countedUsers'] == $sortie->getMaxNumberRegistration()) {
+                $sortie->setEtat($etats[2]);
+            } else if ($dateFin < $now) {
                 $sortie->setEtat($etats[4]);
-            }else{
-                $sortie->setEtat($etats[5]);
             }
         }
 

@@ -3,7 +3,11 @@
 
 {% block title %}Admin/Ajouter un utilisateur | {{ parent() }}{% endblock %}
 {% block body %}
-    <h3>Ajout d'un utilisateur</h3><br>
+<div id="sortiesFilterss" class="card">
+    <fieldset>
+    <h3>Ajout d'un utilisateur</h3>
+    </fieldset>
+</div><br>
             {{ form_start(registerForm) }}
                 {{ form_widget(registerForm) }}</p>
 

@@ -143,29 +143,24 @@ class SortieController extends AbstractController
      */
     public function cancelSortie($id, $csrf, Request $request, SortieRepository $sr, EntityManagerInterface $em)
     {
-        $sortRepo = $em->getRepository(Sortie::class);
-        $sortie = $sortRepo->find($id);
-        $sortie->getLieu()->getVille()->getName();
-        $sorties = $sr->findAll();
+        $sortie = $sr->find($id);
         $id = $request->get('id');
 
         if (!$this->isCsrfTokenValid('sortie_cancel_' . $id, $csrf)) {
             throw $this->createAccessDeniedException('Désolé, votre session a expiré !');
         } else {
 
-            $motif = $request->get("motif");
-            if ($motif !== null) {
-
+            $motif = $request->request->get("motif");
+            dump($motif);
                 $sortie = $sr->find($id);
-                $em->remove($sortie);
+                $sortie->setEtat($em->getRepository(Etat::class)->findOneBy(['name'=>'Annulée']));
                 $em->flush();
-
                 $this->addFlash('success', 'Votre sortie a été annulée');
                 return $this->redirectToRoute('main_home');
             }
-        }
+
         return $this->render("sortie/annulerSortie.html.twig", [
-            "sorties" => $sorties,
+            "sorties" => $sortie,
             "id" => $id,
             "sortie"=>$sortie
         ]);

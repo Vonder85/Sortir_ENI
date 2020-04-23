@@ -55,6 +55,34 @@ class VilleFixtures extends Fixture
         $manager->persist($ville);
         $i++;
 
+        $ville = new Ville();
+        $ville->setName("Lyon");
+        $ville->setZip("69000");
+        $this->addReference("ville".$i,$ville);
+        $manager->persist($ville);
+        $i++;
+
+        $ville = new Ville();
+        $ville->setName("Nice");
+        $ville->setZip("06100");
+        $this->addReference("ville".$i,$ville);
+        $manager->persist($ville);
+        $i++;
+
+        $ville = new Ville();
+        $ville->setName("La Rochelle");
+        $ville->setZip("17000");
+        $this->addReference("ville".$i,$ville);
+        $manager->persist($ville);
+        $i++;
+
+        $ville = new Ville();
+        $ville->setName("Nancy");
+        $ville->setZip("54000");
+        $this->addReference("ville".$i,$ville);
+        $manager->persist($ville);
+        $i++;
+
         $manager->flush();
     }
 
