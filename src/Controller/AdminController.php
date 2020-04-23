@@ -76,7 +76,7 @@ class AdminController extends AbstractController
     public function addOneUser(EntityManagerInterface $em, Request $request, UserPasswordEncoderInterface $encoder){
         if($this->isGranted('ROLE_ADMIN')){
             $user = new User();
-            $user->setCreatedAt(new \DateTime());
+            $user->setCreatedAt(new \DateTime(), new \DateTimeZone('Europe/Paris'));
             $user->setActive(true);
             $registerForm=$this->createForm(RegisterType::class, $user);
             $registerForm->handleRequest($request);
@@ -137,7 +137,7 @@ class AdminController extends AbstractController
                     //Hasher mot de passe
                     $hashed = $encoder->encodePassword($user, $data[$i]["password"]);
 
-                    $date = new \DateTime($data[$i]['created_at']);
+                    $date = new \DateTime($data[$i]['created_at'], new \DateTimeZone('Europe/Paris'));
                     $site = $sr->find($data[$i]["site_id"]);
 
                     $user->setUsername($data[$i]["username"]);
