@@ -143,7 +143,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
         $user = new User;
         $user->setUsername("user8");
-        $user->setLastname("SCHIANO DI COLAS");
+        $user->setLastname("SCHIANO DI COLA");
         $user->setFirstname("Julien");
         $user->setEmail("Julien.SDC@aol.fr");
         $password=$this->encoder->encodePassword($user,"8");
