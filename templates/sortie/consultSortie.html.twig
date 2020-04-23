@@ -33,7 +33,7 @@
                     <div id="myMap" class="mt-4 text-center col-6"></div>
                 </div>
             </div>
-            {% if sortie.deadlineRegistration >  date() %}<a
+            {% if sortie.deadlineRegistration >  date()  and sortie.privee is same as (false)%}<a
                 class="btn-floating btn-small waves-effect waves-light right black"
                 href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}">
                     M'inscrire</a>{% endif %}
@@ -44,11 +44,12 @@
 
         </div>
     </form>
-        {% if sortie.privee is same as (true) %}
-            <label for="addParticipant">Ajouter un participant </label>
-            <input type="text" name="addParticipant" id="addParticipant" placeholder="Pseudo">
-            <input type="submit" value="Ajouter">
-        {% endif %}
+    {% if sortie.privee is same as (true) and sortie.organisateur.id == app.user.id%}
+        <label for="addParticipant">Ajouter un participant </label>
+        <input type="text" name="addParticipant" id="addParticipant" placeholder="Pseudo"
+               onkeyup="recupSaisie(this.value);">
+        <button id="add" onclick="ajoutParticipantAjax()">Ajouter</button>
+    {% endif %}
     <table>
         <thead>
         <tr>
@@ -56,7 +57,7 @@
             <th class="th-sm">Prénom et Nom</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="contenuTableau">
         {% for user in usersList %}
             <tr>
                 <td><a href="{{ path('user_show_profile', {'id': user.id}) }}">{{ user.username }}</a></td>
@@ -65,7 +66,7 @@
         {% endfor %}
         </tbody>
     </table>
-
+    <div id="participant"></div>
     <br><br><br>
 
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
@@ -91,7 +92,38 @@
         const marker = L.marker([lat, lon]).addTo(map);
         //Ajout d'une popup
         marker.bindPopup("<h3>{{ sortie.lieu.name }}</h3>" +
-            "<address>{{ sortie.lieu.street}}</address>");
+            "<address>{{ sortie.lieu.street }}</address>");
     </script>
 
 {% endblock %}
+
+{% block javascript %}
+
+function ajoutParticipantAjax() {
+    var username = $('#addParticipant').val();
+    $.ajax({
+        url: '{{ path('search_user_ajax')}}/' + username,
+                method:"post",
+                data :{
+                    'sortie': {{ sortie.id }},
+                },
+                async: true,
+            }).done(function (msg) {
+            console.log(msg);
+                refreshUserList(msg);
+            });
+    }
+
+    function refreshUserList(msg)
+    {
+            var elTr = $('<tr></tr>'); //création d'un élément tr
+            var eltTdPseudo = $('<td></td>').html("<a href='/" + msg.userId +" '>"+ msg.username + "</a>" ); //création d'un élément td pour le pseudo avec le lien du profil
+            var eltTdFirstLast = $('<td></td>').text(msg.firstname +" "+ msg.lastname ); // création d'un élément td pour le prénom et le nom
+
+            $(elTr).append(eltTdPseudo, eltTdFirstLast );
+            $('#contenuTableau').append(elTr);
+    }
+
+{% endblock %}
+
+
