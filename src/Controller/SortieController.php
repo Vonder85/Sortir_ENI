@@ -49,6 +49,9 @@ class SortieController extends AbstractController
                     {
                         $sortie->setPrivee(true);
                     }
+                    else{
+                        $sortie->setPrivee(false);
+                    }
                     if($_POST["submitButton"]=="enregistrer"){
                         $etat = $em->getRepository(Etat::class)->findBy(["name" => "Créée"]);
                         $sortie->setEtat($etat[0]);

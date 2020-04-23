@@ -13,6 +13,7 @@
         <div class="form-group">
             <div class="container">
 
+                <p><span style="font-weight: bold">Sortie Privée </span></p>
                 <p><span style="font-weight: bold">Organisateur de la sortie : </span> <a
                             href="{{ path('user_show_profile', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.firstname }} {{ sortie.organisateur.lastname }}</a>
                 </p>
@@ -54,12 +55,15 @@
 
         </div>
     </form>
-    {% if sortie.privee is same as (true) and sortie.organisateur.id == app.user.id%}
-        <label for="addParticipant">Ajouter un participant </label>
-        <input type="text" name="addParticipant" id="addParticipant" placeholder="Pseudo"
-               onkeyup="recupSaisie(this.value);">
-        <button id="add" onclick="ajoutParticipantAjax()">Ajouter</button>
-    {% endif %}
+    <div class="form-group">
+        <div class="container">
+        {% if sortie.privee is same as (true) and sortie.organisateur.id == app.user.id%}
+            <label style="font-weight: bold" for="addParticipant">Ajouter un participant : </label>
+            <input type="text" name="addParticipant" id="addParticipant" placeholder="Pseudo">
+            <button id="add" onclick="ajoutParticipantAjax()" class="btn btn-primary">Ajouter</button>
+        {% endif %}
+        </div>
+    </div>
     <table>
         <thead>
         <tr>
@@ -122,6 +126,8 @@ function ajoutParticipantAjax() {
             }).done(function (msg) {
             console.log(msg);
                 refreshUserList(msg);
+            }).fail(function (){
+                alert("Ce participant n'existe pas");
             });
     }
 
