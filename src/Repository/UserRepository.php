@@ -58,6 +58,18 @@ class UserRepository extends ServiceEntityRepository
         return $qb->getQuery()->getArrayResult();
 
     }
+
+    public function findByUsername($username)
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb->andWhere('u.username = :username')->setParameter('username', $username);
+        $query = $qb->getQuery();
+        try {
+            return $query->getSingleResult();
+        } catch (NoResultException $e) {
+        } catch (NonUniqueResultException $e) {
+        }
+    }
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
@@ -86,4 +98,5 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
     */
+
 }

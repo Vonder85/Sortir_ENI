@@ -2,12 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Participations;
+use App\Entity\Sortie;
 use App\Entity\User;
 use App\Form\RegisterType;
+use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -210,4 +215,35 @@ class UserController extends AbstractController
         // uniqid(), which is based on timestamps
         return md5(uniqid());
     }
+
+    /**
+     * @Route("/search/{username}", name="search_user")
+     * @Route("/search", name="search_user_ajax")
+     */
+    public function getUserAjax(Request $request, UserRepository $ur, $username, EntityManagerInterface $em, SortieRepository $sr)
+    {
+        if ($request->isXmlHttpRequest()) {
+            $sortieId = $_REQUEST['sortie'];
+            $sortie = $sr->find($sortieId);
+
+            $user = $ur->findByUsername($username);
+            $data =[
+                'firstname' => $user->getFirstname(),
+                'lastname' => $user->getLastname(),
+                'userId' => $user->getId(),
+                'username' => $user->getUsername(),
+            ];
+
+            $participation = new Participations();
+            $participation->setUser($user);
+            $participation->setSortie($sortie);
+
+            $em->persist($participation);
+            $em->flush();
+
+            return new JsonResponse($data);
+        }
+        return new Response("Erreur : Ce n'est pas une requête Ajax",400);
+    }
 }
+
