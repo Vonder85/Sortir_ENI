@@ -23,11 +23,11 @@ class LieuType extends AbstractType
             ])
             ->add('latitude', null, [
                 'label' => 'Latitude  ',
-                'disabled' => 'true'
+                'attr' => ['readonly'=> true]
             ])
             ->add('longitude', null, [
                 'label' => 'Longitude  ',
-                'disabled' => 'true'
+                'attr' => ['readonly'=> true]
             ])
         ;
     }

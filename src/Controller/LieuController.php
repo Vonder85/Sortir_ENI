@@ -39,6 +39,7 @@ class LieuController extends AbstractController
         $lieuForm->handleRequest($request);
         if($lieuForm->isSubmitted() && $lieuForm-> isValid())
         {
+
             $em->persist($lieu);
             $em->flush();
 
