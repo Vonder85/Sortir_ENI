@@ -93,7 +93,7 @@
                         <td>{{ sortie.dateTimeStart | date ('d/m/Y')}}</td>
                         <td id="clotureSortie">{{ sortie.deadlineRegistration | date ('d/m/Y') }}</td>
                         <td id="nbInscrit"> {{ sortie.countedUsers }}/{{ sortie.maxNumberRegistration }}</td>
-                        <td id="etatSortie">{{ sortie.etatname }}</td>
+                        <td id="etatSortie">{{ sortie.etatname }} {% if sortie.etatname == "Annulée" %} {% endif %}</td>
                         <td id="lieuxCache">{{ sortie.villeName }}</td>
                         {% if sortie.id in userSorties %}
                             <td id="inscrit">x</td>

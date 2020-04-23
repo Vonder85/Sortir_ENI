@@ -83,6 +83,11 @@ class Sortie
      */
     private $privee;
 
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    private $annulation;
+
     public function __construct()
     {
         $this->participations = new ArrayCollection();
@@ -244,6 +249,18 @@ class Sortie
     public function setPrivee(?bool $privee): self
     {
         $this->privee = $privee;
+
+        return $this;
+    }
+
+    public function getAnnulation(): ?string
+    {
+        return $this->annulation;
+    }
+
+    public function setAnnulation(?string $annulation): self
+    {
+        $this->annulation = $annulation;
 
         return $this;
     }
