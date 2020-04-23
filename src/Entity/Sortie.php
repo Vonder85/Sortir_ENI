@@ -84,6 +84,18 @@ class Sortie
     private $privee;
 
     /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+    if ($this->dateTimeStart < $this->deadlineRegistration) {
+            $context->buildViolation('La date de cloture des inscriptions ne peut pas être inférieure à la date de début de la sortie!')
+                ->atPath('deadlineRegistration')
+                ->addViolation();
+        }
+    }
+
+    /**
      * @ORM\Column(type="string", length=20, nullable=true)
      */
     private $annulation;

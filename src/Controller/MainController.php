@@ -109,18 +109,18 @@ class MainController extends AbstractController
         }
         $sorties = $em->getRepository(Sortie::class)->findAll();
         $dateToday = new \DateTime();
-        $now = new \DateTime($dateToday->format('Y-m-d H:i:s'), new \DateTimeZone('Europe/Paris'));
+        $now = new \DateTime($dateToday->format('Y-m-d H:i:s'));
         foreach ($sorties as $sortie) {
 
             $date = $sortie->getDateTimeStart();
             $dateDebut = new \DateTime($date->format('Y-m-d H:i:s'));
-            $dateFin = new \DateTime($dateDebut->add(new \DateInterval('PT0H' . $sortie->getDuration() . 'M'))->format('Y-m-d H:i:s'), new \DateTimeZone('Europe/Paris'));
+            $dateFin = new \DateTime($dateDebut->add(new \DateInterval('PT0H' . $sortie->getDuration() . 'M'))->format('Y-m-d H:i:s'));
 
             /**
              * var Sortie $sortie
              */
 
-            if ($sortie->getEtat() == 'Annulée') {
+            if ($sortie->getEtat()->getName() == 'Annulée') {
 
             } else if (($sortie->getDeadlineRegistration() > $now && $sortie->getDateTimeStart() > $now)) {
             } else if (($sortie->getDateTimeStart() < $now && $dateFin > $now)) {

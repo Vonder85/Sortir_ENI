@@ -90,7 +90,7 @@
                 {% else %}
                     <tr onclick="window.location='{{ path('sortie_show',{'id': sortie.id, 'csrf': csrf_token('sortie_show_'~sortie.id)}) }}';">
                         <td>{{ sortie.name }}</td>
-                        <td>{{ sortie.dateTimeStart | date ('d/m/Y')}}</td>
+                        <td>{{ sortie.dateTimeStart | date ('d/m/Y') }}</td>
                         <td id="clotureSortie">{{ sortie.deadlineRegistration | date ('d/m/Y') }}</td>
                         <td id="nbInscrit"> {{ sortie.countedUsers }}/{{ sortie.maxNumberRegistration }}</td>
                         <td id="etatSortie">{{ sortie.etatname }} {% if sortie.etatname == "Annulée" %} {% endif %}</td>
@@ -102,20 +102,23 @@
                         {% endif %}
                         <td id="organisateur"><a href="{{ path('user_show_profile', {'id': sortie.organisateurid}) }}"> {{ sortie.firstname }} {{ sortie.lastname | first }}.</a></td>
                         <td id="actions">
-                            {% if sortie.deadlineRegistration >  date() and sortie.etatname == "Ouverte" %}
-                                <a href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}">
-                                    <img src="{{ asset('pictures/book.svg') }}" alt="S'inscrire"
-                                         class="icon_action"></a>
-                            {% endif %}
-                            {% if sortie.organisateurid == app.user.id %}
+                            {% if sortie.organisateurid == app.user.id or is_granted("ROLE_ADMIN") %}
                                 {% if sortie.etatname is not same as ('Annulée') %}
                                     <a href="{{ path('sortie_cancel',{'id': sortie.id, 'csrf': csrf_token('sortie_cancel_'~sortie.id)}) }}">
-                                        <img src="{{ asset('pictures/cancel.svg') }}" alt="Annuler" class="icon_action"></a>
+                                        <img src="{{ asset('pictures/cancel.svg') }}" alt="Annuler" title="Annuler la sortie" class="icon_action"></a>
                                 {% endif %}
                             {% endif %}
+                            {% if sortie.id in userSorties %}{% else %}
+                                {% if sortie.deadlineRegistration >  date() and sortie.etatname == "Ouverte" %}
+                                    <a href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}">
+                                        <img src="{{ asset('pictures/book.svg') }}" alt="S'inscrire" title="S'inscrire"
+                                             class="icon_action"></a>
+                                {% endif %}
+                            {% endif %}
+
                             {% if sortie.etatname == "Créée" %}
                                 <a href="{{ path('sortie_open',{'id': sortie.id, 'csrf': csrf_token('sortie_open_'~sortie.id)}) }}">
-                                    <img src="{{ asset('pictures/tick.svg') }}" alt="Publier" class="icon_action"></a>
+                                    <img src="{{ asset('pictures/tick.svg') }}" alt="Publier" title="Publier" class="icon_action"></a>
                             {% endif %}
                         </td>
                     </tr>
