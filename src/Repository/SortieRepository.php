@@ -68,7 +68,7 @@ class SortieRepository extends ServiceEntityRepository
         $qb->andWhere("e.name LIKE :etat OR s.organisateur = :organisateur")
             ->setParameter("etat","Ouverte")
             ->setParameter("organisateur", $user);
-        $qb->andWhere("s.privee = false OR s.organisateur = :user OR p.user = :user")
+        $qb->andWhere("s.privee = false OR (s.organisateur = :user OR p.user = :user)")
             ->setParameter("user", $user);
         $qb->join("s.etat",'e');
         $qb->Select("s.id, s.name, s.dateTimeStart, s.deadlineRegistration, s.maxNumberRegistration, e.name as etatname, o.id as organisateurid, o.firstname, o.lastname, v.name as villeName, COUNT(p.id) as countedUsers");
@@ -77,6 +77,7 @@ class SortieRepository extends ServiceEntityRepository
         $qb->join("s.lieu", "l");
         $qb->join("l.ville", "v");
         $qb->groupBy("s.id");
+        dump($qb->getQuery()->execute());
         return $qb->getQuery()->execute();
     }
 

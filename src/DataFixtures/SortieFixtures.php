@@ -24,7 +24,11 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
             $sortie->setEtat($this->getRandomEtat());
             $sortie->setLieu($this->getReference("lieu".rand(0,9)));
             $sortie->setSite($this->getReference("site".rand(0,2)));
-            $sortie->setPrivee(false);
+            if($i%10 == 0){
+                $sortie->setPrivee(true);
+            }else{
+                $sortie->setPrivee(false);
+            }
             $this->addReference("sortie".$i, $sortie);
             $manager->persist($sortie);
         }
