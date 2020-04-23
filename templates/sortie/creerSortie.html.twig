@@ -1,28 +1,25 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Nouvelle sortie | {{ parent() }}{% endblock %}
 
 {% block body %}
+    <div id="sortiesFilterss" class="card">
+    <fieldset >
     <h3>Nouvelle sortie</h3>
+    </fieldset>
+    </div>
     <br>
     {{ form_start(sortForm) }}
-    <div class="row">
-        <div class="col-6">
-
             {{ form_widget(sortForm) }}
-            <button class="btn btn-secondary waves-effect waves-light" onclick="window.location.href='{{ path('lieu_add') }}'">Ajouter un lieu</button>
-        </div>
-        <div class="col-6">
+            <button class="btn btn-primary waves-effect waves-light" onclick="window.location.href='{{ path('lieu_add') }}'">Ajouter un lieu</button>
+       <br>
+    <br>
+        <div class="col-8">
             <div> Lieu : <span id="lieuName"></span></div>
             <div> Adresse : <span id="lieuStreet"></span></div>
             <div> Code Postal : <span id="lieuZip"></span></div>
             <div> Ville : <span id="lieuVille"></span></div>
             <div> Coordonnées GPS : <span id="lieuGps"></span></div>
-            <div>
-                <input type="checkbox" name="privee">Sortie privée
-            </div>
-        </div>
-
+            <input type="checkbox" name="privee"> Sortie privée
     </div>
     <br>
     <div class="float-right">

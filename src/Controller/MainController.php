@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Participations;
 use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Data\SortiesCriteria;
+use App\Repository\EtatRepository;
+use App\Repository\ParticipationsRepository;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Security;
@@ -19,18 +23,19 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="main_home")
      */
-    public function homePage(EntityManagerInterface $em, Request $req)
+    public function homePage(EntityManagerInterface $em, Request $req, EtatRepository $er, ParticipationsRepository $pr)
     {
 
         if (!$this->isGranted("IS_AUTHENTICATED_REMEMBERED")) {
             return $this->redirectToRoute('Connexion');
         } else {
             if ($this->isActive()) {
+                $this->etat($er, $em, $pr);
                 $sortiesCriteria = $this->buildCriteria($req, $em);
                 $sorties = $em->getRepository(Sortie::class)->findSortiesFiltered($sortiesCriteria);
-                dump($sorties);
                 $sites = $em->getRepository(Site::class)->findAll();
                 $userSorties = $em->getRepository(Participations::class)->findByUserId($this->getUser());
+
                 return $this->render("main/homePage.html.twig", [
                     "sorties" => $sorties,
                     "sites" => $sites,
@@ -91,5 +96,43 @@ class MainController extends AbstractController
         } else {
             return false;
         }
+    }
+
+    public function etat(EtatRepository $er, EntityManagerInterface $em, ParticipationsRepository $pr)
+    {
+        $tab = [];
+        $etats = $er->findAll();
+        $part = $em->getRepository(Sortie::class)->findSortieWithEtat();
+        for ($i = 0; $i < sizeof($part); $i++) {
+            $tab[$part[$i]['id']] = ['id' => $part[$i]['id'],
+                'countedUsers' => $part[$i]['countedUsers']];
+        }
+        $sorties = $em->getRepository(Sortie::class)->findAll();
+        $dateToday = new \DateTime();
+        $now = new \DateTime($dateToday->format('Y-m-d H:i:s'));
+        foreach ($sorties as $sortie) {
+
+            $date = $sortie->getDateTimeStart();
+            $dateDebut = new \DateTime($date->format('Y-m-d H:i:s'));
+            $dateFin = new \DateTime($dateDebut->add(new \DateInterval('PT0H' . $sortie->getDuration() . 'M'))->format('Y-m-d H:i:s'));
+
+            /**
+             * var Sortie $sortie
+             */
+
+            if ($sortie->getEtat() == 'Annulée') {
+
+            } else if (($sortie->getDeadlineRegistration() > $now && $sortie->getDateTimeStart() > $now)) {
+            } else if (($sortie->getDateTimeStart() < $now && $dateFin > $now)) {
+                $sortie->setEtat($etats[3]);
+            } else if (($sortie->getDeadlineRegistration() < $now && $sortie->getDateTimeStart() > $now) || $tab[$sortie->getId()]['countedUsers'] == $sortie->getMaxNumberRegistration()) {
+                $sortie->setEtat($etats[2]);
+            } else if ($dateFin < $now) {
+                $sortie->setEtat($etats[4]);
+            }
+        }
+
+        $em->flush();
+
     }
 }

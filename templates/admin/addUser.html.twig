@@ -3,19 +3,20 @@
 
 {% block title %}Admin/Ajouter un utilisateur | {{ parent() }}{% endblock %}
 {% block body %}
-    <h3>Ajout d'un l'utilisateur</h3>
-    <div class="card mt-4 text-center card-form " style="width: 25rem;">
-        <div class="card-body">
-            <p class="card-text">{{ form_start(registerForm) }}
+<div id="sortiesFilterss" class="card">
+    <fieldset>
+    <h3>Ajout d'un utilisateur</h3>
+    </fieldset>
+</div><br>
+            {{ form_start(registerForm) }}
                 {{ form_widget(registerForm) }}</p>
 
             <input type="radio" name="role" value="user" checked>
             <label for="user">Utilisateur</label><br>
             <input type="radio" name="role" value="admin">
-            <label for="admin">Administrateur</label><br>
+            <label for="admin">Administrateur</label><br><br>
             <button class="btn btn-primary" type="submit">Ajouter</button>
-            <p class="card-text">{{ form_end(registerForm) }}</p>
-        </div>
-    </div>
+            {{ form_end(registerForm) }}
+
 
 {% endblock %}
