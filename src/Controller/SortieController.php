@@ -154,10 +154,12 @@ class SortieController extends AbstractController
         } else {
 
             $motif = $request->request->get('motif');
-            dump($motif);
+
             if($motif){
                 $sortie = $sr->find($id);
                 $sortie->setEtat($em->getRepository(Etat::class)->findOneBy(['name'=>'Annulée']));
+                $sortie->setAnnulation($motif);
+                $em->persist($sortie);
                 $em->flush();
                 $this->addFlash('success', 'Votre sortie a été annulée');
                 return $this->redirectToRoute('main_home');

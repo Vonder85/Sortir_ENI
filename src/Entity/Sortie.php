@@ -9,7 +9,6 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SortieRepository")
- *
  */
 class Sortie
 {
@@ -95,6 +94,11 @@ class Sortie
                 ->addViolation();
         }
     }
+
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    private $annulation;
 
     public function __construct()
     {
@@ -257,6 +261,18 @@ class Sortie
     public function setPrivee(?bool $privee): self
     {
         $this->privee = $privee;
+
+        return $this;
+    }
+
+    public function getAnnulation(): ?string
+    {
+        return $this->annulation;
+    }
+
+    public function setAnnulation(?string $annulation): self
+    {
+        $this->annulation = $annulation;
 
         return $this;
     }
