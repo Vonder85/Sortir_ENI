@@ -110,7 +110,7 @@
                         {% else %}
                             <td id="inscrit"></td>
                         {% endif %}
-                        <td id="organisateur">{{ sortie.firstname }} {{ sortie.lastname | first }}.</td>
+                        <td id="organisateur"><a href="{{ path('user_show_profile', {'id': sortie.organisateurid}) }}"> {{ sortie.firstname }} {{ sortie.lastname | first }}.</a></td>
                         <td id="actions">
                             {% if sortie.id in userSorties %}{% else %}
                                 {% if sortie.deadlineRegistration >  date() and sortie.etatname == "Ouverte" %}
