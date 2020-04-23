@@ -3,7 +3,7 @@
 {% block title %}Accueil | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div id="sortiesFilterss" class="card">
+    <div id="sortiesFilterss" class="card jen">
         <form action="">
             <fieldset>
                 <legend>Filtrer les sorties</legend>
@@ -100,7 +100,7 @@
                         {% else %}
                             <td id="inscrit"></td>
                         {% endif %}
-                        <td id="organisateur">{{ sortie.firstname }} {{ sortie.lastname | first }}.</td>
+                        <td id="organisateur"><a href="{{ path('user_show_profile', {'id': sortie.organisateurid}) }}"> {{ sortie.firstname }} {{ sortie.lastname | first }}.</a></td>
                         <td id="actions">
                             {% if sortie.deadlineRegistration >  date() and sortie.etatname == "Ouverte" %}
                                 <a href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}">

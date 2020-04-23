@@ -109,12 +109,12 @@ class MainController extends AbstractController
         }
         $sorties = $em->getRepository(Sortie::class)->findAll();
         $dateToday = new \DateTime();
-        $now = new \DateTime($dateToday->format('Y-m-d H:i:s'));
+        $now = new \DateTime($dateToday->format('Y-m-d H:i:s'), new \DateTimeZone('Europe/Paris'));
         foreach ($sorties as $sortie) {
 
             $date = $sortie->getDateTimeStart();
             $dateDebut = new \DateTime($date->format('Y-m-d H:i:s'));
-            $dateFin = new \DateTime($dateDebut->add(new \DateInterval('PT0H' . $sortie->getDuration() . 'M'))->format('Y-m-d H:i:s'));
+            $dateFin = new \DateTime($dateDebut->add(new \DateInterval('PT0H' . $sortie->getDuration() . 'M'))->format('Y-m-d H:i:s'), new \DateTimeZone('Europe/Paris'));
 
             /**
              * var Sortie $sortie

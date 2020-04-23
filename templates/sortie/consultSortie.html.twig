@@ -12,8 +12,9 @@
     <form>
         <div class="form-group">
             <div class="container">
-
+                {% if sortie.privee is same as (true)  %}
                 <p><span style="font-weight: bold">Sortie Privée </span></p>
+                {% endif %}
                 <p><span style="font-weight: bold">Organisateur de la sortie : </span> <a
                             href="{{ path('user_show_profile', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.firstname }} {{ sortie.organisateur.lastname }}</a>
                 </p>

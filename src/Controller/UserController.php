@@ -27,7 +27,7 @@ class UserController extends AbstractController
     public function register(EntityManagerInterface $em, Request $request, UserPasswordEncoderInterface $encoder)
     {
         $user = new User();
-        $user->setCreatedAt(new \DateTime());
+        $user->setCreatedAt(new \DateTime(), new \DateTimeZone('Europe/Paris'));
         $user->setActive(true);
 
         $registerForm = $this->createForm(RegisterType::class, $user);
