@@ -49,6 +49,9 @@ class SortieController extends AbstractController
                     {
                         $sortie->setPrivee(true);
                     }
+                    else{
+                        $sortie->setPrivee(false);
+                    }
                     if($_POST["submitButton"]=="enregistrer"){
                         $etat = $em->getRepository(Etat::class)->findBy(["name" => "Créée"]);
                         $sortie->setEtat($etat[0]);
@@ -179,17 +182,24 @@ class SortieController extends AbstractController
         } else {
             $sortie = $sr->find($id);
             $user = $ur->find($this->getUser()->getId());
+            $participation=$em->getRepository(Participations::class)->findOneBy(['user'=>$user , 'sortie'=>$sortie]);
+            if (!$participation) {
 
-            $participation = new Participations();
-            $participation->setUser($user);
-            $participation->setSortie($sortie);
+                $participation = new Participations();
+                $participation->setUser($user);
+                $participation->setSortie($sortie);
 
-            $em->persist($participation);
-            $em->flush();
+                $em->persist($participation);
+                $em->flush();
 
-            $this->addFlash('success', 'Votre inscription a bien été prise en compte !');
-            return $this->redirectToRoute('main_home');
-        }
+                $this->addFlash('success', 'Votre inscription a bien été prise en compte !');
+                return $this->redirectToRoute('main_home');
+            }else{
+                $this->addFlash('danger', 'Vous êtes déjà inscrit à cette sortie');
+                return $this->redirectToRoute('main_home');
+            }
+
+    }
     }
 
 
