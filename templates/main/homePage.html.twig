@@ -36,14 +36,14 @@
 
                         <label for="dateDebut">Entre </label>
                         {%  if sortiesCriteria.dateDebut != null %}
-                            <input type="date" name="dateDebut" value="{{ sortiesCriteria.dateDebut | date("Y-m-d") }}">
+                            <input type="date" name="dateDebut" value="{{ sortiesCriteria.dateDebut | date("d/m/Y'") }}">
                         {% else %}
                             <input type="date" name="dateDebut">
                         {% endif %}
 
                         <label for="dateFin"> et  </label>
                         {% if sortiesCriteria.dateFin != null %}
-                            <input type="date" name="dateFin" value="{{ sortiesCriteria.dateFin | date("Y-m-d") }}">
+                            <input type="date" name="dateFin" value="{{ sortiesCriteria.dateFin | date("d/m/Y'") }}">
                         {% else %}
                             <input type="date" name="dateFin">
                         {% endif %}
@@ -106,8 +106,8 @@
             {% else %}
                 <tr onclick="window.location='{{path('sortie_show',{'id': sortie.id, 'csrf': csrf_token('sortie_show_'~sortie.id)})}}';">
                     <td>{{sortie.name}}</td>
-                    <td>{{sortie.dateTimeStart | date}}</td>
-                    <td id="clotureSortie">{{sortie.deadlineRegistration | date}}</td>
+                    <td>{{sortie.dateTimeStart | date('d/m/Y')}}</td>
+                    <td id="clotureSortie">{{sortie.deadlineRegistration | date ('d/m/Y')}}</td>
                     <td id="nbInscrit"> {{ sortie.countedUsers }}/{{sortie.maxNumberRegistration}}</td>
                     <td id="etatSortie">{{ sortie.etatname }}</td>
                     <td id="lieuxCache">{{ sortie.villeName }}</td>
