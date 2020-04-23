@@ -153,13 +153,16 @@ class SortieController extends AbstractController
             throw $this->createAccessDeniedException('Désolé, votre session a expiré !');
         } else {
 
-            $motif = $request->request->get("motif");
+            $motif = $request->request->get('motif');
             dump($motif);
+            if($motif){
                 $sortie = $sr->find($id);
                 $sortie->setEtat($em->getRepository(Etat::class)->findOneBy(['name'=>'Annulée']));
                 $em->flush();
                 $this->addFlash('success', 'Votre sortie a été annulée');
                 return $this->redirectToRoute('main_home');
+            }
+
             }
 
         return $this->render("sortie/annulerSortie.html.twig", [
@@ -179,17 +182,24 @@ class SortieController extends AbstractController
         } else {
             $sortie = $sr->find($id);
             $user = $ur->find($this->getUser()->getId());
+            $participation=$em->getRepository(Participations::class)->findOneBy(['user'=>$user , 'sortie'=>$sortie]);
+            if (!$participation) {
 
-            $participation = new Participations();
-            $participation->setUser($user);
-            $participation->setSortie($sortie);
+                $participation = new Participations();
+                $participation->setUser($user);
+                $participation->setSortie($sortie);
 
-            $em->persist($participation);
-            $em->flush();
+                $em->persist($participation);
+                $em->flush();
 
-            $this->addFlash('success', 'Votre inscription a bien été prise en compte !');
-            return $this->redirectToRoute('main_home');
-        }
+                $this->addFlash('success', 'Votre inscription a bien été prise en compte !');
+                return $this->redirectToRoute('main_home');
+            }else{
+                $this->addFlash('danger', 'Vous êtes déjà inscrit à cette sortie');
+                return $this->redirectToRoute('main_home');
+            }
+
+    }
     }
 
 

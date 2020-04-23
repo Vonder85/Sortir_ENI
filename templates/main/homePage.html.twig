@@ -6,7 +6,7 @@
     <div id="sortiesFilterss" class="card">
         <form action="">
             <fieldset>
-            <legend>Filtrer les sorties</legend>
+                <legend>Filtrer les sorties</legend>
                 <div class="row">
                     <div class="col-5">
                         <label for="selectSite">Site : </label>
@@ -17,11 +17,13 @@
                                 <option value="all">Tous les sites</option>
                             {% endif %}
                             {% for site in sites %}
-                                    {% if sortiesCriteria.site != null and sortiesCriteria.site.id == site.id %}
-                                        <option value="{{ site.id }}" selected>{{ site.name }}</option>
-                                    {% else %}
-                                        <option value="{{ site.id }}">{{site.name}}</option>
-                                    {% endif %}
+
+                                {% if sortiesCriteria.site != null and sortiesCriteria.site.id == site.id %}
+                                    <option value="{{ site.id }}" selected>{{ site.name }}</option>
+                                {% else %}
+                                    <option value="{{ site.id }}">{{ site.name }}</option>
+                                {% endif %}
+
                             {% endfor %}
                         </select>
                         <br>
@@ -39,7 +41,7 @@
                             <input type="date" name="dateDebut">
                         {% endif %}
 
-                        <label for="dateFin"> et  </label>
+                        <label for="dateFin"> et </label>
                         {% if sortiesCriteria.dateFin != null %}
                             <input type="date" name="dateFin" value="{{ sortiesCriteria.dateFin | date("d/m/Y'") }}">
                         {% else %}
@@ -67,57 +69,60 @@
     </div>
     <br>
     <div class="tableFixHead">
-    <table class="table table-hover table-dark">
-        <thead>
-        <tr>
-            <th class="th-sm" id="nomSortie">Nom de la sortie</th>
-            <th class="th-sm" id="dateSortie">Date de la sortie</th>
-            <th class="th-sm" id="clotureSortie">Clôture</th>
-            <th class="th-sm" id="nbInscrit">Inscrits/places</th>
-            <th class="th-sm" id="etatSortie">État</th>
-            <th class="th-sm" id="inscrit">Inscrit</th>
-            <th class="th-sm" id="organisateur">Organisateur</th>
-            <th class="th-sm" id="actions">Actions</th>
-            <th class="th-sm" id="lieuxCache">Lieu</th>
+        <table class="table table-hover table-dark">
+            <thead>
+            <tr>
+                <th class="th-sm" id="nomSortie">Nom de la sortie</th>
+                <th class="th-sm" id="dateSortie">Date de la sortie</th>
+                <th class="th-sm" id="clotureSortie">Clôture</th>
+                <th class="th-sm" id="nbInscrit">Inscrits/places</th>
+                <th class="th-sm" id="etatSortie">État</th>
+                <th class="th-sm" id="inscrit">Inscrit</th>
+                <th class="th-sm" id="organisateur">Organisateur</th>
+                <th class="th-sm" id="actions">Actions</th>
+                <th class="th-sm" id="lieuxCache">Lieu</th>
 
-        </tr>
-        </thead>
-        <tbody>
-        {% for sortie in sorties %}
-            {% if sortiesCriteria.pasInscrit and sortie.id in userSorties %}
-            {% else %}
-                <tr onclick="window.location='{{path('sortie_show',{'id': sortie.id, 'csrf': csrf_token('sortie_show_'~sortie.id)})}}';">
-                    <td>{{sortie.name}}</td>
-                    <td>{{sortie.dateTimeStart | date('d/m/Y')}}</td>
-                    <td id="clotureSortie">{{sortie.deadlineRegistration | date ('d/m/Y')}}</td>
-                    <td id="nbInscrit"> {{ sortie.countedUsers }}/{{sortie.maxNumberRegistration}}</td>
-                    <td id="etatSortie">{{ sortie.etatname }}</td>
-                    <td id="lieuxCache">{{ sortie.villeName }}</td>
-                    {% if sortie.id in userSorties %}
-                        <td id="inscrit">x</td>
-                    {% else %}
-                        <td id="inscrit"></td>
-                    {% endif %}
-                    <td id="organisateur">{{sortie.firstname}} {{ sortie.lastname | first}}.</td>
-                    <td id="actions">
-                        {% if sortie.deadlineRegistration >  date() and sortie.etatname == "Ouverte"%}
-                            <a href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}">
-                            <img src="{{ asset('pictures/book.svg') }}" alt="S'inscrire" class="icon_action"></a>
+            </tr>
+            </thead>
+            <tbody>
+            {% for sortie in sorties %}
+                {% if sortiesCriteria.pasInscrit and sortie.id in userSorties %}
+                {% else %}
+                    <tr onclick="window.location='{{ path('sortie_show',{'id': sortie.id, 'csrf': csrf_token('sortie_show_'~sortie.id)}) }}';">
+                        <td>{{ sortie.name }}</td>
+                        <td>{{ sortie.dateTimeStart | date }}</td>
+                        <td id="clotureSortie">{{ sortie.deadlineRegistration | date }}</td>
+                        <td id="nbInscrit"> {{ sortie.countedUsers }}/{{ sortie.maxNumberRegistration }}</td>
+                        <td id="etatSortie">{{ sortie.etatname }}</td>
+                        <td id="lieuxCache">{{ sortie.villeName }}</td>
+                        {% if sortie.id in userSorties %}
+                            <td id="inscrit">x</td>
+                        {% else %}
+                            <td id="inscrit"></td>
                         {% endif %}
-                        {% if sortie.organisateurid == app.user.id %}
-                            <a href="{{ path('sortie_cancel',{'id': sortie.id, 'csrf': csrf_token('sortie_cancel_'~sortie.id)}) }}">
-                            <img src="{{ asset('pictures/cancel.svg') }}" alt="Annuler" class="icon_action"></a>
-                        {% endif %}
-                        {% if sortie.etatname == "Créée" %}
-                            <a href="{{ path('sortie_open',{'id': sortie.id, 'csrf': csrf_token('sortie_open_'~sortie.id)}) }}">
-                            <img src="{{ asset('pictures/tick.svg') }}" alt="Publier" class="icon_action"></a>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endif %}
-        {% endfor %}
-        </tbody>
-    </table>
+                        <td id="organisateur">{{ sortie.firstname }} {{ sortie.lastname | first }}.</td>
+                        <td id="actions">
+                            {% if sortie.deadlineRegistration >  date() and sortie.etatname == "Ouverte" %}
+                                <a href="{{ path('sortie_inscription',{'id': sortie.id, 'csrf': csrf_token('sortie_inscription_'~sortie.id)}) }}">
+                                    <img src="{{ asset('pictures/book.svg') }}" alt="S'inscrire"
+                                         class="icon_action"></a>
+                            {% endif %}
+                            {% if sortie.organisateurid == app.user.id %}
+                                {% if sortie.etatname is not same as ('Annulée') %}
+                                    <a href="{{ path('sortie_cancel',{'id': sortie.id, 'csrf': csrf_token('sortie_cancel_'~sortie.id)}) }}">
+                                        <img src="{{ asset('pictures/cancel.svg') }}" alt="Annuler" class="icon_action"></a>
+                                {% endif %}
+                            {% endif %}
+                            {% if sortie.etatname == "Créée" %}
+                                <a href="{{ path('sortie_open',{'id': sortie.id, 'csrf': csrf_token('sortie_open_'~sortie.id)}) }}">
+                                    <img src="{{ asset('pictures/tick.svg') }}" alt="Publier" class="icon_action"></a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}
 {% block javascript %}
