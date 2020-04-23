@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SortieRepository")
+ *
  */
 class Sortie
 {
@@ -82,6 +83,18 @@ class Sortie
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $privee;
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+    if ($this->dateTimeStart < $this->deadlineRegistration) {
+            $context->buildViolation('La date de cloture des inscriptions ne peut pas être inférieure à la date de début de la sortie!')
+                ->atPath('deadlineRegistration')
+                ->addViolation();
+        }
+    }
 
     public function __construct()
     {
