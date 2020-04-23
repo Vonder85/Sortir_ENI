@@ -20,6 +20,7 @@ body {
 }
 
 .tableFixHead          { overflow-y: auto; height: 500px;  }
+
 .tableFixHead thead th { position: sticky; top: 0; border-color: #222222; border-radius: inherit; }
 
 /* Just common table stuff. Really. */
