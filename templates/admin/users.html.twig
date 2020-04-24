@@ -40,6 +40,7 @@
                     <button>
                         <a href="{{ path('user_show_profile', {'id': user.id}) }}">Profil</a>
                     </button>
+                    {% if app.user.id is not same as (user.id) %}
                     {% if user.active %}
                         <button>
                             <a href="{{ path('admin_user_desactivate', {'id': user.id, 'csrf': csrf_token('user_desactivate_'~user.id)}) }}">Désactiver</a>
@@ -48,6 +49,7 @@
                         <button>
                             <a href="{{ path('admin_user_activate', {'id': user.id, 'csrf': csrf_token('user_activate_'~user.id)}) }}">Activer</a>
                         </button>
+                    {% endif %}
                     {% endif %}
                 </td>
             </tr>
