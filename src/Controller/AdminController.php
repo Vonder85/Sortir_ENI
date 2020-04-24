@@ -200,7 +200,7 @@ class AdminController extends AbstractController
                 throw $this->createAccessDeniedException('Sorry, session has expired !');
             }else {
                 $user = $ur->find($id);
-                $user->setActive(false);
+                $user->setActive(true);
 
                 $em->flush();
 

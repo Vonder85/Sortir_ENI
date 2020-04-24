@@ -18,7 +18,7 @@
             <form method="post" class="form-group" action="{{ path('sortie_cancel', {'id': id, 'csrf': csrf_token('sortie_cancel_'~id)}) }}">
 
             <label for="motif" style="vertical-align: top;font-weight: bold" >Motif d'annulation : </label>
-            <textarea rows="1" id="motif" name="motif"required maxlength="20"></textarea>
+            <textarea rows="1" id="motif" name="motif"required maxlength="20" placeholder="(20 caractères max)"></textarea>
         </div>
     </div>
     <br>
