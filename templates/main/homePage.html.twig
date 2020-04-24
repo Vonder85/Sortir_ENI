@@ -103,7 +103,7 @@
                         <td id="organisateur"><a href="{{ path('user_show_profile', {'id': sortie.organisateurid}) }}"> {{ sortie.firstname }} {{ sortie.lastname | first }}.</a></td>
                         <td id="actions">
                             {% if sortie.organisateurid == app.user.id or is_granted("ROLE_ADMIN") %}
-                                {% if sortie.etatname is not same as ('Annulée') %}
+                                {% if sortie.etatname not in ['Annulée', 'Passée'] %}
                                     <a href="{{ path('sortie_cancel',{'id': sortie.id, 'csrf': csrf_token('sortie_cancel_'~sortie.id)}) }}">
                                         <img src="{{ asset('pictures/cancel.svg') }}" alt="Annuler" title="Annuler la sortie" class="icon_action"></a>
                                 {% endif %}
@@ -116,7 +116,7 @@
                                 {% endif %}
                             {% endif %}
 
-                            {% if sortie.etatname == "Créée" %}
+                            {% if sortie.etatname == "Créée" and sortie.organisateurid == app.user.id%}
                                 <a href="{{ path('sortie_open',{'id': sortie.id, 'csrf': csrf_token('sortie_open_'~sortie.id)}) }}">
                                     <img src="{{ asset('pictures/tick.svg') }}" alt="Publier" title="Publier" class="icon_action"></a>
                             {% endif %}

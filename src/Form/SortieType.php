@@ -23,10 +23,12 @@ class SortieType extends AbstractType
         $builder
             ->add('name',null,['label'=> 'Nom de la sortie  '])
             ->add('dateTimeStart',null,['label'=> 'Début de la sortie ',
-                'widget' => 'choice'])
+                'widget' => 'choice',
+                'data'  => date_create()])
             ->add('duration',null,['label'=> 'Durée de la sortie (min)'])
             ->add('deadlineRegistration',null,[
-                'label'=> 'Date Limite Inscription '
+                'label'=> 'Date Limite Inscription ',
+                'data'  => date_create()
             ])
             ->add('maxNumberRegistration',null,
                 ['label'=> 'Nombre maximum de participants '
