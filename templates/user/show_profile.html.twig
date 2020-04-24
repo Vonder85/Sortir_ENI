@@ -3,11 +3,14 @@
 {% block title %} Profile Utilisateur | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <br>
+<div id="sortiesFilterss" class="card">
+    <fieldset >
     <h3 class="text-center">{{ user.username }}</h3>
+    </fieldset>
+</div>
     <br><br>
     <div class="card">
-        <div class="card-body">
+        <div class="card-body table-dark">
         <div class="row">
             <div class="mt-4 text-left col-6">
                 <div>Prénom : <span id="firstname">{{ user.firstname }}</span> </div>
@@ -15,10 +18,9 @@
                 <div>Téléphone : <span id="telephone">{{ user.telephone }}</span></div>
                 <div>Email : <span id="email">{{ user.email }}</span></div>
                 <div>Site de rattachement : <span id="site">{{ user.site.name }}</span></div>
-                <br>
         </div>
         <div class="col-6 text-center">
-            <br><br>
+            <br>
             <img src="{{ asset('uploads/profilePictures/'~user.photo ) | imagine_filter('my_thumb') }}"
                  alt="photo de profil">
             <br>
